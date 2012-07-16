@@ -9,9 +9,7 @@ import rpg.core.Logger;
 import rpg.core.NetConfig;
 
 public final class Server {
-  private static Server singleton = null;
-
-  public static Server getSingleton() { return singleton; }
+  public static final Server singleton = new Server();
 
   private final DatagramSocket socket;
 
@@ -32,6 +30,5 @@ public final class Server {
   }
 
   public static void main(String[] args) {
-    singleton = new Server();
   }
 }

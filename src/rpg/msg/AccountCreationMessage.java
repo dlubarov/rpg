@@ -1,5 +1,9 @@
 package rpg.msg;
 
+import rpg.ser.ByteSink;
+import rpg.ser.ByteSource;
+import rpg.ser.Serializer;
+import rpg.ser.StringSerializer;
 import rpg.util.ToStringBuilder;
 
 public class AccountCreationMessage extends Message {
@@ -17,4 +21,20 @@ public class AccountCreationMessage extends Message {
         .append("password", password)
         .toString();
   }
+
+  public static final Serializer<AccountCreationMessage> serializer =
+      new Serializer<AccountCreationMessage>() {
+    @Override
+    public void serialize(AccountCreationMessage msg, ByteSink sink) {
+      StringSerializer.singleton.serialize(msg.username, sink);
+      StringSerializer.singleton.serialize(msg.password, sink);
+    }
+
+    @Override
+    public AccountCreationMessage deserialize(ByteSource source) {
+      return new AccountCreationMessage(
+          StringSerializer.singleton.deserialize(source),
+          StringSerializer.singleton.deserialize(source));
+    }
+  };
 }

@@ -6,12 +6,12 @@ public class DoubleSerializer extends Serializer<Double> {
   private DoubleSerializer() {}
 
   @Override
-  protected void serialize(Double x, ByteSink sink) {
+  public void serialize(Double x, ByteSink sink) {
     LongSerializer.singleton.serialize(Double.doubleToLongBits(x));
   }
 
   @Override
-  protected Double deserialize(ByteSource source) {
+  public Double deserialize(ByteSource source) {
     return Double.longBitsToDouble(LongSerializer.singleton.deserialize(source));
   }
 }

@@ -1,8 +1,6 @@
 package rpg.server;
 
 import rpg.math.Vector3;
-import rpg.motion.Motion;
-import rpg.motion.StillMotion;
 import rpg.realm.Realm;
 import rpg.realm.RealmManager;
 
@@ -15,14 +13,14 @@ public class Account {
   public final String password;
 
   private Realm realm;
-  private Motion motion;
+  private Vector3 position, velocity, direction;
 
   public Account(String username, String password) {
     this.id = AccountManager.getNextId();
     this.username = username;
     this.password = password;
     realm = STARTING_REALM;
-    motion = new StillMotion(STARTING_POS);
+    position = STARTING_POS;
     AccountManager.register(this);
   }
 
@@ -31,6 +29,14 @@ public class Account {
   }
 
   public Vector3 getPos() {
-    return motion.getPos();
+    return position;
+  }
+
+  public Vector3 getVel() {
+    return velocity;
+  }
+
+  public Vector3 getDir() {
+    return direction;
   }
 }

@@ -8,14 +8,14 @@ public class Vector3Serializer extends Serializer<Vector3> {
   private Vector3Serializer() {}
 
   @Override
-  protected void serialize(Vector3 v, ByteSink sink) {
+  public void serialize(Vector3 v, ByteSink sink) {
     sink.giveAll(DoubleSerializer.singleton.serialize(v.x));
     sink.giveAll(DoubleSerializer.singleton.serialize(v.y));
     sink.giveAll(DoubleSerializer.singleton.serialize(v.z));
   }
 
   @Override
-  protected Vector3 deserialize(ByteSource source) {
+  public Vector3 deserialize(ByteSource source) {
     return new Vector3(
         DoubleSerializer.singleton.deserialize(source),
         DoubleSerializer.singleton.deserialize(source),

@@ -1,9 +1,9 @@
 package rpg.ser;
 
 public abstract class Serializer<T> {
-  protected abstract void serialize(T object, ByteSink sink);
+  public abstract void serialize(T object, ByteSink sink);
 
-  protected abstract T deserialize(ByteSource source);
+  public abstract T deserialize(ByteSource source);
 
   public final byte[] serialize(T object) {
     ByteSink sink = new ByteSink();

@@ -6,13 +6,13 @@ public class IntegerSerializer extends Serializer<Integer> {
   private IntegerSerializer() {}
 
   @Override
-  protected void serialize(Integer n, ByteSink sink) {
+  public void serialize(Integer n, ByteSink sink) {
     for (int i = 0; i < 4; ++i)
       sink.give((byte) (n >>> i * 8));
   }
 
   @Override
-  protected Integer deserialize(ByteSource source) {
+  public Integer deserialize(ByteSource source) {
     int n = 0;
     for (int i = 0; i < 4; ++i)
       n |= (((int) source.take()) & 0xFF) << i * 8;
