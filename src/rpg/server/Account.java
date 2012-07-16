@@ -3,6 +3,8 @@ package rpg.server;
 import rpg.math.Vector3;
 import rpg.realm.Realm;
 import rpg.realm.RealmManager;
+import rpg.util.StringUtil;
+import rpg.util.ToStringBuilder;
 
 public class Account {
   private static Realm STARTING_REALM = RealmManager.getRealmById(0);
@@ -38,5 +40,18 @@ public class Account {
 
   public Vector3 getDir() {
     return direction;
+  }
+
+  @Override
+  public String toString() {
+    return new ToStringBuilder(this)
+        .append("id", id)
+        .append("username", username)
+        .append("password", StringUtil.mask(password))
+        .append("realm", realm)
+        .append("position", position)
+        .append("velocity", velocity)
+        .append("direction", direction)
+        .toString();
   }
 }

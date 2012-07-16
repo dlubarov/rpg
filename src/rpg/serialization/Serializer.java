@@ -1,4 +1,4 @@
-package rpg.ser;
+package rpg.serialization;
 
 public abstract class Serializer<T> {
   public abstract void serialize(T object, ByteSink sink);

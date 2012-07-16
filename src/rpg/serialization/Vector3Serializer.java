@@ -1,4 +1,4 @@
-package rpg.ser;
+package rpg.serialization;
 
 import rpg.math.Vector3;
 

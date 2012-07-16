@@ -1,4 +1,4 @@
-package rpg.server.hand;
+package rpg.server.handlers;
 
 import rpg.core.NetConfig;
 import rpg.msg.c2s.RegistrationRequestMessage;

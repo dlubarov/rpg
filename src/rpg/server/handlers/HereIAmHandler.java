@@ -1,4 +1,4 @@
-package rpg.server.hand;
+package rpg.server.handlers;
 
 import rpg.msg.Handler;
 import rpg.msg.c2s.HereIAmMessage;

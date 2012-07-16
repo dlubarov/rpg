@@ -1,4 +1,4 @@
-package rpg.ser;
+package rpg.serialization;
 
 public class LongSerializer extends Serializer<Long> {
   public static final LongSerializer singleton = new LongSerializer();

@@ -1,10 +1,10 @@
 package rpg.msg.s2c;
 
 import rpg.msg.Message;
-import rpg.ser.ByteSink;
-import rpg.ser.ByteSource;
-import rpg.ser.IntegerSerializer;
-import rpg.ser.Serializer;
+import rpg.serialization.ByteSink;
+import rpg.serialization.ByteSource;
+import rpg.serialization.IntegerSerializer;
+import rpg.serialization.Serializer;
 import rpg.util.ToStringBuilder;
 
 /**

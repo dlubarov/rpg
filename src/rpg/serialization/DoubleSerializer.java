@@ -1,4 +1,4 @@
-package rpg.ser;
+package rpg.serialization;
 
 public class DoubleSerializer extends Serializer<Double> {
   public static final DoubleSerializer singleton = new DoubleSerializer();

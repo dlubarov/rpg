@@ -1,4 +1,4 @@
-package rpg.ser;
+package rpg.serialization;
 
 public class ArraySerializer<T> extends Serializer<T[]> {
   private final Serializer<T> elementSerializer;

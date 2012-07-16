@@ -2,10 +2,10 @@ package rpg.msg.c2s;
 
 import rpg.math.Vector3;
 import rpg.msg.Message;
-import rpg.ser.ByteSink;
-import rpg.ser.ByteSource;
-import rpg.ser.Serializer;
-import rpg.ser.Vector3Serializer;
+import rpg.serialization.ByteSink;
+import rpg.serialization.ByteSource;
+import rpg.serialization.Serializer;
+import rpg.serialization.Vector3Serializer;
 import rpg.util.ToStringBuilder;
 
 /**

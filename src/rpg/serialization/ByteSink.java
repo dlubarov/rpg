@@ -1,4 +1,4 @@
-package rpg.ser;
+package rpg.serialization;
 
 public final class ByteSink {
   private static final int INITIAL_CAPACITY = 4;

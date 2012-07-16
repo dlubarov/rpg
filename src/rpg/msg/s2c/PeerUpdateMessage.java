@@ -3,13 +3,12 @@ package rpg.msg.s2c;
 import java.util.Arrays;
 import rpg.math.Vector3;
 import rpg.msg.Message;
-import rpg.ser.ArraySerializer;
-import rpg.ser.ByteSink;
-import rpg.ser.ByteSource;
-import rpg.ser.IntegerSerializer;
-import rpg.ser.Serializer;
-import rpg.ser.StringSerializer;
-import rpg.ser.Vector3Serializer;
+import rpg.serialization.ArraySerializer;
+import rpg.serialization.ByteSink;
+import rpg.serialization.ByteSource;
+import rpg.serialization.IntegerSerializer;
+import rpg.serialization.Serializer;
+import rpg.serialization.Vector3Serializer;
 import rpg.util.ToStringBuilder;
 
 /**

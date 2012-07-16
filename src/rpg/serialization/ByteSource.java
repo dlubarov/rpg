@@ -1,4 +1,4 @@
-package rpg.ser;
+package rpg.serialization;
 
 public final class ByteSource {
   private final byte[] data;

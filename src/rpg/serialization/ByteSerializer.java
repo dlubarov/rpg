@@ -1,4 +1,4 @@
-package rpg.ser;
+package rpg.serialization;
 
 public final class ByteSerializer extends Serializer<Byte> {
   public static final ByteSerializer singleton = new ByteSerializer();

@@ -1,4 +1,4 @@
-package rpg.ser;
+package rpg.serialization;
 
 public class IntegerSerializer extends Serializer<Integer> {
   public static final IntegerSerializer singleton = new IntegerSerializer();

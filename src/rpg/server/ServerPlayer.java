@@ -4,11 +4,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class ActiveAccount {
+public final class ServerPlayer {
   public final Account account;
   private Map<Account, MotionSnapshot> peerSnapshots;
 
-  public ActiveAccount(Account account) {
+  public ServerPlayer(Account account) {
     this.account = account;
     this.peerSnapshots = Collections.synchronizedMap(new HashMap<Account, MotionSnapshot>());
   }

@@ -1,4 +1,4 @@
-package rpg.ser;
+package rpg.serialization;
 
 public class ShortSerializer extends Serializer<Short> {
   public static final ShortSerializer singleton = new ShortSerializer();
