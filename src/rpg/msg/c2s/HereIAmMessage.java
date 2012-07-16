@@ -1,12 +1,16 @@
-package rpg.msg;
+package rpg.msg.c2s;
 
 import rpg.math.Vector3;
+import rpg.msg.Message;
 import rpg.ser.ByteSink;
 import rpg.ser.ByteSource;
 import rpg.ser.Serializer;
 import rpg.ser.Vector3Serializer;
 import rpg.util.ToStringBuilder;
 
+/**
+ * Informs the server of the player's latest position.
+ */
 public class HereIAmMessage extends Message {
   public final Vector3 position, velocity, direction;
 

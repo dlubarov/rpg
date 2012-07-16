@@ -3,10 +3,10 @@ package rpg.server;
 import rpg.realm.Realm;
 import rpg.util.ToStringBuilder;
 
-public class RealmManager {
+public class RealmAdmin {
   public final Realm realm;
 
-  public RealmManager(Realm realm) {
+  public RealmAdmin(Realm realm) {
     this.realm = realm;
   }
 

@@ -19,7 +19,7 @@ public class StringSerializer extends Serializer<String> {
   @Override
   public String deserialize(ByteSource source) {
     int len = IntegerSerializer.singleton.deserialize(source);
-    byte[] data = source.take(len);
+    byte[] data = source.takeN(len);
     return new String(data, utf8);
   }
 }

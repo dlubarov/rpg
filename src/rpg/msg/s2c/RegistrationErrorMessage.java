@@ -1,15 +1,19 @@
-package rpg.msg;
+package rpg.msg.s2c;
 
+import rpg.msg.Message;
 import rpg.ser.ByteSink;
 import rpg.ser.ByteSource;
 import rpg.ser.IntegerSerializer;
 import rpg.ser.Serializer;
 import rpg.util.ToStringBuilder;
 
-public class AccountCreationErrorMessage extends Message {
+/**
+ * A {@link Message} informing the client that their request for registration was declined.
+ */
+public class RegistrationErrorMessage extends Message {
   public final Reason reason;
 
-  public AccountCreationErrorMessage(Reason reason) {
+  public RegistrationErrorMessage(Reason reason) {
     this.reason = reason;
   }
 
@@ -20,17 +24,17 @@ public class AccountCreationErrorMessage extends Message {
         .toString();
   }
 
-  public static final Serializer<AccountCreationErrorMessage> serializer =
-      new Serializer<AccountCreationErrorMessage>() {
+  public static final Serializer<RegistrationErrorMessage> serializer =
+      new Serializer<RegistrationErrorMessage>() {
     @Override
-    public void serialize(AccountCreationErrorMessage msg, ByteSink sink) {
+    public void serialize(RegistrationErrorMessage msg, ByteSink sink) {
       IntegerSerializer.singleton.serialize(msg.reason.ordinal(), sink);
     }
 
     @Override
-    public AccountCreationErrorMessage deserialize(ByteSource source) {
+    public RegistrationErrorMessage deserialize(ByteSource source) {
       int ordinal = IntegerSerializer.singleton.deserialize(source);
-      return new AccountCreationErrorMessage(Reason.values()[ordinal]);
+      return new RegistrationErrorMessage(Reason.values()[ordinal]);
     }
   };
 
