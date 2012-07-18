@@ -1,6 +1,5 @@
 package rpg.client.handlers;
 
-import rpg.msg.Handler;
 import rpg.msg.s2c.RegistrationErrorMessage;
 
 public class RegistrationErrorHandler extends Handler<RegistrationErrorMessage> {

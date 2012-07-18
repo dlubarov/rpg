@@ -5,7 +5,7 @@ import java.io.PrintStream;
 public final class Logger {
   private Logger() {}
 
-  private static PrintStream ps = System.out;
+  private static final PrintStream ps = System.out;
 
   public static void fatal(Exception e, String format, Object... args) {
     log(format, args, Severity.FATAL);
@@ -15,6 +15,10 @@ public final class Logger {
   public static void error(Exception e, String format, Object... args) {
     log(format, args, Severity.ERROR);
     e.printStackTrace(ps);
+  }
+
+  public static void warning(String format, Object... args) {
+    log(format, args, Severity.WARNING);
   }
 
   public static void info(String format, Object... args) {
@@ -39,6 +43,6 @@ public final class Logger {
   }
 
   private static enum Severity {
-    DEBUG, INFO, ERROR, FATAL
+    DEBUG, INFO, WARNING, ERROR, FATAL
   }
 }

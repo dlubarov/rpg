@@ -1,4 +1,4 @@
 package rpg.client.people;
 
-public class NPC extends Person {
+public abstract class NPC extends Person {
 }

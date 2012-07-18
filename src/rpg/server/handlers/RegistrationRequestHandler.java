@@ -1,15 +1,19 @@
 package rpg.server.handlers;
 
-import rpg.core.NetConfig;
+import java.net.InetAddress;
+import rpg.net.NetConfig;
 import rpg.msg.c2s.RegistrationRequestMessage;
 import rpg.msg.s2c.RegistrationErrorMessage;
-import rpg.msg.Handler;
 import rpg.server.Account;
 import rpg.server.AccountManager;
 
 public class RegistrationRequestHandler extends Handler<RegistrationRequestMessage> {
+  public static final RegistrationRequestHandler singleton = new RegistrationRequestHandler();
+
+  private RegistrationRequestHandler() {}
+
   @Override
-  public void handle(RegistrationRequestMessage msg) {
+  public void handle(RegistrationRequestMessage msg, InetAddress sender) {
     Account account = new Account(msg.username, msg.password);
     RegistrationErrorMessage.Reason failureReason = getFailureReason(msg);
     if (failureReason == null) {
@@ -33,7 +37,7 @@ public class RegistrationRequestHandler extends Handler<RegistrationRequestMessa
     for (char c : msg.username.toCharArray())
       if (!NetConfig.validUsernameCharacter(c))
         return RegistrationErrorMessage.Reason.USERNAME_BAD_CHARS;
-    if (AccountManager.getByUsername(msg.username) == null)
+    if (AccountManager.getAccountByUsername(msg.username) == null)
       return RegistrationErrorMessage.Reason.USERNAME_TAKEN;
     return null;
   }

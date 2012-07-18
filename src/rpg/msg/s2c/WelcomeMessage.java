@@ -2,6 +2,7 @@ package rpg.msg.s2c;
 
 import rpg.math.Vector3;
 import rpg.msg.Message;
+import rpg.msg.MessageType;
 import rpg.realm.Realm;
 import rpg.realm.RealmManager;
 import rpg.serialization.ByteSink;
@@ -21,6 +22,7 @@ public class WelcomeMessage extends Message {
 
   public WelcomeMessage(Integer id, Realm realm, Vector3 position, Vector3 velocity,
       Vector3 direction) {
+    super(MessageType.WELCOME, serializer);
     this.id = id;
     this.realm = realm;
     this.position = position;
@@ -28,7 +30,8 @@ public class WelcomeMessage extends Message {
     this.direction = direction;
   }
 
-  public static final Serializer<WelcomeMessage> serializer = new Serializer<WelcomeMessage>() {
+  public static final Serializer<WelcomeMessage> serializer =
+      new Serializer<WelcomeMessage>() {
     @Override
     public void serialize(WelcomeMessage msg, ByteSink sink) {
       IntegerSerializer.singleton.serialize(msg.id, sink);

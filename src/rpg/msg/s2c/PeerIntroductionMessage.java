@@ -3,6 +3,7 @@ package rpg.msg.s2c;
 import java.util.Arrays;
 import rpg.math.Vector3;
 import rpg.msg.Message;
+import rpg.msg.MessageType;
 import rpg.serialization.ArraySerializer;
 import rpg.serialization.ByteSink;
 import rpg.serialization.ByteSource;
@@ -20,6 +21,7 @@ public class PeerIntroductionMessage extends Message {
   public final Part[] parts;
 
   public PeerIntroductionMessage(Part[] parts) {
+    super(MessageType.PEER_INTRODUCTION, serializer);
     this.parts = parts;
   }
 

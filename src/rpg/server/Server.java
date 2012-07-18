@@ -6,7 +6,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import rpg.core.Logger;
-import rpg.core.NetConfig;
+import rpg.net.NetConfig;
 
 public final class Server {
   public static final Server singleton = new Server();
@@ -30,5 +30,6 @@ public final class Server {
   }
 
   public static void main(String[] args) {
+    new ServerListener(singleton.socket).start();
   }
 }

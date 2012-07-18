@@ -1,4 +1,4 @@
-package rpg.core;
+package rpg.net;
 
 import java.net.Inet4Address;
 import java.net.InetAddress;
@@ -14,7 +14,7 @@ public final class NetConfig {
       USERNAME_MIN_LEN = 3, USERNAME_MAX_LEN = 32,
       PASSWORD_MIN_LEN = 6, PASSWORD_MAX_LEN = 256;
 
-  public static InetAddress serverAddr;
+  public static final InetAddress serverAddr;
 
   static {
     try {

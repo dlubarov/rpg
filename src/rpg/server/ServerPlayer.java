@@ -6,7 +6,7 @@ import java.util.Map;
 
 public final class ServerPlayer {
   public final Account account;
-  private Map<Account, MotionSnapshot> peerSnapshots;
+  private final Map<Account, MotionSnapshot> peerSnapshots;
 
   public ServerPlayer(Account account) {
     this.account = account;

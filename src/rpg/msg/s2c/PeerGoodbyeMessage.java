@@ -1,6 +1,7 @@
 package rpg.msg.s2c;
 
 import rpg.msg.Message;
+import rpg.msg.MessageType;
 import rpg.serialization.ArraySerializer;
 import rpg.serialization.ByteSink;
 import rpg.serialization.ByteSource;
@@ -16,12 +17,13 @@ public class PeerGoodbyeMessage extends Message {
   public final Integer[] ids;
 
   public PeerGoodbyeMessage(Integer[] ids) {
+    super(MessageType.PEER_GOODBYE, serializer);
     this.ids = ids;
   }
 
   public static final Serializer<PeerGoodbyeMessage> serializer =
       new Serializer<PeerGoodbyeMessage>() {
-    private Serializer<Integer[]> arraySerializer =
+    private final Serializer<Integer[]> arraySerializer =
         new ArraySerializer<Integer>(IntegerSerializer.singleton);
 
     @Override

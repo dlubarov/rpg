@@ -3,7 +3,7 @@ package rpg.serialization;
 import java.nio.charset.Charset;
 
 public class StringSerializer extends Serializer<String> {
-  public static StringSerializer singleton = new StringSerializer();
+  public static final StringSerializer singleton = new StringSerializer();
 
   private static final Charset utf8 = Charset.forName("UTF-8");
 

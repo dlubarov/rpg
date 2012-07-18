@@ -1,6 +1,7 @@
 package rpg.msg.s2c;
 
 import rpg.msg.Message;
+import rpg.msg.MessageType;
 import rpg.serialization.ByteSink;
 import rpg.serialization.ByteSource;
 import rpg.serialization.IntegerSerializer;
@@ -14,6 +15,7 @@ public class RegistrationErrorMessage extends Message {
   public final Reason reason;
 
   public RegistrationErrorMessage(Reason reason) {
+    super(MessageType.REGISTRATION_ERROR, serializer);
     this.reason = reason;
   }
 

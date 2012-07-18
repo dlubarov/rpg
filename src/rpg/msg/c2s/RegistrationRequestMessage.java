@@ -1,6 +1,7 @@
 package rpg.msg.c2s;
 
 import rpg.msg.Message;
+import rpg.msg.MessageType;
 import rpg.serialization.ByteSink;
 import rpg.serialization.ByteSource;
 import rpg.serialization.Serializer;
@@ -14,6 +15,7 @@ public class RegistrationRequestMessage extends Message {
   public final String username, password;
 
   public RegistrationRequestMessage(String username, String password) {
+    super(MessageType.REGISTRATION_REQUEST, serializer);
     this.username = username;
     this.password = password;
   }
