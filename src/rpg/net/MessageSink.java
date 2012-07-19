@@ -3,7 +3,7 @@ package rpg.net;
 import rpg.core.Logger;
 import rpg.msg.Message;
 import rpg.serialization.ByteSink;
-import rpg.serialization.IntegerSerializer;
+import rpg.serialization.LongSerializer;
 
 public abstract class MessageSink {
   // TODO: Be smart about this; use empirical latency.
@@ -12,9 +12,9 @@ public abstract class MessageSink {
   protected abstract void sendRaw(byte[] data);
 
   @SuppressWarnings("unchecked")
-  public void sendOnce(Message msg, int uuid) {
+  public void sendOnce(Message msg, long uuid) {
     ByteSink sink = new ByteSink();
-    IntegerSerializer.singleton.serialize(uuid, sink);
+    LongSerializer.singleton.serialize(uuid, sink);
     msg.serializeWithTypeTo(sink);
     byte[] data = sink.getData();
     if (data.length > 512)

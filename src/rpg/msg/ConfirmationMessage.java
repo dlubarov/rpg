@@ -2,14 +2,14 @@ package rpg.msg;
 
 import rpg.serialization.ByteSink;
 import rpg.serialization.ByteSource;
-import rpg.serialization.IntegerSerializer;
+import rpg.serialization.LongSerializer;
 import rpg.serialization.Serializer;
 import rpg.util.ToStringBuilder;
 
 public class ConfirmationMessage extends Message {
-  public final Integer uuid;
+  public final Long uuid;
 
-  public ConfirmationMessage(Integer uuid) {
+  public ConfirmationMessage(Long uuid) {
     super(MessageType.CONFIRMATION, serializer);
     this.uuid = uuid;
   }
@@ -25,12 +25,12 @@ public class ConfirmationMessage extends Message {
       new Serializer<ConfirmationMessage>() {
     @Override
     public void serialize(ConfirmationMessage msg, ByteSink sink) {
-      IntegerSerializer.singleton.serialize(msg.uuid, sink);
+      LongSerializer.singleton.serialize(msg.uuid, sink);
     }
 
     @Override
     public ConfirmationMessage deserialize(ByteSource source) {
-      return new ConfirmationMessage(IntegerSerializer.singleton.deserialize(source));
+      return new ConfirmationMessage(LongSerializer.singleton.deserialize(source));
     }
   };
 }

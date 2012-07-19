@@ -7,6 +7,7 @@ import rpg.msg.MessageType;
 import rpg.msg.c2s.HereIAmMessage;
 import rpg.msg.c2s.RegistrationRequestMessage;
 import rpg.serialization.ByteSource;
+import rpg.serialization.LongSerializer;
 import rpg.server.handlers.HereIAmHandler;
 import rpg.server.handlers.RegistrationRequestHandler;
 
@@ -21,6 +22,10 @@ public class MessageDispatcher implements Runnable {
 
   @Override
   public void run() {
+    long uuid = LongSerializer.singleton.deserialize(source);
+    if (uuid != 0) {
+      ;
+    }
     byte msgId = source.take();
     MessageType msgType;
     try {

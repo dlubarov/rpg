@@ -11,26 +11,26 @@ import rpg.msg.Message;
 public class RetryQueue {
   private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
-  private static final Set<Integer> activeMessageUuids =
-      Collections.synchronizedSet(new HashSet<Integer>());
+  private static final Set<Long> activeMessageUuids =
+      Collections.synchronizedSet(new HashSet<Long>());
 
-  public static void startRetrying(Message msg, int uuid, int retries, long delayMillis) {
+  public static void startRetrying(Message msg, long uuid, int retries, long delayMillis) {
     activeMessageUuids.add(uuid);
     Retrier retrier = new Retrier(msg, uuid, delayMillis, retries);
     scheduler.schedule(retrier, 0, TimeUnit.MILLISECONDS);
   }
 
-  public static void stopRetrying(int uuid) {
+  public static void stopRetrying(long uuid) {
     activeMessageUuids.remove(uuid);
   }
 
   private static class Retrier implements Runnable {
     private final Message msg;
-    private final int uuid;
+    private final long uuid;
     private final long delayMillis;
     private int retriesLeft;
 
-    private Retrier(Message msg, int uuid, long delayMillis, int retries) {
+    private Retrier(Message msg, long uuid, long delayMillis, int retries) {
       this.msg = msg;
       this.uuid = uuid;
       this.delayMillis = delayMillis;
