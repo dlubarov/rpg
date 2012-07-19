@@ -1,6 +1,11 @@
 package rpg.serialization;
 
 public class ArraySerializer<T> extends Serializer<T[]> {
+  public static final ArraySerializer<Byte> byteArraySerializer =
+      new ArraySerializer<Byte>(ByteSerializer.singleton);
+  public static final ArraySerializer<Integer> integerArraySerializer =
+      new ArraySerializer<Integer>(IntegerSerializer.singleton);
+
   private final Serializer<T> elementSerializer;
 
   public ArraySerializer(Serializer<T> elementSerializer) {

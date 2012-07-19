@@ -9,4 +9,24 @@ public final class ArrayUtil {
         return true;
     return false;
   }
+
+  public static String implode(String glue, Object[] arr) {
+    StringBuilder sb = new StringBuilder();
+    for (Object elem : arr) {
+      if (sb.length() > 0)
+        sb.append(glue);
+      sb.append(elem);
+    }
+    return sb.toString();
+  }
+
+  public static String implode(char glue, Object[] arr) {
+    StringBuilder sb = new StringBuilder();
+    for (Object elem : arr) {
+      if (sb.length() > 0)
+        sb.append(glue);
+      sb.append(elem);
+    }
+    return sb.toString();
+  }
 }

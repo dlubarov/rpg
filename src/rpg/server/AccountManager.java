@@ -12,6 +12,7 @@ public final class AccountManager {
   private static final AtomicInteger idCounter = new AtomicInteger();
 
   private static final Map<Integer, Account> accountsById;
+  private static final Map<String, Account> accountsByEmail;
   private static final Map<String, Account> accountsByUsername;
 
   private static final Map<Integer, ServerPlayer> playersById;
@@ -19,6 +20,7 @@ public final class AccountManager {
 
   static {
     accountsById = Collections.synchronizedMap(new HashMap<Integer, Account>());
+    accountsByEmail = Collections.synchronizedMap(new HashMap<String, Account>());
     accountsByUsername = Collections.synchronizedMap(new HashMap<String, Account>());
     playersById = Collections.synchronizedMap(new HashMap<Integer, ServerPlayer>());
     playersByAddr = Collections.synchronizedMap(new HashMap<InetAddress, ServerPlayer>());
@@ -30,6 +32,10 @@ public final class AccountManager {
 
   public static Account getAccountById(int id) {
     return accountsById.get(id);
+  }
+
+  public static Account getAccountByEmail(String email) {
+    return accountsByUsername.get(email);
   }
 
   public static Account getAccountByUsername(String username) {
@@ -46,6 +52,7 @@ public final class AccountManager {
 
   public static void register(Account account) {
     accountsById.put(account.id, account);
+    accountsByEmail.put(account.email, account);
     accountsByUsername.put(account.username, account);
   }
 }

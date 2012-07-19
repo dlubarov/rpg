@@ -11,14 +11,14 @@ public class Account {
   private static Vector3 STARTING_POS = Vector3.ZERO;
 
   public final int id;
-  public final String username;
-  public final String password;
+  public final String email, username, password;
 
   private Realm realm;
   private Vector3 position, velocity, direction;
 
-  public Account(String username, String password) {
+  public Account(String email, String username, String password) {
     this.id = AccountManager.getNextId();
+    this.email = email;
     this.username = username;
     this.password = password;
     realm = STARTING_REALM;
@@ -46,6 +46,7 @@ public class Account {
   public String toString() {
     return new ToStringBuilder(this)
         .append("id", id)
+        .append("email", email)
         .append("username", username)
         .append("password", StringUtil.mask(password))
         .append("realm", realm)

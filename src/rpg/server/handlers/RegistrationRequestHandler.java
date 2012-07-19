@@ -14,7 +14,7 @@ public class RegistrationRequestHandler extends Handler<RegistrationRequestMessa
 
   @Override
   public void handle(RegistrationRequestMessage msg, InetAddress sender) {
-    Account account = new Account(msg.username, msg.password);
+    Account account = new Account(msg.email, msg.username, msg.password);
     RegistrationErrorMessage.Reason failureReason = getFailureReason(msg);
     if (failureReason == null) {
       AccountManager.register(account);
@@ -26,19 +26,28 @@ public class RegistrationRequestHandler extends Handler<RegistrationRequestMessa
   }
 
   private RegistrationErrorMessage.Reason getFailureReason(RegistrationRequestMessage msg) {
+    if (!isEmailValid(msg.email))
+      return RegistrationErrorMessage.Reason.EMAIL_BAD_FORMAT;
+    if (AccountManager.getAccountByEmail(msg.email) != null)
+      return RegistrationErrorMessage.Reason.EMAIL_TAKEN;
     if (msg.username.length() < NetConfig.USERNAME_MIN_LEN)
       return RegistrationErrorMessage.Reason.USERNAME_SHORT;
     if (msg.username.length() > NetConfig.USERNAME_MAX_LEN)
       return RegistrationErrorMessage.Reason.USERNAME_LONG;
+    for (char c : msg.username.toCharArray())
+      if (!NetConfig.validUsernameCharacter(c))
+        return RegistrationErrorMessage.Reason.USERNAME_BAD_CHARS;
+    if (AccountManager.getAccountByUsername(msg.username) != null)
+      return RegistrationErrorMessage.Reason.USERNAME_TAKEN;
     if (msg.password.length() < NetConfig.PASSWORD_MIN_LEN)
       return RegistrationErrorMessage.Reason.PASSWORD_SHORT;
     if (msg.password.length() > NetConfig.PASSWORD_MAX_LEN)
       return RegistrationErrorMessage.Reason.PASSWORD_LONG;
-    for (char c : msg.username.toCharArray())
-      if (!NetConfig.validUsernameCharacter(c))
-        return RegistrationErrorMessage.Reason.USERNAME_BAD_CHARS;
-    if (AccountManager.getAccountByUsername(msg.username) == null)
-      return RegistrationErrorMessage.Reason.USERNAME_TAKEN;
     return null;
+  }
+
+  private static boolean isEmailValid(String email) {
+    // FIXME: Do proper email validation.
+    return email.contains("@");
   }
 }

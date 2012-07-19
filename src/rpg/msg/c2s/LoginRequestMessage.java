@@ -11,16 +11,15 @@ import rpg.util.ArrayUtil;
 import rpg.util.ToStringBuilder;
 
 /**
- * Requests the creation of a new account.
+ * Requests a login.
  */
-public class RegistrationRequestMessage extends Message {
-  public final String email, username, password;
+public class LoginRequestMessage extends Message {
+  public final String usernameOrEmail, password;
   public final Byte[] version;
 
-  public RegistrationRequestMessage(String email, String username, String password, Byte[] version) {
-    super(MessageType.REGISTRATION_REQUEST, serializer);
-    this.email = email;
-    this.username = username;
+  public LoginRequestMessage(String usernameOrEmail, String password, Byte[] version) {
+    super(MessageType.LOGIN_REQUEST, serializer);
+    this.usernameOrEmail = usernameOrEmail;
     this.password = password;
     this.version = version;
   }
@@ -28,26 +27,24 @@ public class RegistrationRequestMessage extends Message {
   @Override
   public String toString() {
     return new ToStringBuilder(this)
-        .append("email", email)
-        .append("username", username)
+        .append("usernameOrEmail", usernameOrEmail)
         .append("password", password)
         .append("version", ArrayUtil.implode('.', version))
         .toString();
   }
 
-  public static final Serializer<RegistrationRequestMessage> serializer =
-      new Serializer<RegistrationRequestMessage>() {
+  public static final Serializer<LoginRequestMessage> serializer =
+      new Serializer<LoginRequestMessage>() {
     @Override
-    public void serialize(RegistrationRequestMessage msg, ByteSink sink) {
-      StringSerializer.singleton.serialize(msg.username, sink);
+    public void serialize(LoginRequestMessage msg, ByteSink sink) {
+      StringSerializer.singleton.serialize(msg.usernameOrEmail, sink);
       StringSerializer.singleton.serialize(msg.password, sink);
       ArraySerializer.byteArraySerializer.serialize(msg.version, sink);
     }
 
     @Override
-    public RegistrationRequestMessage deserialize(ByteSource source) {
-      return new RegistrationRequestMessage(
-          StringSerializer.singleton.deserialize(source),
+    public LoginRequestMessage deserialize(ByteSource source) {
+      return new LoginRequestMessage(
           StringSerializer.singleton.deserialize(source),
           StringSerializer.singleton.deserialize(source),
           ArraySerializer.byteArraySerializer.deserialize(source));

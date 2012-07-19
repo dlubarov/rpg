@@ -1,30 +1,21 @@
-package rpg.server;
+package rpg.client;
 
-import java.net.InetAddress;
+import rpg.client.handlers.ConfirmationHandler;
 import rpg.core.Logger;
 import rpg.msg.ConfirmationMessage;
 import rpg.msg.MessageType;
-import rpg.msg.c2s.HereIAmMessage;
-import rpg.msg.c2s.LoginRequestMessage;
-import rpg.msg.c2s.RegistrationRequestMessage;
 import rpg.net.UuidCache;
 import rpg.serialization.ByteSource;
 import rpg.serialization.LongSerializer;
-import rpg.server.handlers.ConfirmationHandler;
-import rpg.server.handlers.HereIAmHandler;
-import rpg.server.handlers.LoginRequestHandler;
-import rpg.server.handlers.RegistrationRequestHandler;
 
 /**
- * Dispatches a message sent from a client to the server.
+ * Dispatches messages send from the server to the client.
  */
 public class MessageDispatcher implements Runnable {
   private final ByteSource source;
-  private final InetAddress sender;
 
-  public MessageDispatcher(ByteSource source, InetAddress sender) {
+  public MessageDispatcher(ByteSource source) {
     this.source = source;
-    this.sender = sender;
   }
 
   @Override
@@ -57,19 +48,28 @@ public class MessageDispatcher implements Runnable {
         ConfirmationHandler.singleton.handle(msg);
         break;
       }
-      case REGISTRATION_REQUEST: {
-        RegistrationRequestMessage msg = RegistrationRequestMessage.serializer.deserialize(source);
-        RegistrationRequestHandler.singleton.handle(msg, sender);
+      case REGISTRATION_ERROR: {
+        // FIXME
         break;
       }
-      case LOGIN_REQUEST: {
-        LoginRequestMessage msg = LoginRequestMessage.serializer.deserialize(source);
-        LoginRequestHandler.singleton.handle(msg, sender);
+      case LOGIN_ERROR: {
+        // FIXME
         break;
       }
-      case HERE_I_AM: {
-        HereIAmMessage msg = HereIAmMessage.serializer.deserialize(source);
-        HereIAmHandler.singleton.handle(msg, sender);
+      case WELCOME: {
+        // FIXME
+        break;
+      }
+      case PEER_INTRODUCTION: {
+        // FIXME
+        break;
+      }
+      case PEER_UPDATE: {
+        // FIXME
+        break;
+      }
+      case PEER_GOODBYE: {
+        // FIXME
         break;
       }
       default: {
