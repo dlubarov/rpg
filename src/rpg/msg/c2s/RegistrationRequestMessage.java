@@ -14,13 +14,12 @@ import rpg.util.ToStringBuilder;
  * Requests the creation of a new account.
  */
 public class RegistrationRequestMessage extends Message {
-  public final String email, username, password;
+  public final String email, password;
   public final Byte[] version;
 
-  public RegistrationRequestMessage(String email, String username, String password, Byte[] version) {
+  public RegistrationRequestMessage(String email, String password, Byte[] version) {
     super(MessageType.REGISTRATION_REQUEST, serializer);
     this.email = email;
-    this.username = username;
     this.password = password;
     this.version = version;
   }
@@ -29,7 +28,6 @@ public class RegistrationRequestMessage extends Message {
   public String toString() {
     return new ToStringBuilder(this)
         .append("email", email)
-        .append("username", username)
         .append("password", password)
         .append("version", ArrayUtil.implode('.', version))
         .toString();
@@ -39,7 +37,6 @@ public class RegistrationRequestMessage extends Message {
       new Serializer<RegistrationRequestMessage>() {
     @Override
     public void serialize(RegistrationRequestMessage msg, ByteSink sink) {
-      StringSerializer.singleton.serialize(msg.username, sink);
       StringSerializer.singleton.serialize(msg.password, sink);
       ArraySerializer.byteArraySerializer.serialize(msg.version, sink);
     }
@@ -47,7 +44,6 @@ public class RegistrationRequestMessage extends Message {
     @Override
     public RegistrationRequestMessage deserialize(ByteSource source) {
       return new RegistrationRequestMessage(
-          StringSerializer.singleton.deserialize(source),
           StringSerializer.singleton.deserialize(source),
           StringSerializer.singleton.deserialize(source),
           ArraySerializer.byteArraySerializer.deserialize(source));

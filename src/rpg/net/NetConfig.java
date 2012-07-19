@@ -10,8 +10,9 @@ public final class NetConfig {
 
   public static final int
       PORT_C2S = 1337, PORT_S2C = 1338,
-      USERNAME_MIN_LEN = 3, USERNAME_MAX_LEN = 32,
-      PASSWORD_MIN_LEN = 6, PASSWORD_MAX_LEN = 256;
+      EMAIL_MAX_LEN = 256,
+      PASSWORD_MIN_LEN = 6, PASSWORD_MAX_LEN = 256,
+      NAME_MIN_LEN = 3, NAME_MAX_LEN = 32;
 
   public static final InetAddress serverAddr;
 

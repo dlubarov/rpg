@@ -4,14 +4,14 @@ import java.net.InetAddress;
 import rpg.core.Logger;
 import rpg.msg.Message;
 import rpg.server.AccountManager;
-import rpg.server.ServerPlayer;
+import rpg.server.ActivePlayer;
 
 public abstract class NormalHandler<T extends Message> extends Handler<T> {
-  protected abstract void handle(T msg, ServerPlayer sender);
+  protected abstract void handle(T msg, ActivePlayer sender);
 
   @Override
   public void handle(T msg, InetAddress sender) {
-    ServerPlayer player = AccountManager.getPlayerByAddr(sender);
+    ActivePlayer player = AccountManager.getPlayerByAddr(sender);
     if (player == null)
       Logger.warning("Received %s from unknown address %s", msg, sender);
     else

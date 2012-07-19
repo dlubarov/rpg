@@ -82,6 +82,14 @@ public final class Vector3 {
     return scaled(1 / norm());
   }
 
+  public double max() {
+    return Math.max(x, Math.max(y, z));
+  }
+
+  public double min() {
+    return Math.min(x, Math.min(y, z));
+  }
+
   @Override
   public boolean equals(Object o) {
     try {

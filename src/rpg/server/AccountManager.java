@@ -13,17 +13,15 @@ public final class AccountManager {
 
   private static final Map<Integer, Account> accountsById;
   private static final Map<String, Account> accountsByEmail;
-  private static final Map<String, Account> accountsByUsername;
 
-  private static final Map<Integer, ServerPlayer> playersById;
-  private static final Map<InetAddress, ServerPlayer> playersByAddr;
+  private static final Map<Integer, ActivePlayer> playersById;
+  private static final Map<InetAddress, ActivePlayer> playersByAddr;
 
   static {
     accountsById = Collections.synchronizedMap(new HashMap<Integer, Account>());
     accountsByEmail = Collections.synchronizedMap(new HashMap<String, Account>());
-    accountsByUsername = Collections.synchronizedMap(new HashMap<String, Account>());
-    playersById = Collections.synchronizedMap(new HashMap<Integer, ServerPlayer>());
-    playersByAddr = Collections.synchronizedMap(new HashMap<InetAddress, ServerPlayer>());
+    playersById = Collections.synchronizedMap(new HashMap<Integer, ActivePlayer>());
+    playersByAddr = Collections.synchronizedMap(new HashMap<InetAddress, ActivePlayer>());
   }
 
   public static int getNextId() {
@@ -35,24 +33,19 @@ public final class AccountManager {
   }
 
   public static Account getAccountByEmail(String email) {
-    return accountsByUsername.get(email);
+    return accountsByEmail.get(email);
   }
 
-  public static Account getAccountByUsername(String username) {
-    return accountsByUsername.get(username);
-  }
-
-  public static ServerPlayer getPlayerById(int id) {
+  public static ActivePlayer getPlayerById(int id) {
     return playersById.get(id);
   }
 
-  public static ServerPlayer getPlayerByAddr(InetAddress addr) {
+  public static ActivePlayer getPlayerByAddr(InetAddress addr) {
     return playersByAddr.get(addr);
   }
 
   public static void register(Account account) {
     accountsById.put(account.id, account);
     accountsByEmail.put(account.email, account);
-    accountsByUsername.put(account.username, account);
   }
 }
