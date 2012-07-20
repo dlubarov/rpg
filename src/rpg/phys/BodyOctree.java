@@ -2,8 +2,8 @@ package rpg.phys;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
-import rpg.math.*;
+import rpg.math.AAB;
+import rpg.math.Vector3;
 
 public final class BodyOctree extends Broadphase {
   private static final int MIN_SIZE = 3, MAX_SIZE = 8;

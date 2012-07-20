@@ -1,8 +1,8 @@
 package rpg.phys;
 
-import java.util.*;
-
-import rpg.math.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import rpg.math.Vector3;
 
 public final class PointOctree<T extends Positioned> {
   private static final int MIN_SIZE = 3, MAX_SIZE = 8;

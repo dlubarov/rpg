@@ -1,9 +1,9 @@
 package rpg.server.handlers;
 
 import java.net.InetAddress;
-import rpg.net.NetConfig;
 import rpg.msg.c2s.RegistrationRequestMessage;
 import rpg.msg.s2c.RegistrationErrorMessage;
+import rpg.net.NetConfig;
 import rpg.server.Account;
 import rpg.server.AccountManager;
 
