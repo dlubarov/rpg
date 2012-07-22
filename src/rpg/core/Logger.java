@@ -5,16 +5,22 @@ import java.io.PrintStream;
 public final class Logger {
   private Logger() {}
 
-  private static final PrintStream ps = System.out;
+  private static final PrintStream ps = System.err;
 
   public static void fatal(Exception e, String format, Object... args) {
     log(format, args, Severity.FATAL);
     e.printStackTrace(ps);
+    System.exit(1);
   }
 
   public static void error(Exception e, String format, Object... args) {
     log(format, args, Severity.ERROR);
-    e.printStackTrace(ps);
+    if (e != null)
+      e.printStackTrace(ps);
+  }
+
+  public static void error(String format, Object... args) {
+    error(null, format, args);
   }
 
   public static void warning(String format, Object... args) {
@@ -31,7 +37,7 @@ public final class Logger {
 
   private static void log(String format, Object[] args, Severity severity) {
     if (isVisible(severity))
-      ps.printf("%s: %s", severity, String.format(format, args));
+      ps.printf("%s: %s\n", severity, String.format(format, args));
   }
 
   private static boolean isVisible(Severity severity) {

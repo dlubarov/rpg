@@ -18,4 +18,7 @@ public abstract class Message {
     IntegerSerializer.singleton.serialize(type.ordinal(), sink);
     serializer.serialize(this, sink);
   }
+
+  @Override
+  public abstract String toString();
 }

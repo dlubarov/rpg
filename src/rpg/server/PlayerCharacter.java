@@ -7,8 +7,8 @@ import rpg.realm.RealmManager;
 import rpg.util.ToStringBuilder;
 
 public class PlayerCharacter {
-  private static Realm STARTING_REALM = RealmManager.getRealmById(0);
-  private static Vector3 STARTING_POS = Vector3.ZERO;
+  private static final Realm STARTING_REALM = RealmManager.getRealmById(0);
+  private static final Vector3 STARTING_POS = Vector3.ZERO;
 
   public final String name;
   public final Account owner;

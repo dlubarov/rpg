@@ -30,6 +30,17 @@ public class WelcomeMessage extends Message {
     this.direction = direction;
   }
 
+  @Override
+  public String toString() {
+    return new ToStringBuilder(this)
+        .append("id", id)
+        .append("realm", realm)
+        .append("position", position)
+        .append("velocity", velocity)
+        .append("direction", direction)
+        .toString();
+  }
+
   public static final Serializer<WelcomeMessage> serializer =
       new Serializer<WelcomeMessage>() {
     @Override
@@ -52,15 +63,4 @@ public class WelcomeMessage extends Message {
       );
     }
   };
-
-  @Override
-  public String toString() {
-    return new ToStringBuilder(this)
-        .append("id", id)
-        .append("realm", realm)
-        .append("position", position)
-        .append("velocity", velocity)
-        .append("direction", direction)
-        .toString();
-  }
 }

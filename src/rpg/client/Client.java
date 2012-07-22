@@ -6,6 +6,8 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.glu.GLU;
+import rpg.client.gfx.TextureReleaser;
+import rpg.client.mode.ModeManager;
 import rpg.core.Info;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -15,6 +17,7 @@ public final class Client {
 
   public static void main(String[] args) throws LWJGLException {
     // TODO start client listener
+    TextureReleaser.singleton.start();
     lwjglSetup();
     glSetup();
     mainLoop();
@@ -31,6 +34,7 @@ public final class Client {
 
   private static void glSetup() {
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_TEXTURE_2D);
     glClearColor(0, 1, 1, 1);
   }
 
@@ -51,7 +55,25 @@ public final class Client {
   }
 
   private static void logic() {
-    ;
+    while (Keyboard.next()) {
+      int key = Keyboard.getEventKey();
+      boolean down = Keyboard.getEventKeyState();
+      switch (key) {
+        case Keyboard.KEY_ESCAPE:
+          if (down)
+            System.exit(0);
+          break;
+        case Keyboard.KEY_F4:
+          if (Keyboard.isKeyDown(Keyboard.KEY_LMETA) || Keyboard.isKeyDown(Keyboard.KEY_RMETA))
+              System.exit(0);
+          break;
+      }
+      if (down)
+        ModeManager.getCurrentMode().onKeyDown(key);
+      else
+        ModeManager.getCurrentMode().onKeyUp(key);
+    }
+    ModeManager.getCurrentMode().logic();
   }
 
   private static void render() {
@@ -70,10 +92,6 @@ public final class Client {
         0, 0, 0,
         0, 1, 0);
 
-    glBegin(GL_TRIANGLES);
-    glVertex3i(0, 0, 0);
-    glVertex3i(1, 0, 0);
-    glVertex3i(0, 0, 1);
-    glEnd();
+    ModeManager.getCurrentMode().render();
   }
 }

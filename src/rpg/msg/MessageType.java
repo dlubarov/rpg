@@ -11,6 +11,7 @@ public enum MessageType {
   // Server to client.
   REGISTRATION_ERROR,
   LOGIN_ERROR,
+  CHARACTER_INFO,
   WELCOME,
   PEER_INTRODUCTION,
   PEER_UPDATE,

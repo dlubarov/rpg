@@ -5,6 +5,7 @@ import rpg.msg.c2s.LoginRequestMessage;
 import rpg.msg.s2c.LoginErrorMessage;
 import rpg.server.Account;
 import rpg.server.AccountManager;
+import rpg.server.ActivePlayer;
 
 public class LoginRequestHandler extends Handler<LoginRequestMessage> {
   public static final LoginRequestHandler singleton = new LoginRequestHandler();
@@ -34,8 +35,7 @@ public class LoginRequestHandler extends Handler<LoginRequestMessage> {
       return;
     }
 
-    // FIXME: Send welcome message.
-    ;
+    // FIXME: Send character info.
   }
 
   private void sendRejection(LoginErrorMessage.Reason reason) {
