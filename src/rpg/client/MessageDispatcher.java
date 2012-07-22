@@ -1,12 +1,13 @@
 package rpg.client;
 
 import rpg.client.handlers.ConfirmationHandler;
-import rpg.util.Logger;
 import rpg.msg.ConfirmationMessage;
 import rpg.msg.MessageType;
+import rpg.net.ToServerMessageSink;
 import rpg.net.UuidCache;
 import rpg.serialization.ByteSource;
 import rpg.serialization.LongSerializer;
+import rpg.util.Logger;
 
 /**
  * Dispatches messages send from the server to the client.
@@ -23,7 +24,7 @@ public class MessageDispatcher implements Runnable {
     long uuid = LongSerializer.singleton.deserialize(source);
     if (uuid != 0) {
       UuidCache.addUuid(uuid);
-      // FIXME: Send confirmation message.
+      ToServerMessageSink.singleton.sendWithoutConfirmation(new ConfirmationMessage(uuid));
     }
     byte msgId = source.take();
     MessageType msgType;
@@ -46,6 +47,10 @@ public class MessageDispatcher implements Runnable {
       case CONFIRMATION: {
         ConfirmationMessage msg = ConfirmationMessage.serializer.deserialize(source);
         ConfirmationHandler.singleton.handle(msg);
+        break;
+      }
+      case REGISTRATION_ACCEPTANCE: {
+        // FIXME
         break;
       }
       case REGISTRATION_ERROR: {

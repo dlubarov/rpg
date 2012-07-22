@@ -14,7 +14,10 @@ public final class TextureReleaser extends Thread {
 
   private final ReferenceQueue<Texture> queue = new ReferenceQueue<Texture>();
 
-  private TextureReleaser() {}
+  private TextureReleaser() {
+    super("Texture Releaser");
+    setDaemon(true);
+  }
 
   public void add(Texture texture) {
     PhantomReference<Texture> reference = new PhantomReference<Texture>(texture, queue);

@@ -2,6 +2,7 @@ package rpg.server;
 
 import java.util.HashMap;
 import java.util.Map;
+import rpg.core.CharacterSummary;
 import rpg.util.StringUtil;
 import rpg.util.ToStringBuilder;
 
@@ -16,6 +17,14 @@ public class Account {
     this.password = password;
     characters = new HashMap<String, PlayerCharacter>();
     AccountManager.register(this);
+  }
+
+  public CharacterSummary[] getCharacterSummaries() {
+    CharacterSummary[] summaries = new CharacterSummary[characters.size()];
+    int i = 0;
+    for (PlayerCharacter character : characters.values())
+      summaries[i++] = new CharacterSummary(character.name, character.combatClass);
+    return summaries;
   }
 
   @Override

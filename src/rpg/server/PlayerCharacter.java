@@ -23,7 +23,6 @@ public class PlayerCharacter {
     this.name = name;
     this.owner = owner;
     this.combatClass = combatClass;
-
     realm = STARTING_REALM;
     position = STARTING_POS;
     velocity = Vector3.ZERO;

@@ -9,6 +9,7 @@ public enum MessageType {
   HERE_I_AM,
 
   // Server to client.
+  REGISTRATION_ACCEPTANCE,
   REGISTRATION_ERROR,
   LOGIN_ERROR,
   CHARACTER_INFO,

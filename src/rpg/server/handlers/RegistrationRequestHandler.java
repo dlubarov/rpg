@@ -2,8 +2,11 @@ package rpg.server.handlers;
 
 import java.net.InetAddress;
 import rpg.msg.c2s.RegistrationRequestMessage;
+import rpg.msg.s2c.CharacterInfoMessage;
+import rpg.msg.s2c.RegistrationAcceptanceMessage;
 import rpg.msg.s2c.RegistrationErrorMessage;
 import rpg.net.NetConfig;
+import rpg.net.ToClientMessageSink;
 import rpg.server.Account;
 import rpg.server.AccountManager;
 
@@ -18,10 +21,12 @@ public class RegistrationRequestHandler extends Handler<RegistrationRequestMessa
     RegistrationErrorMessage.Reason failureReason = getFailureReason(msg);
     if (failureReason == null) {
       AccountManager.register(account);
-      // FIXME send welcome
+      // FIXME: Send
+      RegistrationAcceptanceMessage acceptanceMessage = new RegistrationAcceptanceMessage();
+      new ToClientMessageSink(sender).sendWithConfirmation(acceptanceMessage, 3);
     } else {
       RegistrationErrorMessage rejectionMsg = new RegistrationErrorMessage(failureReason);
-      // FIXME send rejection
+      new ToClientMessageSink(sender).sendWithConfirmation(rejectionMsg, 3);
     }
   }
 

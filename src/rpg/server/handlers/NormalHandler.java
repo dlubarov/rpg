@@ -1,10 +1,10 @@
 package rpg.server.handlers;
 
 import java.net.InetAddress;
-import rpg.util.Logger;
 import rpg.msg.Message;
 import rpg.server.AccountManager;
 import rpg.server.ActivePlayer;
+import rpg.util.Logger;
 
 public abstract class NormalHandler<T extends Message> extends Handler<T> {
   protected abstract void handle(T msg, ActivePlayer sender);

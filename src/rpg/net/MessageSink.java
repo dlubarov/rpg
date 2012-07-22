@@ -1,9 +1,9 @@
 package rpg.net;
 
-import rpg.util.Logger;
 import rpg.msg.Message;
 import rpg.serialization.ByteSink;
 import rpg.serialization.LongSerializer;
+import rpg.util.Logger;
 
 public abstract class MessageSink {
   // TODO: Be smart about this; use empirical latency.
@@ -12,10 +12,12 @@ public abstract class MessageSink {
   protected abstract void sendRaw(byte[] data);
 
   @SuppressWarnings("unchecked")
-  public void sendOnce(Message msg, long uuid) {
+  private void sendOnce(Message msg, long uuid) {
     ByteSink sink = new ByteSink();
     LongSerializer.singleton.serialize(uuid, sink);
     msg.serializeWithTypeTo(sink);
+    // TODO: Could use thread-local arrays rather than allocating new ones with getData.
+    // This would involve adding offset & length parameters to sendRaw.
     byte[] data = sink.getData();
     if (data.length > 512)
       Logger.warning("Unsafe length %d of message %s.", data.length, msg);

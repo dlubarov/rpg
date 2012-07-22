@@ -2,6 +2,7 @@ package rpg.server.handlers;
 
 import java.net.InetAddress;
 import rpg.msg.c2s.LoginRequestMessage;
+import rpg.msg.s2c.CharacterInfoMessage;
 import rpg.msg.s2c.LoginErrorMessage;
 import rpg.server.Account;
 import rpg.server.AccountManager;
@@ -34,6 +35,7 @@ public class LoginRequestHandler extends Handler<LoginRequestMessage> {
       return;
     }
 
+    CharacterInfoMessage charInfoMsg = new CharacterInfoMessage(account.getCharacterSummaries());
     // FIXME: Send character info.
   }
 

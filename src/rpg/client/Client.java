@@ -1,5 +1,7 @@
 package rpg.client;
 
+import java.net.DatagramSocket;
+import java.net.SocketException;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -9,6 +11,8 @@ import org.lwjgl.util.glu.GLU;
 import rpg.client.gfx.TextureReleaser;
 import rpg.client.mode.ModeManager;
 import rpg.core.Info;
+import rpg.net.NetConfig;
+import rpg.util.Logger;
 
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
@@ -25,8 +29,19 @@ import static org.lwjgl.opengl.GL11.glMatrixMode;
 public final class Client {
   private Client() {}
 
+  public static final DatagramSocket socket;
+
+  static {
+    try {
+      socket = new DatagramSocket(NetConfig.PORT_C2S, NetConfig.serverAddr);
+    } catch (SocketException e) {
+      Logger.fatal(e, "Failed to establish socket to server.");
+      throw new RuntimeException(e);
+    }
+  }
+
   public static void main(String[] args) throws LWJGLException {
-    // TODO start client listener
+    ClientListener.singleton.start();
     TextureReleaser.singleton.start();
     lwjglSetup();
     glSetup();
@@ -70,18 +85,21 @@ public final class Client {
       boolean down = Keyboard.getEventKeyState();
       switch (key) {
         case Keyboard.KEY_ESCAPE:
-          if (down)
+          if (down) {
             System.exit(0);
+          }
           break;
         case Keyboard.KEY_F4:
-          if (Keyboard.isKeyDown(Keyboard.KEY_LMETA) || Keyboard.isKeyDown(Keyboard.KEY_RMETA))
-              System.exit(0);
+          if (Keyboard.isKeyDown(Keyboard.KEY_LMETA) || Keyboard.isKeyDown(Keyboard.KEY_RMETA)) {
+            System.exit(0);
+          }
           break;
       }
-      if (down)
+      if (down) {
         ModeManager.getCurrentMode().onKeyDown(key);
-      else
+      } else {
         ModeManager.getCurrentMode().onKeyUp(key);
+      }
     }
     ModeManager.getCurrentMode().logic();
   }

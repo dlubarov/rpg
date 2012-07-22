@@ -6,8 +6,8 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import rpg.util.Logger;
 import rpg.serialization.ByteSource;
+import rpg.util.Logger;
 
 public class ServerListener extends Thread {
   private static final int EXECUTOR_THREADS = Runtime.getRuntime().availableProcessors();

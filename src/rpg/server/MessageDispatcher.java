@@ -1,7 +1,6 @@
 package rpg.server;
 
 import java.net.InetAddress;
-import rpg.util.Logger;
 import rpg.msg.ConfirmationMessage;
 import rpg.msg.MessageType;
 import rpg.msg.c2s.HereIAmMessage;
@@ -14,6 +13,7 @@ import rpg.server.handlers.ConfirmationHandler;
 import rpg.server.handlers.HereIAmHandler;
 import rpg.server.handlers.LoginRequestHandler;
 import rpg.server.handlers.RegistrationRequestHandler;
+import rpg.util.Logger;
 
 /**
  * Dispatches a message sent from a client to the server.

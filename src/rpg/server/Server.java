@@ -5,15 +5,13 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-import rpg.util.Logger;
 import rpg.net.NetConfig;
+import rpg.util.Logger;
 
 public final class Server {
-  public static final Server singleton = new Server();
+  public static final DatagramSocket socket;
 
-  private final DatagramSocket socket;
-
-  private Server() {
+  static {
     try {
       socket = new DatagramSocket(NetConfig.PORT_C2S);
     } catch (SocketException e) {
@@ -21,7 +19,7 @@ public final class Server {
     }
   }
 
-  public void sendClient(byte[] data, InetAddress clientAddr) {
+  public static void sendClient(byte[] data, InetAddress clientAddr) {
     try {
       socket.send(new DatagramPacket(data, data.length, clientAddr, NetConfig.PORT_S2C));
     } catch (IOException e) {
@@ -30,6 +28,6 @@ public final class Server {
   }
 
   public static void main(String[] args) {
-    new ServerListener(singleton.socket).start();
+    new ServerListener(socket).start();
   }
 }

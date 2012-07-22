@@ -2,22 +2,21 @@ package rpg.client;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import rpg.util.Logger;
 import rpg.serialization.ByteSource;
+import rpg.util.Logger;
 
 public class ClientListener extends Thread {
+  public static final ClientListener singleton = new ClientListener();
+
   private static final int EXECUTOR_THREADS = Runtime.getRuntime().availableProcessors();
 
   private final Executor executor = Executors.newFixedThreadPool(EXECUTOR_THREADS);
 
-  private final DatagramSocket socket;
-
-  ClientListener(DatagramSocket socket) {
+  private ClientListener() {
     super("Client Listener");
-    this.socket = socket;
+    setDaemon(true);
   }
 
   @Override
@@ -26,7 +25,7 @@ public class ClientListener extends Thread {
     for (;;) {
       DatagramPacket packet = new DatagramPacket(receiveData, receiveData.length);
       try {
-        socket.receive(packet);
+        Client.socket.receive(packet);
       } catch (IOException e) {
         Logger.error(e, "Failed to receive packet.");
       }
