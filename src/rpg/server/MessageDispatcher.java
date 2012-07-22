@@ -1,7 +1,7 @@
 package rpg.server;
 
 import java.net.InetAddress;
-import rpg.core.Logger;
+import rpg.util.Logger;
 import rpg.msg.ConfirmationMessage;
 import rpg.msg.MessageType;
 import rpg.msg.c2s.HereIAmMessage;

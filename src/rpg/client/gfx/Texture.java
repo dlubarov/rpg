@@ -2,7 +2,10 @@ package rpg.client.gfx;
 
 import java.nio.IntBuffer;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.glBindTexture;
+import static org.lwjgl.opengl.GL11.glDeleteTextures;
+import static org.lwjgl.opengl.GL11.glTexCoord2d;
 
 public final class Texture {
   private static Texture last = null;

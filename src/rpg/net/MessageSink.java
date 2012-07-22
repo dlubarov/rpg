@@ -1,6 +1,6 @@
 package rpg.net;
 
-import rpg.core.Logger;
+import rpg.util.Logger;
 import rpg.msg.Message;
 import rpg.serialization.ByteSink;
 import rpg.serialization.LongSerializer;

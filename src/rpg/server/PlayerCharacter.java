@@ -1,6 +1,7 @@
 package rpg.server;
 
 import rpg.core.CombatClass;
+import rpg.core.Outfit;
 import rpg.math.Vector3;
 import rpg.realm.Realm;
 import rpg.realm.RealmManager;
@@ -16,6 +17,7 @@ public class PlayerCharacter {
 
   private Realm realm;
   private Vector3 position, velocity, direction;
+  public final Outfit outfit;
 
   public PlayerCharacter(String name, Account owner, CombatClass combatClass) {
     this.name = name;
@@ -26,6 +28,7 @@ public class PlayerCharacter {
     position = STARTING_POS;
     velocity = Vector3.ZERO;
     direction = Vector3.UNIT_X;
+    outfit = new Outfit();
   }
 
   public Realm getRealm() {

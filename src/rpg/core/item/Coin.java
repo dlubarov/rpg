@@ -1,7 +1,7 @@
-package rpg.item;
+package rpg.core.item;
 
 public class Coin extends Item {
   protected Coin() {
-    super(2.0 / 1000);
+    super("coin", 2.0 / 1000);
   }
 }

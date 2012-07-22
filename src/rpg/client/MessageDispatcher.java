@@ -1,7 +1,7 @@
 package rpg.client;
 
 import rpg.client.handlers.ConfirmationHandler;
-import rpg.core.Logger;
+import rpg.util.Logger;
 import rpg.msg.ConfirmationMessage;
 import rpg.msg.MessageType;
 import rpg.net.UuidCache;

@@ -6,7 +6,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import rpg.core.Logger;
+import rpg.util.Logger;
 import rpg.serialization.ByteSource;
 
 public class ServerListener extends Thread {

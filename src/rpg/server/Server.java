@@ -5,7 +5,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-import rpg.core.Logger;
+import rpg.util.Logger;
 import rpg.net.NetConfig;
 
 public final class Server {

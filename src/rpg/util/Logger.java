@@ -1,4 +1,4 @@
-package rpg.core;
+package rpg.util;
 
 import java.io.PrintStream;
 

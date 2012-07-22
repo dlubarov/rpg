@@ -4,7 +4,7 @@ import rpg.client.mode.CharacterSelectMode;
 import rpg.client.mode.LoginMode;
 import rpg.client.mode.Mode;
 import rpg.client.mode.ModeManager;
-import rpg.core.Logger;
+import rpg.util.Logger;
 import rpg.msg.s2c.CharacterInfoMessage;
 
 public class CharacterInfoHandler extends Handler<CharacterInfoMessage> {

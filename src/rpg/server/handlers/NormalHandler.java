@@ -1,7 +1,7 @@
 package rpg.server.handlers;
 
 import java.net.InetAddress;
-import rpg.core.Logger;
+import rpg.util.Logger;
 import rpg.msg.Message;
 import rpg.server.AccountManager;
 import rpg.server.ActivePlayer;

@@ -5,12 +5,9 @@ import rpg.client.gfx.Texture;
 import rpg.client.gfx.TextureCache;
 
 import static org.lwjgl.opengl.GL11.GL_QUADS;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL11.glBegin;
 import static org.lwjgl.opengl.GL11.glColor3f;
-import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL11.glEnd;
-import static org.lwjgl.opengl.GL11.glTexCoord2d;
 import static org.lwjgl.opengl.GL11.glVertex3i;
 
 public class LoginMode extends Mode {

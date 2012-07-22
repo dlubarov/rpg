@@ -5,7 +5,6 @@ import rpg.msg.c2s.LoginRequestMessage;
 import rpg.msg.s2c.LoginErrorMessage;
 import rpg.server.Account;
 import rpg.server.AccountManager;
-import rpg.server.ActivePlayer;
 
 public class LoginRequestHandler extends Handler<LoginRequestMessage> {
   public static final LoginRequestHandler singleton = new LoginRequestHandler();

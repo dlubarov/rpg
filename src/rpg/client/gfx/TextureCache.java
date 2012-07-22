@@ -2,7 +2,7 @@ package rpg.client.gfx;
 
 import java.io.IOException;
 import java.io.InputStream;
-import rpg.core.Logger;
+import rpg.util.Logger;
 import rpg.util.ResourceCache;
 
 public final class TextureCache extends ResourceCache<Texture> {
