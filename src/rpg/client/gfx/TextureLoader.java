@@ -1,6 +1,5 @@
 package rpg.client.gfx;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.color.ColorSpace;
 import java.awt.image.BufferedImage;
@@ -14,7 +13,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.nio.IntBuffer;
 import java.util.Hashtable;
 import javax.imageio.ImageIO;
 
@@ -44,9 +42,7 @@ public final class TextureLoader {
       ComponentColorModel.TRANSLUCENT, DataBuffer.TYPE_BYTE);
 
   public static Texture load(BufferedImage image) {
-    IntBuffer buf = ByteBuffer.allocateDirect(4).order(ByteOrder.nativeOrder()).asIntBuffer();
-    glGenTextures(buf);
-    int textureId = buf.get(0);
+    int textureId = glGenTextures();
     Texture texture = new Texture(textureId,
         getPowerOf2(image.getWidth()), getPowerOf2(image.getHeight()),
         image.getWidth(), image.getHeight());
@@ -72,10 +68,6 @@ public final class TextureLoader {
         alpha ? glAlphaColorModel : glColorModel,
         raster, false, new Hashtable());
     Graphics g = texImage.getGraphics();
-
-    // TODO: Remove green background, it's for debugging only.
-    g.setColor(Color.GREEN);
-    //g.fillRect(0, 0, texImage.getWidth(), texImage.getHeight());
     g.drawImage(image, 0, 0, null);
 
     byte[] data = ((DataBufferByte) texImage.getRaster().getDataBuffer()).getData();

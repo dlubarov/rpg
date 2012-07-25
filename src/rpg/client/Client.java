@@ -47,7 +47,6 @@ public final class Client {
 
   public static void main(String[] args) throws LWJGLException {
     ClientListener.singleton.start();
-    TextureReleaser.singleton.start();
     lwjglSetup();
     glSetup();
     mainLoop();
@@ -77,6 +76,7 @@ public final class Client {
       logic();
       render();
       Display.update();
+      TextureReleaser.releaseDeadTextures();
       Display.sync(FPSManager.targetFPS);
     }
   }

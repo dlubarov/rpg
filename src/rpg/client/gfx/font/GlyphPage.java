@@ -28,13 +28,14 @@ import static org.lwjgl.opengl.GL11.glGetInteger;
 
 // TODO: Clean up.
 final class GlyphPage {
+  private static final int MAX_TEXTURE_SIZE = 256; // TODO: increase
   private static final int PADDING = 2;
   private static final int SIZE;
 
   static {
     int maxTextureSize = glGetInteger(GL_MAX_TEXTURE_SIZE);
-    SIZE = Math.min(maxTextureSize, 128);
-    Logger.info("Glyph page size is %d (GL_MAX_TEXTURE_SIZE=%d)",
+    SIZE = Math.min(maxTextureSize, MAX_TEXTURE_SIZE);
+    Logger.debug("Glyph page size is %d (GL_MAX_TEXTURE_SIZE=%d)",
         SIZE, maxTextureSize);
   }
 

@@ -1,9 +1,7 @@
 package rpg.client.gfx;
 
 import java.awt.image.BufferedImage;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.IntBuffer;
+import rpg.client.Client;
 import rpg.util.Logger;
 
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
@@ -25,7 +23,7 @@ public final class Texture {
     this.height = height;
     this.sourceImageWidth = sourceImageWidth;
     this.sourceImageHeight = sourceImageHeight;
-    TextureReleaser.singleton.add(this);
+    TextureReleaser.add(this);
     Logger.debug("New texture of ID %d.", id);
   }
 
@@ -75,10 +73,9 @@ public final class Texture {
   }
 
   static void release(int id) {
-    Logger.info("Releasing texture %d", id);
-    IntBuffer buf = ByteBuffer.allocateDirect(4).order(ByteOrder.nativeOrder()).asIntBuffer();
-    buf.put(id);
-    buf.flip();
-    glDeleteTextures(buf);
+    Logger.debug("Releasing texture %d.", id);
+    synchronized (Client.class) {
+      glDeleteTextures(id);
+    }
   }
 }
