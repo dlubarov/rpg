@@ -43,11 +43,10 @@ public final class TextureLoader {
       new int[] {8, 8, 8, 8}, true, false,
       ComponentColorModel.TRANSLUCENT, DataBuffer.TYPE_BYTE);
 
-  public static Texture load(InputStream data) throws IOException {
+  public static Texture load(BufferedImage image) {
     IntBuffer buf = ByteBuffer.allocateDirect(4).order(ByteOrder.nativeOrder()).asIntBuffer();
     glGenTextures(buf);
     int textureId = buf.get(0);
-    BufferedImage image = ImageIO.read(data);
     Texture texture = new Texture(textureId,
         getPowerOf2(image.getWidth()), getPowerOf2(image.getHeight()),
         image.getWidth(), image.getHeight());
@@ -61,6 +60,10 @@ public final class TextureLoader {
     return texture;
   }
 
+  public static Texture load(InputStream data) throws IOException {
+    return load(ImageIO.read(data));
+  }
+
   private static ByteBuffer convertImageData(BufferedImage image, Texture texture) {
     boolean alpha = image.getColorModel().hasAlpha();
     WritableRaster raster = Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE,
@@ -72,7 +75,7 @@ public final class TextureLoader {
 
     // TODO: Remove green background, it's for debugging only.
     g.setColor(Color.GREEN);
-    g.fillRect(0, 0, texImage.getWidth(), texImage.getHeight());
+    //g.fillRect(0, 0, texImage.getWidth(), texImage.getHeight());
     g.drawImage(image, 0, 0, null);
 
     byte[] data = ((DataBufferByte) texImage.getRaster().getDataBuffer()).getData();

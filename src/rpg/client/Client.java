@@ -7,6 +7,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.Util;
 import org.lwjgl.util.glu.GLU;
 import rpg.client.gfx.TextureReleaser;
 import rpg.client.mode.ModeManager;
@@ -14,12 +15,16 @@ import rpg.core.Info;
 import rpg.net.NetConfig;
 import rpg.util.Logger;
 
+import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
 import static org.lwjgl.opengl.GL11.GL_MODELVIEW;
+import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_PROJECTION;
+import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.glBlendFunc;
 import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.opengl.GL11.glEnable;
@@ -61,6 +66,8 @@ public final class Client {
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_2D);
     glClearColor(0, 1, 1, 1);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   }
 
   private static void mainLoop() {
@@ -116,10 +123,11 @@ public final class Client {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     GLU.gluLookAt(
-        5, 5, 5,
+        151, 151, 151,
         0, 0, 0,
         0, 1, 0);
 
     ModeManager.getCurrentMode().render();
+    Util.checkGLError();
   }
 }

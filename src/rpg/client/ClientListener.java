@@ -10,9 +10,8 @@ import rpg.util.Logger;
 public class ClientListener extends Thread {
   public static final ClientListener singleton = new ClientListener();
 
-  private static final int EXECUTOR_THREADS = Runtime.getRuntime().availableProcessors();
-
-  private final Executor executor = Executors.newFixedThreadPool(EXECUTOR_THREADS);
+  private final Executor executor =
+      Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
   private ClientListener() {
     super("Client Listener");

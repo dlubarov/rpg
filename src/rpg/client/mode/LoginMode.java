@@ -3,12 +3,11 @@ package rpg.client.mode;
 import org.lwjgl.input.Keyboard;
 import rpg.client.gfx.Texture;
 import rpg.client.gfx.TextureCache;
+import rpg.client.gfx.font.FontRendererCache;
 
-import static org.lwjgl.opengl.GL11.GL_QUADS;
-import static org.lwjgl.opengl.GL11.glBegin;
-import static org.lwjgl.opengl.GL11.glColor3f;
-import static org.lwjgl.opengl.GL11.glEnd;
-import static org.lwjgl.opengl.GL11.glVertex3i;
+import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
+import static org.lwjgl.opengl.GL11.glColor4f;
+import static org.lwjgl.opengl.GL11.glDisable;
 
 public class LoginMode extends Mode {
   @Override
@@ -19,18 +18,21 @@ public class LoginMode extends Mode {
 
   @Override
   public void render() {
-    glColor3f(1, 1, 1);
-    Texture texApple = TextureCache.singleton.get("dice");
-    texApple.bind();
+    Texture texApple = TextureCache.singleton.get("elephant");
+    /*texApple.bind();
     glBegin(GL_QUADS);
     texApple.bind00();
     glVertex3i(0, 0, 0);
     texApple.bind10();
-    glVertex3i(5, 0, 0);
+    glVertex3i(2, 0, 0);
     texApple.bind11();
-    glVertex3i(5, 0, 5);
+    glVertex3i(2, 0, 2);
     texApple.bind01();
-    glVertex3i(0, 0, 5);
-    glEnd();
+    glVertex3i(0, 0, 2);
+    glEnd();*/
+
+    glDisable(GL_DEPTH_TEST);
+    glColor4f(0, 1, 0, 1);
+    FontRendererCache.singleton.get("Arial-BOLD-72").draw("Hello");
   }
 }

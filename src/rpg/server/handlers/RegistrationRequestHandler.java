@@ -2,7 +2,6 @@ package rpg.server.handlers;
 
 import java.net.InetAddress;
 import rpg.msg.c2s.RegistrationRequestMessage;
-import rpg.msg.s2c.CharacterInfoMessage;
 import rpg.msg.s2c.RegistrationAcceptanceMessage;
 import rpg.msg.s2c.RegistrationErrorMessage;
 import rpg.net.NetConfig;

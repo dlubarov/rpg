@@ -3,6 +3,7 @@ package rpg.net;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.HashSet;
 import java.util.Set;
 
 public final class NetConfig {
@@ -24,7 +25,7 @@ public final class NetConfig {
     }
   }
 
-  public static Set<Character> validUsernameChars;
+  public static Set<Character> validUsernameChars = new HashSet<Character>();
 
   static {
     for (char c = 'a'; c <= 'z'; ++c)
