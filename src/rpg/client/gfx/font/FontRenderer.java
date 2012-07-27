@@ -41,18 +41,17 @@ public class FontRenderer {
       Glyph glyph = get((char) codePoint); // TODO: sacrifices proper unicode support
       glyph.texture.bind();
       glBegin(GL_QUADS);
-      glTexCoord2d(glyph.x1 / (double) glyph.texture.width,
-          glyph.y1 / (double) glyph.texture.height);
+      double x1 = glyph.x1 / (double) glyph.texture.width,
+             y1 = glyph.y1 / (double) glyph.texture.height,
+             dx = glyph.dx / (double) glyph.texture.width,
+             dy = glyph.dy / (double) glyph.texture.height;
+      glTexCoord2d(x1, y1);
       glVertex2d(bounds.getMinX(), bounds.getMinY());
-      glTexCoord2d(glyph.x1 / (double) glyph.texture.width,
-          (glyph.y1 + glyph.dy) / (double) glyph.texture.height);
+      glTexCoord2d(x1, y1 + dy);
       glVertex2d(bounds.getMinX(), bounds.getMaxY());
-      glTexCoord2d(
-          (glyph.x1 + glyph.dx) / (double) glyph.texture.width,
-          (glyph.y1 + glyph.dy) / (double) glyph.texture.height);
+      glTexCoord2d(x1 + dx, y1 + dy);
       glVertex2d(bounds.getMaxX(), bounds.getMaxY());
-      glTexCoord2d((glyph.x1 + glyph.dx) / (double) glyph.texture.width,
-          glyph.y1 / (double) glyph.texture.height);
+      glTexCoord2d(x1 + dx, y1);
       glVertex2d(bounds.getMaxX(), bounds.getMinY());
       glEnd();
     }

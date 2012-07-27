@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.font.FontRenderContext;
+import java.awt.font.GlyphMetrics;
 import java.awt.font.GlyphVector;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -29,7 +30,7 @@ import static org.lwjgl.opengl.GL11.glGetInteger;
 // TODO: Clean up.
 final class GlyphPage {
   private static final int MAX_TEXTURE_SIZE = 256; // TODO: increase
-  private static final int PADDING = 2;
+  private static final int PADDING = 5;
   private static final int SIZE;
 
   static {
@@ -64,8 +65,12 @@ final class GlyphPage {
   public Glyph add(char c) {
     assert !full;
     GlyphVector vector = font.createGlyphVector(renderContext, new char[] {c});
+    GlyphMetrics metrics = vector.getGlyphMetrics(0);
     Rectangle bounds = vector.getGlyphPixelBounds(0, renderContext, 0, 0);
-    int w = (int) bounds.getWidth(), h = (int) bounds.getHeight();
+    int w = (int) (bounds.getWidth()
+          - Math.min(metrics.getLSB(), 0)
+          - Math.min(metrics.getRSB(), 0)),
+        h = (int) bounds.getHeight();
     if (w > SIZE || h > SIZE)
       Logger.error("Character %c of font %s is too large.", c, font);
     boolean newRow = x + w >= SIZE;
@@ -99,8 +104,8 @@ final class GlyphPage {
     texture = TextureLoader.load(image);
     //intBuffer.clear();
     Glyph glyph = new Glyph(texture, x, y, w, h);
-    //graphics.setColor(Color.GREEN);
-    //graphics.drawRect(x, y, w, h);
+    graphics.setColor(Color.GREEN);
+    graphics.drawRect(x, y, w, h);
     try {
       // FIXME: remove!!!! temporary!
       ImageIO.write(image, "png", new File("scratch.png"));

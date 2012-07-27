@@ -8,6 +8,7 @@ import rpg.client.gfx.font.FontRendererCache;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
 import static org.lwjgl.opengl.GL11.glColor4f;
 import static org.lwjgl.opengl.GL11.glDisable;
+import static org.lwjgl.opengl.GL11.glScaled;
 
 public class LoginMode extends Mode {
   @Override
@@ -33,6 +34,7 @@ public class LoginMode extends Mode {
 
     glDisable(GL_DEPTH_TEST);
     glColor4f(0, 1, 0, 1);
-    FontRendererCache.singleton.get("Arial-BOLD-72").draw("Hello");
+    glScaled(1, -1, 1);
+    FontRendererCache.singleton.get("Arial-BOLD-48").draw("Hello Thar!!");
   }
 }

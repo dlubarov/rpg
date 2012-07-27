@@ -5,8 +5,6 @@ import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.util.HashMap;
 import java.util.Map;
-import org.lwjgl.opengl.GLContext;
-import rpg.util.Logger;
 
 public final class TextureReleaser {
   private TextureReleaser() {}

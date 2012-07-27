@@ -10,14 +10,13 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.Util;
 import org.lwjgl.util.glu.GLU;
 import rpg.client.gfx.TextureReleaser;
+import rpg.client.gfx.win.RootWindow;
 import rpg.client.mode.ModeManager;
 import rpg.core.Info;
 import rpg.net.NetConfig;
 import rpg.util.Logger;
 
 import static org.lwjgl.opengl.GL11.GL_BLEND;
-import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
 import static org.lwjgl.opengl.GL11.GL_MODELVIEW;
 import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
@@ -25,7 +24,6 @@ import static org.lwjgl.opengl.GL11.GL_PROJECTION;
 import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL11.glBlendFunc;
-import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL11.glLoadIdentity;
@@ -53,6 +51,7 @@ public final class Client {
   }
 
   private static void lwjglSetup() throws LWJGLException {
+    System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
     Display.setTitle(Info.name);
     Display.setResizable(false);
     Display.setDisplayMode(new DisplayMode(640, 480));
@@ -112,8 +111,6 @@ public final class Client {
   }
 
   private static void render() {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     GLU.gluPerspective(60,
@@ -127,7 +124,7 @@ public final class Client {
         0, 0, 0,
         0, 1, 0);
 
-    ModeManager.getCurrentMode().render();
+    RootWindow.singleton.render();
     Util.checkGLError();
   }
 }
