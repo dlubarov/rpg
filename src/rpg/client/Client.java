@@ -10,7 +10,7 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.Util;
 import org.lwjgl.util.glu.GLU;
 import rpg.client.gfx.TextureReleaser;
-import rpg.client.gfx.win.RootWindow;
+import rpg.client.gfx.winow.RootWindow;
 import rpg.client.mode.ModeManager;
 import rpg.core.Info;
 import rpg.net.NetConfig;

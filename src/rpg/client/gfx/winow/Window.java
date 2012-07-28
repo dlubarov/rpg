@@ -1,4 +1,4 @@
-package rpg.client.gfx.win;
+package rpg.client.gfx.winow;
 
 import rpg.client.gfx.GraphicsMode;
 

@@ -1,4 +1,4 @@
-package rpg.client.gfx.win;
+package rpg.client.gfx.winow;
 
 import org.lwjgl.opengl.Display;
 import rpg.client.mode.ModeManager;

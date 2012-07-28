@@ -31,7 +31,6 @@ public class FontRenderer {
     GlyphVector vector = font.layoutGlyphVector(
         currentPage.renderContext, // TODO: weird to use currentPage
         chars, 0, chars.length, Font.LAYOUT_LEFT_TO_RIGHT);
-    // FIXME finish
     for (int glyphIndex = 0; glyphIndex < vector.getNumGlyphs(); ++glyphIndex) {
       int charIndex = vector.getGlyphCharIndex(glyphIndex);
       int codePoint = s.codePointAt(charIndex);

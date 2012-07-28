@@ -1,4 +1,4 @@
-package rpg.client.gfx.win;
+package rpg.client.gfx.winow;
 
 import static org.lwjgl.opengl.GL11.GL_QUADS;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
