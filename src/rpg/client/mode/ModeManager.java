@@ -3,7 +3,12 @@ package rpg.client.mode;
 public final class ModeManager {
   private ModeManager() {}
 
-  private static Mode currentMode = new LoginMode();
+  private static Mode currentMode;
+
+  static {
+    currentMode = new LoginMode();
+    currentMode.onEnter();
+  }
 
   public static Mode getCurrentMode() {
     return currentMode;

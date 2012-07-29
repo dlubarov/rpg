@@ -1,19 +1,15 @@
-package rpg.client.gfx.winow;
+package rpg.client.gfx.widget.winow;
 
 import org.lwjgl.opengl.Display;
+import rpg.client.gfx.GraphicsMode;
 import rpg.client.mode.ModeManager;
 import rpg.core.Info;
-
-import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.glClear;
-import static org.lwjgl.opengl.GL11.glClearColor;
 
 public final class RootWindow extends Window {
   public static final RootWindow singleton = new RootWindow();
 
   private RootWindow() {
-    super(Info.name);
+    super(Info.name, new CloseButton());
   }
 
   @Override
@@ -37,13 +33,10 @@ public final class RootWindow extends Window {
   }
 
   @Override
-  protected void renderBackground() {
-    glClearColor(1, .7f, .7f, 0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  }
-
-  @Override
   protected void renderContent() {
+    GraphicsMode.end2D();
     ModeManager.getCurrentMode().render();
+    GraphicsMode.start2D();
+    ChildManager.singleton.render();
   }
 }

@@ -30,7 +30,7 @@ import static org.lwjgl.opengl.GL11.glGetInteger;
 // TODO: Clean up.
 final class GlyphPage {
   private static final int MAX_TEXTURE_SIZE = 256; // TODO: increase
-  private static final int PADDING = 5;
+  private static final int PADDING = 8;
   private static final int SIZE;
 
   static {
@@ -75,7 +75,7 @@ final class GlyphPage {
       Logger.error("Character %c of font %s is too large.", c, font);
     boolean newRow = x + w >= SIZE;
     if (newRow) {
-      x = 0;
+      x = PADDING;
       y += rowHeight + PADDING;
       if (y + h > SIZE) {
         markAsFull();
@@ -108,7 +108,7 @@ final class GlyphPage {
     graphics.drawRect(x, y, w, h);
     try {
       // FIXME: remove!!!! temporary!
-      ImageIO.write(image, "png", new File("scratch.png"));
+      ImageIO.write(image, "png", new File(font.getFontName() + ".png"));
     } catch (IOException e) {
       e.printStackTrace();
     }

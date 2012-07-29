@@ -1,21 +1,15 @@
 package rpg.client.mode;
 
 import org.lwjgl.input.Keyboard;
-import rpg.client.gfx.GraphicsMode;
 import rpg.client.gfx.Texture;
 import rpg.client.gfx.TextureCache;
-import rpg.client.gfx.font.FontRendererCache;
+import rpg.client.gfx.widget.ConstantLabel;
+import rpg.client.gfx.widget.winow.ChildWindow;
+import rpg.client.gfx.widget.winow.CloseButton;
 import rpg.core.Info;
 import rpg.msg.Message;
 import rpg.msg.c2s.LoginRequestMessage;
 import rpg.net.ToServerMessageSink;
-
-import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.glColor4f;
-import static org.lwjgl.opengl.GL11.glDisable;
-import static org.lwjgl.opengl.GL11.glScaled;
-import static org.lwjgl.opengl.GL11.glTranslated;
 
 public class LoginMode extends Mode {
   private String email = "", password = "";
@@ -23,6 +17,8 @@ public class LoginMode extends Mode {
   @Override
   public void onEnter() {
     Keyboard.enableRepeatEvents(true);
+    new ChildWindow("Login", new ConstantLabel("Username"), new CloseButton());
+    new ChildWindow("Register", new ConstantLabel("Username"), new CloseButton());
   }
 
   @Override
@@ -61,10 +57,5 @@ public class LoginMode extends Mode {
     texApple.bind01();
     glVertex3i(0, 0, 2);
     glEnd();*/
-
-    GraphicsMode.start2D();
-    glTranslated(200, 200, 0);
-    FontRendererCache.singleton.get("Arial-BOLD-32").draw(email);
-    GraphicsMode.end2D();
   }
 }

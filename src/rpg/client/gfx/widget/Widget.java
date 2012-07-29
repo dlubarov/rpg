@@ -1,7 +1,7 @@
 package rpg.client.gfx.widget;
 
 public abstract class Widget {
-  private Bounds bounds;
+  protected Bounds bounds;
 
   public void setBounds(Bounds bounds) {
     this.bounds = bounds;

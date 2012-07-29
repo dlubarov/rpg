@@ -1,7 +1,10 @@
 package rpg.client.gfx.widget;
 
-import rpg.client.gfx.GraphicsMode;
 import rpg.client.gfx.font.FontRendererCache;
+
+import static org.lwjgl.opengl.GL11.glPopMatrix;
+import static org.lwjgl.opengl.GL11.glPushMatrix;
+import static org.lwjgl.opengl.GL11.glTranslated;
 
 public abstract class Label extends Widget {
   protected abstract String getContent();
@@ -30,8 +33,9 @@ public abstract class Label extends Widget {
 
   @Override
   public void render() {
-    GraphicsMode.start2D();
-    FontRendererCache.singleton.get("Arial-BOLD-32").draw(getContent());
-    GraphicsMode.end2D();
+    glPushMatrix();
+    glTranslated(bounds.x1(), bounds.y2(), 0);
+    FontRendererCache.singleton.get("Arial-32").draw(getContent());
+    glPopMatrix();
   }
 }
