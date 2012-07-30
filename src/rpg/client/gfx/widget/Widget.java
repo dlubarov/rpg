@@ -14,4 +14,8 @@ public abstract class Widget {
   public abstract boolean stretchVertically();
 
   public abstract void render();
+
+  public Widget pad(int amount) {
+    return new FixedPadding(this, amount);
+  }
 }

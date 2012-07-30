@@ -23,7 +23,7 @@ public class HBox extends Widget {
       child.setBounds(new Bounds(x, bounds.y1(), x + w, bounds.y2()));
       x += w;
     }
-    assert x == bounds.w();
+    assert x == bounds.x2() : x + " != " + bounds.x2();
   }
 
   @Override

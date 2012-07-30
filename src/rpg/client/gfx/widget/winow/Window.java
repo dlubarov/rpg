@@ -1,9 +1,11 @@
 package rpg.client.gfx.widget.winow;
 
+import java.awt.Color;
 import rpg.client.gfx.ColorUtil;
+import rpg.client.gfx.font.Alignment;
+import rpg.client.gfx.font.FontRenderer;
 import rpg.client.gfx.font.FontRendererCache;
 import rpg.client.gfx.widget.Bounds;
-import rpg.util.Logger;
 
 import static org.lwjgl.opengl.GL11.GL_LINES;
 import static org.lwjgl.opengl.GL11.GL_QUADS;
@@ -14,22 +16,23 @@ import static org.lwjgl.opengl.GL11.glColor3f;
 import static org.lwjgl.opengl.GL11.glDisable;
 import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL11.glEnd;
-import static org.lwjgl.opengl.GL11.glPopMatrix;
-import static org.lwjgl.opengl.GL11.glPushMatrix;
-import static org.lwjgl.opengl.GL11.glTranslatef;
 import static org.lwjgl.opengl.GL11.glVertex2d;
 import static org.lwjgl.opengl.GL11.glVertex2i;
 
 public abstract class Window {
+  private static final FontRenderer fontRenderer = FontRendererCache.singleton.get("Arial-BOLD-14");
+
   protected static final int BAR_HEIGHT = 20;
 
-  public String caption;
   private Button[] buttons;
 
-  protected Window(String caption, Button... buttons) {
-    this.caption = caption;
+  protected Window(Button... buttons) {
     this.buttons = buttons;
   }
+
+  public abstract String getCaption();
+
+  public abstract boolean isFocused();
 
   protected abstract int x1();
   protected abstract int y1();
@@ -46,6 +49,20 @@ public abstract class Window {
 
   protected final int y3() {
     return y1() + BAR_HEIGHT + contentH();
+  }
+
+  protected final int totalH() {
+    return BAR_HEIGHT + contentH();
+  }
+
+  public boolean inWindow(int x, int y) {
+    return x1() <= x && x <= x2()
+        && y1() <= y && y <= y3();
+  }
+
+  public boolean inTitleBar(int x, int y) {
+    return x1() <= x && x <= x2()
+        && y1() <= y && y <= y2();
   }
 
   protected abstract void renderContent();
@@ -78,15 +95,19 @@ public abstract class Window {
   private void renderBar() {
     double sat = .4, val = 1;
     glDisable(GL_TEXTURE_2D);
-    glColor3d(1, .7, 1);
+    glColor3d(.7, .7, .7);
     glBegin(GL_QUADS);
-    ColorUtil.bindColor(ColorUtil.phaseColor(sat, val, 0.00));
+    if (isFocused())
+      ColorUtil.bindColor(ColorUtil.phaseColor(sat, val, 0.00));
     glVertex2i(x1(), y1());
-    ColorUtil.bindColor(ColorUtil.phaseColor(sat, val, 0.25));
+    if (isFocused())
+      ColorUtil.bindColor(ColorUtil.phaseColor(sat, val, 0.25));
     glVertex2i(x1(), y2());
-    ColorUtil.bindColor(ColorUtil.phaseColor(sat, val, 0.50));
+    if (isFocused())
+      ColorUtil.bindColor(ColorUtil.phaseColor(sat, val, 0.50));
     glVertex2i(x2(), y2());
-    ColorUtil.bindColor(ColorUtil.phaseColor(sat, val, 0.75));
+    if (isFocused())
+      ColorUtil.bindColor(ColorUtil.phaseColor(sat, val, 0.75));
     glVertex2i(x2(), y1());
     glEnd();
     glEnable(GL_TEXTURE_2D);
@@ -94,15 +115,13 @@ public abstract class Window {
 
   protected void renderCaption() {
     glColor3f(0, 0, 0);
-    glPushMatrix();
-    glTranslatef(x1(), y2() - 4, 0);
-    FontRendererCache.singleton.get("Arial-BOLD-18").draw(caption);
-    glPopMatrix();
+    fontRenderer.draw(getCaption(), Color.WHITE,
+        x1(), y2() - 4, contentW(), Alignment.CENTER_ALIGNED);
   }
 
   private void renderOutline() {
     glDisable(GL_TEXTURE_2D);
-    glColor3d(.7, .7, .7);
+    glColor3d(.5, .5, .5);
     glBegin(GL_LINES);
 
     // Horizontal lines.

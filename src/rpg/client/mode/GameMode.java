@@ -1,5 +1,6 @@
 package rpg.client.mode;
 
+import rpg.client.gfx.GraphicsMode;
 import rpg.math.AAB;
 import rpg.math.Vector3;
 import rpg.phys.BodyOctree;
@@ -33,11 +34,21 @@ public class GameMode extends Mode {
 
   @Override
   public void render() {
+    GraphicsMode.end2D();
+    drawScene();
+    GraphicsMode.start2D();
+    drawHUD();
+  }
+
+  private void drawScene() {
     glColor3f(1, 0, 0);
     glBegin(GL_TRIANGLES);
     glVertex3i(0, 0, 0);
     glVertex3i(2, 0, 0);
     glVertex3i(0, 0, 2);
     glEnd();
+  }
+
+  private void drawHUD() {
   }
 }

@@ -1,20 +1,21 @@
 package rpg.client.gfx.widget.winow;
 
+import org.lwjgl.opengl.Display;
 import rpg.client.gfx.widget.Bounds;
 import rpg.client.gfx.widget.Widget;
 import rpg.util.Logger;
 
 public final class ChildWindow extends Window {
+  private final String caption;
   private final Widget content;
   private int x1, y1;
 
   public ChildWindow(String caption, Widget content, int x1, int y1, Button... buttons) {
-    super(caption, buttons);
+    super(buttons);
+    this.caption = caption;
     Logger.info("New child window: %s", caption);
     this.content = content;
-    this.x1 = x1;
-    this.y1 = y1;
-    content.setBounds(new Bounds(x1(), y2(), x2(), y3()));
+    moveTo(x1, y1);
     show();
   }
 
@@ -26,11 +27,31 @@ public final class ChildWindow extends Window {
   }
 
   public void show() {
-    ChildManager.singleton.addChild(this);
+    WindowManager.singleton.addChild(this);
   }
 
   public void hide() {
-    ChildManager.singleton.removeChild(this);
+    WindowManager.singleton.removeChild(this);
+  }
+
+  public void moveTo(int x1, int y1) {
+    x1 = Math.max(x1, 0);
+    y1 = Math.max(y1, BAR_HEIGHT);
+    x1 = Math.min(x1, RootWindow.singleton.contentW() - contentW());
+    y1 = Math.min(y1, RootWindow.singleton.totalH() - totalH());
+    this.x1 = x1;
+    this.y1 = y1;
+    content.setBounds(new Bounds(x1(), y2(), x2(), y3()));
+  }
+
+  @Override
+  public String getCaption() {
+    return caption;
+  }
+
+  @Override
+  public boolean isFocused() {
+    return this == WindowManager.singleton.getFocusedWindow();
   }
 
   @Override

@@ -1,12 +1,14 @@
 package rpg.client.mode;
 
+import rpg.client.mode.menu.MenuMode;
+
 public final class ModeManager {
   private ModeManager() {}
 
   private static Mode currentMode;
 
   static {
-    currentMode = new LoginMode();
+    currentMode = new MenuMode();
     currentMode.onEnter();
   }
 

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphMetrics;
 import java.awt.font.GlyphVector;
@@ -30,7 +31,7 @@ import static org.lwjgl.opengl.GL11.glGetInteger;
 // TODO: Clean up.
 final class GlyphPage {
   private static final int MAX_TEXTURE_SIZE = 256; // TODO: increase
-  private static final int PADDING = 8;
+  private static final int PADDING = 2;
   private static final int SIZE;
 
   static {
@@ -67,6 +68,7 @@ final class GlyphPage {
     GlyphVector vector = font.createGlyphVector(renderContext, new char[] {c});
     GlyphMetrics metrics = vector.getGlyphMetrics(0);
     Rectangle bounds = vector.getGlyphPixelBounds(0, renderContext, 0, 0);
+    Shape shape = vector.getGlyphOutline(0, x - bounds.x, y - bounds.y);
     int w = (int) (bounds.getWidth()
           - Math.min(metrics.getLSB(), 0)
           - Math.min(metrics.getRSB(), 0)),
@@ -90,8 +92,11 @@ final class GlyphPage {
     //graphics.fillRect(0, 0, w, h);
     //graphics.setComposite(AlphaComposite.SrcOver);
     graphics.setColor(Color.WHITE);
-    graphics.setFont(font);
-    graphics.drawString(Character.toString(c), x, y + h);
+    graphics.fill(shape);
+    //graphics.setFont(font);
+    //graphics.drawString(Character.toString(c),
+    //    x - bounds.x,
+    //    y + h);
 
     /*WritableRaster raster = image.getRaster();
     int[] row = new int[w];

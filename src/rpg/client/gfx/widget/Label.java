@@ -1,24 +1,22 @@
 package rpg.client.gfx.widget;
 
+import java.awt.Color;
+import rpg.client.gfx.font.FontRenderer;
 import rpg.client.gfx.font.FontRendererCache;
 
-import static org.lwjgl.opengl.GL11.glPopMatrix;
-import static org.lwjgl.opengl.GL11.glPushMatrix;
-import static org.lwjgl.opengl.GL11.glTranslated;
-
 public abstract class Label extends Widget {
+  private static final FontRenderer fontRenderer = FontRendererCache.singleton.get("Arial-12");
+
   protected abstract String getContent();
 
   @Override
   public int getMinWidth() {
-    // FIXME: hardcoded width
-    return getContent().length() * 40;
+    return fontRenderer.getWidth(getContent());
   }
 
   @Override
   public int getMinHeight() {
-    // FIXME: hardcoded height
-    return 60;
+    return fontRenderer.getHeight();
   }
 
   @Override
@@ -33,9 +31,6 @@ public abstract class Label extends Widget {
 
   @Override
   public void render() {
-    glPushMatrix();
-    glTranslated(bounds.x1(), bounds.y2(), 0);
-    FontRendererCache.singleton.get("Arial-32").draw(getContent());
-    glPopMatrix();
+    fontRenderer.draw(getContent(), Color.BLACK, bounds.x1(), bounds.y2());
   }
 }

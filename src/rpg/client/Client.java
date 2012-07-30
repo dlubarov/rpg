@@ -12,6 +12,8 @@ import org.lwjgl.util.glu.GLU;
 import rpg.client.gfx.GraphicsMode;
 import rpg.client.gfx.TextureReleaser;
 import rpg.client.gfx.widget.winow.RootWindow;
+import rpg.client.gfx.widget.winow.WindowManager;
+import rpg.client.mode.Mode;
 import rpg.client.mode.ModeManager;
 import rpg.core.Info;
 import rpg.net.NetConfig;
@@ -19,6 +21,7 @@ import rpg.util.Logger;
 
 import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.GL_COLOR_MATERIAL;
+import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
 import static org.lwjgl.opengl.GL11.GL_MODELVIEW;
 import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
@@ -26,6 +29,7 @@ import static org.lwjgl.opengl.GL11.GL_PROJECTION;
 import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL11.glBlendFunc;
+import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL11.glLoadIdentity;
 import static org.lwjgl.opengl.GL11.glMatrixMode;
@@ -57,6 +61,7 @@ public final class Client {
     Display.setResizable(false);
     Display.setDisplayMode(new DisplayMode(640, 480));
     Display.create();
+    Keyboard.enableRepeatEvents(true);
     //Mouse.setGrabbed(true);
   }
 
@@ -71,18 +76,12 @@ public final class Client {
   private static void mainLoop() {
     while (!Display.isCloseRequested()) {
       FPSManager.newFrame();
-      Display.setTitle(getCaption());
       logic();
       render();
       Display.update();
       TextureReleaser.releaseDeadTextures();
       Display.sync(FPSManager.targetFPS);
     }
-  }
-
-  private static String getCaption() {
-    return String.format("%s v%s [%d FPS]",
-        Info.name, Info.getVersionString(), FPSManager.getFps());
   }
 
   private static void logic() {
@@ -114,19 +113,24 @@ public final class Client {
   private static void mouseLogic() {
     while (Mouse.next()) {
       boolean down = Mouse.getEventButtonState();
-      if (!down)
-        continue;
-
+      int button = Mouse.getEventButton();
       int x = Mouse.getEventX(),
           y = Display.getHeight() - Mouse.getEventY();
-      int button = Mouse.getEventButton();
-      switch (button) {
-        case 0:
-          ModeManager.getCurrentMode().onLeftMouse(x, y);
-          break;
-        case 1:
-          ModeManager.getCurrentMode().onRightMouse(x, y);
-          break;
+      if (button == 0)
+        if (down)
+          WindowManager.singleton.onLeftMouseDown(x, y);
+        else
+          WindowManager.singleton.onLeftMouseUp(x, y);
+      if (down) {
+        Mode mode = ModeManager.getCurrentMode();
+        switch (button) {
+          case 0:
+            mode.onLeftMouse(x, y);
+            break;
+          case 1:
+            mode.onRightMouse(x, y);
+            break;
+        }
       }
     }
   }
@@ -140,11 +144,8 @@ public final class Client {
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    GLU.gluLookAt(
-        151, 151, 151,
-        0, 0, 0,
-        0, 1, 0);
 
+    glClear(GL_DEPTH_BUFFER_BIT);
     GraphicsMode.start2D();
     RootWindow.singleton.render();
     GraphicsMode.end2D();

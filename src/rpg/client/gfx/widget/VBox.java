@@ -23,7 +23,7 @@ public class VBox extends Widget {
       child.setBounds(new Bounds(bounds.x1(), y, bounds.x2(), y + h));
       y += h;
     }
-    assert y == bounds.h();
+    assert y == bounds.y2() : y + " != " + bounds.y2();
   }
 
   @Override

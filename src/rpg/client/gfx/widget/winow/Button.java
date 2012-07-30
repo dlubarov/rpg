@@ -24,7 +24,7 @@ public abstract class Button {
   }
 
   public void renderBackground(Bounds bounds) {
-    glColor3d(1, .5, .5);
+    glColor3d(1, .7, .7);
     glBegin(GL_QUADS);
     glVertex2i(bounds.x1(), bounds.y1());
     glVertex2i(bounds.x1(), bounds.y2());

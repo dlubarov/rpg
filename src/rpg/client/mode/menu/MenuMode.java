@@ -1,30 +1,36 @@
-package rpg.client.mode;
+package rpg.client.mode.menu;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.util.glu.GLU;
+import rpg.client.gfx.GraphicsMode;
 import rpg.client.gfx.Texture;
 import rpg.client.gfx.TextureCache;
-import rpg.client.gfx.widget.ConstantLabel;
-import rpg.client.gfx.widget.winow.ChildWindow;
-import rpg.client.gfx.widget.winow.CloseButton;
+import rpg.client.mode.Mode;
 import rpg.core.Info;
 import rpg.msg.Message;
 import rpg.msg.c2s.LoginRequestMessage;
 import rpg.net.ToServerMessageSink;
 
-public class LoginMode extends Mode {
+import static org.lwjgl.opengl.GL11.GL_QUADS;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.glBegin;
+import static org.lwjgl.opengl.GL11.glColor3f;
+import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glEnd;
+import static org.lwjgl.opengl.GL11.glVertex3i;
+
+public class MenuMode extends Mode {
   private String email = "", password = "";
 
   @Override
   public void onEnter() {
-    Keyboard.enableRepeatEvents(true);
-    new ChildWindow("Login", new ConstantLabel("Username"), new CloseButton());
-    new ChildWindow("Register", new ConstantLabel("Username"), new CloseButton());
+    Registration.createWindow();
+    Login.createWindow();
   }
 
   @Override
   public void onKeyDown(int key) {
     Keyboard.enableRepeatEvents(true);
-    System.out.println(Keyboard.areRepeatEventsEnabled());
     switch (key) {
       case Keyboard.KEY_BACK:
         if (email.length() > 0)
@@ -45,17 +51,24 @@ public class LoginMode extends Mode {
 
   @Override
   public void render() {
+    GraphicsMode.end2D();
+    GLU.gluLookAt(1, 50, 0,
+        0, 0, 0,
+        0, 1, 0);
+    glEnable(GL_TEXTURE_2D);
     Texture texApple = TextureCache.singleton.get("elephant");
-    /*texApple.bind();
+    texApple.bind();
     glBegin(GL_QUADS);
+    glColor3f(1, 0, 0);
     texApple.bind00();
-    glVertex3i(0, 0, 0);
+    glVertex3i(-14, 0, -14);
     texApple.bind10();
-    glVertex3i(2, 0, 0);
+    glVertex3i(14, 0, -14);
     texApple.bind11();
-    glVertex3i(2, 0, 2);
+    glVertex3i(14, 0, 14);
     texApple.bind01();
-    glVertex3i(0, 0, 2);
-    glEnd();*/
+    glVertex3i(-14, 0, 14);
+    glEnd();
+    GraphicsMode.start2D();
   }
 }

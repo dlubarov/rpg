@@ -1,9 +1,9 @@
 package rpg.client.handlers;
 
 import rpg.client.mode.CharacterSelectMode;
-import rpg.client.mode.LoginMode;
 import rpg.client.mode.Mode;
 import rpg.client.mode.ModeManager;
+import rpg.client.mode.menu.MenuMode;
 import rpg.msg.s2c.CharacterInfoMessage;
 import rpg.util.Logger;
 
@@ -15,12 +15,12 @@ public class CharacterInfoHandler extends Handler<CharacterInfoMessage> {
   @Override
   public void handle(CharacterInfoMessage msg) {
     Mode mode = ModeManager.getCurrentMode();
-    if (!(mode instanceof LoginMode)) {
+    if (!(mode instanceof MenuMode)) {
       Logger.warning("Recieved %s while in %s", msg, mode);
       return;
     }
 
-    LoginMode loginMode = (LoginMode) mode;
+    MenuMode menuMode = (MenuMode) mode;
     CharacterSelectMode characterSelectMode = new CharacterSelectMode(msg.parts);
     ModeManager.switchTo(characterSelectMode);
   }
