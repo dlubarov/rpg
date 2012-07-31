@@ -9,7 +9,7 @@ public final class ChildWindow extends Window {
   private final Widget content;
   private int x1, y1;
 
-  public ChildWindow(String caption, Widget content, int x1, int y1, Button... buttons) {
+  public ChildWindow(String caption, Widget content, int x1, int y1, WindowButton... buttons) {
     super(buttons);
     this.caption = caption;
     Logger.info("New child window: %s", caption);
@@ -18,7 +18,7 @@ public final class ChildWindow extends Window {
     show();
   }
 
-  public ChildWindow(String caption, Widget content, Button... buttons) {
+  public ChildWindow(String caption, Widget content, WindowButton... buttons) {
     this(caption, content,
         (RootWindow.singleton.contentW() - content.getMinWidth()) / 2,
         (RootWindow.singleton.contentH() - content.getMinHeight()) / 2,

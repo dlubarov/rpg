@@ -81,7 +81,6 @@ public class WindowManager {
     if (draggedWindow != null) {
       int mouseX = Mouse.getX(),
           mouseY = Display.getHeight() - Mouse.getY();
-      System.out.println(mouseX + ", " + mouseY);
       if (draggedWindow instanceof RootWindow) {
         int dx = mouseX - dragX,
             dy = mouseY - dragY;

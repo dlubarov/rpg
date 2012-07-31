@@ -42,10 +42,8 @@ public class MenuMode extends Mode {
         break;
       default:
         char c = Keyboard.getEventCharacter();
-        System.out.printf("%d %d\n", (int) c, Keyboard.CHAR_NONE);
-        if (c != Keyboard.CHAR_NONE) {
+        if (c != Keyboard.CHAR_NONE)
           email += c;
-        }
     }
   }
 

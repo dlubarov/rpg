@@ -24,9 +24,9 @@ public abstract class Window {
 
   protected static final int BAR_HEIGHT = 20;
 
-  private Button[] buttons;
+  private WindowButton[] buttons;
 
-  protected Window(Button... buttons) {
+  protected Window(WindowButton... buttons) {
     this.buttons = buttons;
   }
 
@@ -116,7 +116,7 @@ public abstract class Window {
   protected void renderCaption() {
     glColor3f(0, 0, 0);
     fontRenderer.draw(getCaption(), Color.WHITE,
-        x1(), y2() - 4, contentW(), Alignment.CENTER_ALIGNED);
+        x1(), y2() - 5, contentW(), Alignment.CENTER_ALIGNED);
   }
 
   private void renderOutline() {
@@ -145,7 +145,7 @@ public abstract class Window {
   private void renderButtons() {
     int pad = 3, size = BAR_HEIGHT - 2 * pad;
     int x = x2() - pad;
-    for (Button b : buttons) {
+    for (WindowButton b : buttons) {
       Bounds bounds = new Bounds(x - size, y1() + pad, x, y2() - pad);
       b.render(bounds);
       x -= size + pad;

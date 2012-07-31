@@ -8,7 +8,7 @@ import static org.lwjgl.opengl.GL11.glColor3d;
 import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glVertex2i;
 
-public class CloseButton extends Button {
+public class CloseButton extends WindowButton {
   @Override
   public void renderContent(Bounds bounds) {
     int pad = 3;

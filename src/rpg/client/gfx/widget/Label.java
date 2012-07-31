@@ -5,7 +5,7 @@ import rpg.client.gfx.font.FontRenderer;
 import rpg.client.gfx.font.FontRendererCache;
 
 public abstract class Label extends Widget {
-  private static final FontRenderer fontRenderer = FontRendererCache.singleton.get("Arial-12");
+  private static final FontRenderer fontRenderer = FontRendererCache.singleton.get("Arial-13");
 
   protected abstract String getContent();
 

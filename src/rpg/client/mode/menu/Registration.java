@@ -1,6 +1,8 @@
 package rpg.client.mode.menu;
 
+import rpg.client.gfx.widget.Button;
 import rpg.client.gfx.widget.ConstantLabel;
+import rpg.client.gfx.widget.FixedHSpace;
 import rpg.client.gfx.widget.FixedVSpace;
 import rpg.client.gfx.widget.TextBox;
 import rpg.client.gfx.widget.VBox;
@@ -13,6 +15,7 @@ public final class Registration {
 
   public static Widget getContent() {
     return new VBox(
+        new FixedHSpace(120),
         new ConstantLabel("Username"),
         new FixedVSpace(2),
         new TextBox(),
@@ -23,7 +26,9 @@ public final class Registration {
         new FixedVSpace(15),
         new ConstantLabel("Confirm"),
         new FixedVSpace(2),
-        new TextBox()
+        new TextBox(),
+        new FixedVSpace(15),
+        new Button("Register")
     ).pad(10);
   }
 

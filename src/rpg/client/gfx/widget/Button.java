@@ -1,6 +1,7 @@
 package rpg.client.gfx.widget;
 
 import java.awt.Color;
+import rpg.client.gfx.font.Alignment;
 import rpg.client.gfx.font.FontRenderer;
 import rpg.client.gfx.font.FontRendererCache;
 
@@ -16,19 +17,15 @@ import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glVertex2d;
 import static org.lwjgl.opengl.GL11.glVertex2i;
 
-public class TextBox extends Widget {
-  private static final int PAD_TOP = 2, PAD_BOTTOM = 5, PAD_SIDE = 3;
+public class Button extends Widget {
+  private static final int PAD_TOP = 2, PAD_BOTTOM = 5;
 
-  private static final FontRenderer fontRenderer = FontRendererCache.singleton.get("Arial-13");
+  private static final FontRenderer fontRenderer = FontRendererCache.singleton.get("Arial-BOLD-12");
 
-  private String content;
+  private final String content;
 
-  public TextBox(String initialContent) {
-    content = initialContent;
-  }
-
-  public TextBox() {
-    this("abcdefg");
+  public Button(String content) {
+    this.content = content;
   }
 
   @Override
@@ -72,7 +69,6 @@ public class TextBox extends Widget {
     glEnable(GL_TEXTURE_2D);
 
     fontRenderer.draw(content, Color.BLACK,
-        bounds.x1() + PAD_SIDE,
-        bounds.y2() - PAD_BOTTOM);
+        bounds.x1(), bounds.y2() - PAD_BOTTOM, bounds.w(), Alignment.CENTER_ALIGNED);
   }
 }

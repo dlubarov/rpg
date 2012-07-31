@@ -12,7 +12,7 @@ import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glVertex2d;
 import static org.lwjgl.opengl.GL11.glVertex2i;
 
-public abstract class Button {
+public abstract class WindowButton {
   public abstract void renderContent(Bounds bounds);
 
   public void render(Bounds bounds) {
