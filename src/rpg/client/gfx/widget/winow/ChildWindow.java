@@ -1,6 +1,5 @@
 package rpg.client.gfx.widget.winow;
 
-import org.lwjgl.opengl.Display;
 import rpg.client.gfx.widget.Bounds;
 import rpg.client.gfx.widget.Widget;
 import rpg.util.Logger;

@@ -11,7 +11,7 @@ import static org.lwjgl.opengl.GL11.glVertex2i;
 public class CloseButton extends Button {
   @Override
   public void renderContent(Bounds bounds) {
-    int pad = 4;
+    int pad = 3;
     glColor3d(.5, .5, .5);
     bounds = new Bounds(bounds.x1() + pad, bounds.y1() + pad, bounds.x2() - pad, bounds.y2() - pad);
     glBegin(GL_LINES);

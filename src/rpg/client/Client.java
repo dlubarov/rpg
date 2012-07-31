@@ -57,6 +57,7 @@ public final class Client {
 
   private static void lwjglSetup() throws LWJGLException {
     System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
+    System.setProperty("org.lwjgl.input.Mouse.allowNegativeMouseCoords", "true");
     Display.setTitle(Info.name);
     Display.setResizable(false);
     Display.setDisplayMode(new DisplayMode(640, 480));

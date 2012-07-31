@@ -127,23 +127,23 @@ public abstract class Window {
     // Horizontal lines.
     glVertex2d(x1(), y1() + .5);
     glVertex2d(x2(), y1() + .5);
-    glVertex2d(x1(), y2() + .5);
-    glVertex2d(x2(), y2() + .5);
+    glVertex2d(x1(), y2() - .5);
+    glVertex2d(x2(), y2() - .5);
     glVertex2d(x1(), y3() - .5);
     glVertex2d(x2(), y3() - .5);
 
     // Vertical lines.
-    glVertex2d(x1() + .5, y1());
-    glVertex2d(x1() + .5, y3());
-    glVertex2d(x2() - .5, y1());
-    glVertex2d(x2() - .5, y3());
+    glVertex2d(x1() + .5, y1() + .5);
+    glVertex2d(x1() + .5, y3() - .5);
+    glVertex2d(x2() - .5, y1() + .5);
+    glVertex2d(x2() - .5, y3() - .5);
 
     glEnd();
     glEnable(GL_TEXTURE_2D);
   }
 
   private void renderButtons() {
-    int pad = 2, size = BAR_HEIGHT - 2 * pad;
+    int pad = 3, size = BAR_HEIGHT - 2 * pad;
     int x = x2() - pad;
     for (Button b : buttons) {
       Bounds bounds = new Bounds(x - size, y1() + pad, x, y2() - pad);

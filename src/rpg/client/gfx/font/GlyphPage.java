@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.IntBuffer;
-import javax.imageio.ImageIO;
 import rpg.client.gfx.Texture;
 import rpg.client.gfx.TextureLoader;
 import rpg.util.Logger;
@@ -111,12 +110,6 @@ final class GlyphPage {
     Glyph glyph = new Glyph(texture, x, y, w, h);
     graphics.setColor(Color.GREEN);
     graphics.drawRect(x, y, w, h);
-    try {
-      // FIXME: remove!!!! temporary!
-      ImageIO.write(image, "png", new File(font.getFontName() + ".png"));
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
     x += w + PADDING;
     return glyph;
   }

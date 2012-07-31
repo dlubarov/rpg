@@ -1,6 +1,5 @@
 package rpg.client.gfx.widget.winow;
 
-import java.awt.Color;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,15 +7,15 @@ import java.util.Deque;
 import java.util.List;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
-import rpg.client.gfx.font.FontRendererCache;
+import rpg.util.Logger;
 
 public class WindowManager {
   public static final WindowManager singleton = new WindowManager();
 
   private final Deque<ChildWindow> childWindows;
-
   private ChildWindow focusedWindow = null;
-  private ChildWindow draggedWindow = null;
+
+  private Window draggedWindow = null;
   private int dragX, dragY;
 
   private WindowManager() {
@@ -25,7 +24,7 @@ public class WindowManager {
 
   public void onLeftMouseDown(int x, int y) {
     // TODO: check buttons
-
+    draggedWindow = focusedWindow = null;
     for (ChildWindow window : childWindowsReversed())
       if (window.inWindow(x, y)) {
         bringToTop(window);
@@ -36,8 +35,13 @@ public class WindowManager {
         }
         return;
       }
-    focusedWindow = null;
-    // TODO: dragging of root window
+    if (RootWindow.singleton.inTitleBar(x, y)) {
+      draggedWindow = RootWindow.singleton;
+      dragX = Mouse.getX();
+      // win.x = (win.x + mouse.x - dragX)
+      dragY = Display.getHeight() - Mouse.getY();
+      Logger.info("Dragging from (%d, %d)", dragX, dragY);
+    }
   }
 
   private List<ChildWindow> childWindowsReversed() {
@@ -77,7 +81,16 @@ public class WindowManager {
     if (draggedWindow != null) {
       int mouseX = Mouse.getX(),
           mouseY = Display.getHeight() - Mouse.getY();
-      draggedWindow.moveTo(mouseX - dragX, mouseY - dragY);
+      System.out.println(mouseX + ", " + mouseY);
+      if (draggedWindow instanceof RootWindow) {
+        int dx = mouseX - dragX,
+            dy = mouseY - dragY;
+        //dx = Mouse.getDX();
+        //dy = -Mouse.getDY();
+        Display.setLocation(Display.getX() + dx, Display.getY() + dy);
+      } else {
+        ((ChildWindow) draggedWindow).moveTo(mouseX - dragX, mouseY - dragY);
+      }
     }
     for (ChildWindow window : childWindows)
       window.render();
