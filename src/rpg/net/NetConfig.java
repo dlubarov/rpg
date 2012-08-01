@@ -25,7 +25,7 @@ public final class NetConfig {
     }
   }
 
-  public static Set<Character> validUsernameChars = new HashSet<Character>();
+  public static final Set<Character> validUsernameChars = new HashSet<Character>();
 
   static {
     for (char c = 'a'; c <= 'z'; ++c)

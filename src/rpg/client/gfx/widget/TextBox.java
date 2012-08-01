@@ -28,7 +28,7 @@ public class TextBox extends Widget {
   }
 
   public TextBox() {
-    this("abcdefg");
+    this("");
   }
 
   @Override

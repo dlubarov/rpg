@@ -8,8 +8,8 @@ import rpg.math.Vector3;
 public final class BodyOctree extends Broadphase {
   private static final int MIN_SIZE = 3, MAX_SIZE = 8;
 
-  public final Vector3 center;
-  public final double radius;
+  private final Vector3 center;
+  private final double radius;
   private BodyOctree[] children = null;
   private final Collection<Body> bodies;
   private int size = 0;

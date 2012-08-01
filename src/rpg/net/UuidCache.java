@@ -8,8 +8,8 @@ import static java.lang.System.currentTimeMillis;
 /**
  * Used to ensure that we don't process duplicate UUIDs.
  */
-public final class UuidCache {
-  private UuidCache() {}
+public final class UUIDCache {
+  private UUIDCache() {}
 
   private static final int CAPACITY = 200;
   private static final long EXPIRATION_MS = 2000;
@@ -22,7 +22,7 @@ public final class UuidCache {
     }
   };
 
-  public static void addUuid(long uuid) {
+  public static void addUUID(long uuid) {
     synchronized (store) {
       // LinkedHashMap doesn't reorder upon reinsertion, so we have to remove and then insert.
       store.remove(uuid);
@@ -30,7 +30,7 @@ public final class UuidCache {
     }
   }
 
-  public static boolean recentSawUuid(long uuid) {
+  public static boolean recentSawUUID(long uuid) {
     Long timeSeen;
     synchronized (store) {
       timeSeen = store.get(uuid);

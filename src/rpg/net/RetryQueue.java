@@ -11,26 +11,26 @@ import rpg.msg.Message;
 public class RetryQueue {
   private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
-  private static final Set<Long> activeMessageUuids =
+  private static final Set<Long> activeMessageUUIDs =
       Collections.synchronizedSet(new HashSet<Long>());
 
   public static void startRetrying(Message msg, long uuid, int retries, long delayMillis) {
-    activeMessageUuids.add(uuid);
-    Retrier retrier = new Retrier(msg, uuid, delayMillis, retries);
-    scheduler.schedule(retrier, 0, TimeUnit.MILLISECONDS);
+    activeMessageUUIDs.add(uuid);
+    RetryJob retryJob = new RetryJob(msg, uuid, delayMillis, retries);
+    scheduler.schedule(retryJob, 0, TimeUnit.MILLISECONDS);
   }
 
   public static void stopRetrying(long uuid) {
-    activeMessageUuids.remove(uuid);
+    activeMessageUUIDs.remove(uuid);
   }
 
-  private static class Retrier implements Runnable {
+  private static class RetryJob implements Runnable {
     private final Message msg;
     private final long uuid;
     private final long delayMillis;
     private int retriesLeft;
 
-    private Retrier(Message msg, long uuid, long delayMillis, int retries) {
+    private RetryJob(Message msg, long uuid, long delayMillis, int retries) {
       this.msg = msg;
       this.uuid = uuid;
       this.delayMillis = delayMillis;
@@ -39,7 +39,7 @@ public class RetryQueue {
 
     @Override
     public void run() {
-      if (activeMessageUuids.contains(uuid)) {
+      if (activeMessageUUIDs.contains(uuid)) {
         sendOnce();
         if (--retriesLeft > 0)
           scheduleAnotherRun();
@@ -53,7 +53,7 @@ public class RetryQueue {
     }
 
     private void giveUp() {
-      activeMessageUuids.remove(uuid);
+      activeMessageUUIDs.remove(uuid);
     }
 
     private void sendOnce() {

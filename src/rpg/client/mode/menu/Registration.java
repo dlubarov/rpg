@@ -13,7 +13,7 @@ import rpg.client.gfx.widget.winow.CloseButton;
 public final class Registration {
   private Registration() {}
 
-  public static Widget getContent() {
+  private static Widget getContent() {
     return new VBox(
         new FixedHSpace(120),
         new ConstantLabel("Username"),

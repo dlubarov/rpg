@@ -2,8 +2,8 @@ package rpg.net;
 
 import java.util.Random;
 
-public final class UuidGenerator {
-  private UuidGenerator() {}
+public final class UUIDGenerator {
+  private UUIDGenerator() {}
 
   private static final Random rng = new Random();
 

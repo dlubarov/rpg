@@ -92,12 +92,10 @@ public final class Vector3 {
 
   @Override
   public boolean equals(Object o) {
-    try {
-      Vector3 that = (Vector3) o;
-      return x == that.x && y == that.y && z == that.z;
-    } catch (ClassCastException e) {
+    if (!(o instanceof Vector3))
       return false;
-    }
+    Vector3 that = (Vector3) o;
+    return x == that.x && y == that.y && z == that.z;
   }
 
   @Override

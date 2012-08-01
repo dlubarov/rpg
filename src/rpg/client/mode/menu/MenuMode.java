@@ -1,17 +1,11 @@
 package rpg.client.mode.menu;
 
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.glu.GLU;
 import rpg.client.gfx.GraphicsMode;
 import rpg.client.gfx.Texture;
 import rpg.client.gfx.TextureCache;
 import rpg.client.gfx.widget.winow.ChildWindow;
-import rpg.client.gfx.widget.winow.Window;
 import rpg.client.mode.Mode;
-import rpg.core.Info;
-import rpg.msg.Message;
-import rpg.msg.c2s.LoginRequestMessage;
-import rpg.net.ToServerMessageSink;
 
 import static org.lwjgl.opengl.GL11.GL_QUADS;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
@@ -22,7 +16,6 @@ import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glVertex3i;
 
 public class MenuMode extends Mode {
-  private String email = "", password = "";
   private ChildWindow loginWindow = null, registrationWindow = null;
 
   @Override
@@ -33,29 +26,8 @@ public class MenuMode extends Mode {
 
   @Override
   public void onExit() {
-    if (loginWindow != null)
-      loginWindow.hide();
-    if (registrationWindow != null)
-      registrationWindow.hide();
-  }
-
-  @Override
-  public void onKeyDown(int key) {
-    Keyboard.enableRepeatEvents(true);
-    switch (key) {
-      case Keyboard.KEY_BACK:
-        if (email.length() > 0)
-          email = email.substring(0, email.length() - 1);
-        break;
-      case Keyboard.KEY_RETURN:
-        Message loginMsg = new LoginRequestMessage(email, password, Info.versionParts);
-        ToServerMessageSink.singleton.sendWithConfirmation(loginMsg, 2);
-        break;
-      default:
-        char c = Keyboard.getEventCharacter();
-        if (c != Keyboard.CHAR_NONE)
-          email += c;
-    }
+    loginWindow.hide();
+    registrationWindow.hide();
   }
 
   @Override

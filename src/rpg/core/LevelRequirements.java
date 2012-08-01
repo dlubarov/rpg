@@ -6,22 +6,22 @@ import java.util.Map;
 import java.util.Set;
 
 public final class LevelRequirements {
-  private final Map<CombatStat, Integer> levelRequiremens;
+  private final Map<CombatStat, Integer> levelRequirements;
 
   public LevelRequirements() {
-    levelRequiremens = Collections.synchronizedMap(new HashMap<CombatStat, Integer>());
+    levelRequirements = Collections.synchronizedMap(new HashMap<CombatStat, Integer>());
   }
 
   public Set<CombatStat> getAffectedStats() {
-    return levelRequiremens.keySet();
+    return levelRequirements.keySet();
   }
 
   public int getRequirementFor(CombatStat stat) {
-    return levelRequiremens.get(stat);
+    return levelRequirements.get(stat);
   }
 
   public LevelRequirements setRequirement(CombatStat stat, int requiredLevel) {
-    levelRequiremens.put(stat, requiredLevel);
+    levelRequirements.put(stat, requiredLevel);
     return this;
   }
 
@@ -29,7 +29,7 @@ public final class LevelRequirements {
   public String toString() {
     StringBuilder sb = new StringBuilder("[");
     boolean first = true;
-    for (CombatStat stat : levelRequiremens.keySet()) {
+    for (CombatStat stat : levelRequirements.keySet()) {
       if (!first)
         sb.append(", ");
       sb.append(stat).append(" >= ").append(getRequirementFor(stat));

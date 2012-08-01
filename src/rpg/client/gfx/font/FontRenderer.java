@@ -64,6 +64,8 @@ public class FontRenderer {
     for (int glyphIndex = 0; glyphIndex < vector.getNumGlyphs(); ++glyphIndex) {
       int charIndex = vector.getGlyphCharIndex(glyphIndex);
       int codePoint = s.codePointAt(charIndex);
+      if (Character.isWhitespace(codePoint))
+        continue;
       Rectangle bounds = vector.getGlyphPixelBounds(glyphIndex, currentPage.renderContext, 0, 0);
       Glyph glyph = get((char) codePoint); // TODO: sacrifices proper unicode support
       glyph.texture.bind();

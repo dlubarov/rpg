@@ -29,6 +29,6 @@ public abstract class MessageSink {
   }
 
   public void sendWithConfirmation(Message msg, int retries) {
-    RetryQueue.startRetrying(msg, UuidGenerator.generate(), retries, RETRY_AFTER_MILLIS);
+    RetryQueue.startRetrying(msg, UUIDGenerator.generate(), retries, RETRY_AFTER_MILLIS);
   }
 }

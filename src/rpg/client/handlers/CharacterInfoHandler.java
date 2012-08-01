@@ -16,11 +16,10 @@ public class CharacterInfoHandler extends Handler<CharacterInfoMessage> {
   public void handle(CharacterInfoMessage msg) {
     Mode mode = ModeManager.getCurrentMode();
     if (!(mode instanceof MenuMode)) {
-      Logger.warning("Recieved %s while in %s", msg, mode);
+      Logger.warning("Received %s while in %s", msg, mode);
       return;
     }
 
-    MenuMode menuMode = (MenuMode) mode;
     CharacterSelectMode characterSelectMode = new CharacterSelectMode(msg.parts);
     ModeManager.switchTo(characterSelectMode);
   }

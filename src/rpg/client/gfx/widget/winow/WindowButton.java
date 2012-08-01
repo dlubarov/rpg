@@ -13,8 +13,6 @@ import static org.lwjgl.opengl.GL11.glVertex2d;
 import static org.lwjgl.opengl.GL11.glVertex2i;
 
 public abstract class WindowButton {
-  public abstract void renderContent(Bounds bounds);
-
   public void render(Bounds bounds) {
     glDisable(GL_TEXTURE_2D);
     renderBackground(bounds);
@@ -23,7 +21,7 @@ public abstract class WindowButton {
     glDisable(GL_TEXTURE_2D);
   }
 
-  public void renderBackground(Bounds bounds) {
+  protected void renderBackground(Bounds bounds) {
     glColor3d(1, .7, .7);
     glBegin(GL_QUADS);
     glVertex2i(bounds.x1(), bounds.y1());
@@ -33,7 +31,9 @@ public abstract class WindowButton {
     glEnd();
   }
 
-  public void renderBorder(Bounds bounds) {
+  protected abstract void renderContent(Bounds bounds);
+
+  protected void renderBorder(Bounds bounds) {
     glColor3d(.5, .5, .5);
     glBegin(GL_LINE_LOOP);
     glVertex2d(bounds.x1() + .5, bounds.y1() + .5);

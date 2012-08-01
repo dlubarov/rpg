@@ -77,12 +77,10 @@ public final class Vector2 {
 
   @Override
   public boolean equals(Object o) {
-    try {
-      Vector2 that = (Vector2) o;
-      return x == that.x && y == that.y;
-    } catch (ClassCastException e) {
+    if (!(o instanceof Vector2))
       return false;
-    }
+    Vector2 that = (Vector2) o;
+    return x == that.x && y == that.y;
   }
 
   @Override

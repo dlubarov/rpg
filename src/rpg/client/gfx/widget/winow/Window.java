@@ -24,7 +24,7 @@ public abstract class Window {
 
   protected static final int BAR_HEIGHT = 20;
 
-  private WindowButton[] buttons;
+  private final WindowButton[] buttons;
 
   protected Window(WindowButton... buttons) {
     this.buttons = buttons;
