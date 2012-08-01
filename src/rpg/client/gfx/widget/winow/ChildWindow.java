@@ -26,11 +26,11 @@ public final class ChildWindow extends Window {
   }
 
   public void show() {
-    WindowManager.singleton.addChild(this);
+    WindowManager.addChild(this);
   }
 
-  public void hide() {
-    WindowManager.singleton.removeChild(this);
+  public boolean hide() {
+    return WindowManager.removeChild(this);
   }
 
   public void moveTo(int x1, int y1) {
@@ -50,7 +50,7 @@ public final class ChildWindow extends Window {
 
   @Override
   public boolean isFocused() {
-    return this == WindowManager.singleton.getFocusedWindow();
+    return this == WindowManager.getFocusedWindow();
   }
 
   @Override

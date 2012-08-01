@@ -5,6 +5,8 @@ import org.lwjgl.util.glu.GLU;
 import rpg.client.gfx.GraphicsMode;
 import rpg.client.gfx.Texture;
 import rpg.client.gfx.TextureCache;
+import rpg.client.gfx.widget.winow.ChildWindow;
+import rpg.client.gfx.widget.winow.Window;
 import rpg.client.mode.Mode;
 import rpg.core.Info;
 import rpg.msg.Message;
@@ -21,11 +23,20 @@ import static org.lwjgl.opengl.GL11.glVertex3i;
 
 public class MenuMode extends Mode {
   private String email = "", password = "";
+  private ChildWindow loginWindow = null, registrationWindow = null;
 
   @Override
   public void onEnter() {
-    Registration.createWindow();
-    Login.createWindow();
+    loginWindow = Login.createWindow();
+    registrationWindow = Registration.createWindow();
+  }
+
+  @Override
+  public void onExit() {
+    if (loginWindow != null)
+      loginWindow.hide();
+    if (registrationWindow != null)
+      registrationWindow.hide();
   }
 
   @Override

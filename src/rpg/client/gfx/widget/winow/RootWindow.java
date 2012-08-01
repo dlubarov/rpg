@@ -46,6 +46,6 @@ public final class RootWindow extends Window {
   @Override
   protected void renderContent() {
     ModeManager.getCurrentMode().render();
-    WindowManager.singleton.render();
+    WindowManager.render();
   }
 }

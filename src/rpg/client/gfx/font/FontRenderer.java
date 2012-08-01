@@ -37,12 +37,13 @@ public class FontRenderer {
   }
 
   public int getHeight() {
-    // TODO: There are better ways...
+    // TODO: getMaxCharBounds seems too large, so I'm using a hack. Is there a better way?
+    //return (int) font.getMaxCharBounds(currentPage.renderContext).getHeight();
     return getHeight("Hg");
   }
 
   public void draw(String s, Color color, int x, int y) {
-    // TODO: Optimize with display list cache, or at least GlyphVector.
+    // TODO: Optimize with display list cache.
     glPushMatrix();
     glTranslatef(x, y, 0);
     drawNoMemo(s, color);
@@ -50,34 +51,27 @@ public class FontRenderer {
   }
 
   public void draw(String s, Color color, int x, int y, int width, Alignment alignment) {
-    if (alignment == Alignment.RIGHT_ALIGNED) {
+    if (alignment == Alignment.RIGHT_ALIGNED)
       x += width - getWidth(s);
-    }
-    if (alignment == Alignment.CENTER_ALIGNED) {
+    if (alignment == Alignment.CENTER_ALIGNED)
       x += (width - getWidth(s)) / 2;
-    }
     draw(s, color, x, y);
   }
 
   private void drawNoMemo(String s, Color color) {
-    char[] chars = s.toCharArray();
-    GlyphVector vector = font.layoutGlyphVector(
-        currentPage.renderContext, // TODO: weird to use currentPage
-        chars, 0, chars.length, Font.LAYOUT_LEFT_TO_RIGHT);
+    GlyphVector vector = getGlyphVector(s);
+    ColorUtil.bindColor(color);
     for (int glyphIndex = 0; glyphIndex < vector.getNumGlyphs(); ++glyphIndex) {
       int charIndex = vector.getGlyphCharIndex(glyphIndex);
       int codePoint = s.codePointAt(charIndex);
-      // TODO: bounds of space character
       Rectangle bounds = vector.getGlyphPixelBounds(glyphIndex, currentPage.renderContext, 0, 0);
-      // FIXME: the glyph generation overrides a previously set color?
       Glyph glyph = get((char) codePoint); // TODO: sacrifices proper unicode support
       glyph.texture.bind();
-      ColorUtil.bindColor(color);
-      glBegin(GL_QUADS);
       double x1 = glyph.x1 / (double) glyph.texture.width,
              y1 = glyph.y1 / (double) glyph.texture.height,
              dx = glyph.dx / (double) glyph.texture.width,
              dy = glyph.dy / (double) glyph.texture.height;
+      glBegin(GL_QUADS);
       glTexCoord2d(x1, y1);
       glVertex2d(bounds.getMinX(), bounds.getMinY());
       glTexCoord2d(x1, y1 + dy);
@@ -96,9 +90,8 @@ public class FontRenderer {
 
   private synchronized Glyph get(char c) {
     Glyph glyph = glyphs.get(c);
-    if (glyph == null) {
+    if (glyph == null)
       glyphs.put(c, glyph = getNoMemo(c));
-    }
     return glyph;
   }
 

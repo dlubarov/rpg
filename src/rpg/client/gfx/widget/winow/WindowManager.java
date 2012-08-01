@@ -9,20 +9,16 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import rpg.util.Logger;
 
-public class WindowManager {
-  public static final WindowManager singleton = new WindowManager();
+public final class WindowManager {
+  private WindowManager() {}
 
-  private final Deque<ChildWindow> childWindows;
-  private ChildWindow focusedWindow = null;
+  private static final Deque<ChildWindow> childWindows = new ArrayDeque<ChildWindow>();
+  private static ChildWindow focusedWindow = null;
 
-  private Window draggedWindow = null;
-  private int dragX, dragY;
+  private static Window draggedWindow = null;
+  private static int dragX, dragY;
 
-  private WindowManager() {
-    childWindows = new ArrayDeque<ChildWindow>();
-  }
-
-  public void onLeftMouseDown(int x, int y) {
+  public static void onLeftMouseDown(int x, int y) {
     // TODO: check buttons
     draggedWindow = focusedWindow = null;
     for (ChildWindow window : childWindowsReversed())
@@ -44,52 +40,46 @@ public class WindowManager {
     }
   }
 
-  private List<ChildWindow> childWindowsReversed() {
+  private static List<ChildWindow> childWindowsReversed() {
     List<ChildWindow> reversed = new ArrayList<ChildWindow>(childWindows);
     Collections.reverse(reversed);
     return reversed;
   }
 
-  public void onLeftMouseUp(int x, int y) {
+  public static void onLeftMouseUp(int x, int y) {
     draggedWindow = null;
   }
 
-  public void addChild(ChildWindow window) {
+  public static void addChild(ChildWindow window) {
     childWindows.addLast(window);
     focusedWindow = window;
   }
 
-  public void removeChild(ChildWindow window) {
-    if (!childWindows.remove(window)) {
-      throw new AssertionError();
-    }
-    if (window == draggedWindow) {
+  public static boolean removeChild(ChildWindow window) {
+    if (window == draggedWindow)
       draggedWindow = null;
-    }
+    return childWindows.remove(window);
   }
 
-  public void bringToTop(ChildWindow window) {
+  public static void bringToTop(ChildWindow window) {
     removeChild(window);
     addChild(window);
   }
 
-  public ChildWindow getFocusedWindow() {
+  public static ChildWindow getFocusedWindow() {
     return focusedWindow;
   }
 
-  public void render() {
+  public static void render() {
     if (draggedWindow != null) {
       int mouseX = Mouse.getX(),
           mouseY = Display.getHeight() - Mouse.getY();
       if (draggedWindow instanceof RootWindow) {
         int dx = mouseX - dragX,
             dy = mouseY - dragY;
-        //dx = Mouse.getDX();
-        //dy = -Mouse.getDY();
         Display.setLocation(Display.getX() + dx, Display.getY() + dy);
-      } else {
+      } else
         ((ChildWindow) draggedWindow).moveTo(mouseX - dragX, mouseY - dragY);
-      }
     }
     for (ChildWindow window : childWindows)
       window.render();

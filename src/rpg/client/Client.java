@@ -119,9 +119,9 @@ public final class Client {
           y = Display.getHeight() - Mouse.getEventY();
       if (button == 0)
         if (down)
-          WindowManager.singleton.onLeftMouseDown(x, y);
+          WindowManager.onLeftMouseDown(x, y);
         else
-          WindowManager.singleton.onLeftMouseUp(x, y);
+          WindowManager.onLeftMouseUp(x, y);
       if (down) {
         Mode mode = ModeManager.getCurrentMode();
         switch (button) {

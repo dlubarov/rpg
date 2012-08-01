@@ -36,13 +36,9 @@ public final class Texture {
   }
 
   public void bind() {
-    glColor3f(1, 1, 1);
-    bindNoColor();
-  }
-
-  public void bindNoColor() {
     if (last != this) {
       glBindTexture(GL_TEXTURE_2D, id);
+      last = this;
     }
   }
 
