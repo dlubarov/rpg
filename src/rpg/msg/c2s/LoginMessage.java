@@ -13,11 +13,11 @@ import rpg.util.ToStringBuilder;
 /**
  * Requests a login.
  */
-public class LoginRequestMessage extends Message {
+public class LoginMessage extends Message {
   public final String email, password;
   public final Byte[] version;
 
-  public LoginRequestMessage(String email, String password, Byte[] version) {
+  public LoginMessage(String email, String password, Byte[] version) {
     super(MessageType.LOGIN_REQUEST, serializer);
     this.email = email;
     this.password = password;
@@ -33,18 +33,18 @@ public class LoginRequestMessage extends Message {
         .toString();
   }
 
-  public static final Serializer<LoginRequestMessage> serializer =
-      new Serializer<LoginRequestMessage>() {
+  public static final Serializer<LoginMessage> serializer =
+      new Serializer<LoginMessage>() {
     @Override
-    public void serialize(LoginRequestMessage msg, ByteSink sink) {
+    public void serialize(LoginMessage msg, ByteSink sink) {
       StringSerializer.singleton.serialize(msg.email, sink);
       StringSerializer.singleton.serialize(msg.password, sink);
       ArraySerializer.byteArraySerializer.serialize(msg.version, sink);
     }
 
     @Override
-    public LoginRequestMessage deserialize(ByteSource source) {
-      return new LoginRequestMessage(
+    public LoginMessage deserialize(ByteSource source) {
+      return new LoginMessage(
           StringSerializer.singleton.deserialize(source),
           StringSerializer.singleton.deserialize(source),
           ArraySerializer.byteArraySerializer.deserialize(source));

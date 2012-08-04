@@ -21,14 +21,20 @@ public class TextBox extends Widget {
 
   private static final FontRenderer fontRenderer = FontRendererCache.singleton.get("Arial-13");
 
+  private final String name;
   private String content;
 
-  public TextBox(String initialContent) {
+  public TextBox(String name, String initialContent) {
+    this.name = name;
     content = initialContent;
   }
 
-  public TextBox() {
-    this("");
+  public TextBox(String name) {
+    this(name, "");
+  }
+
+  public String getValue(String name) {
+    return this.name.equals(name) ? content : null;
   }
 
   @Override

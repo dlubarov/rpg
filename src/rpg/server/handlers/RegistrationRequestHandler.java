@@ -1,7 +1,7 @@
 package rpg.server.handlers;
 
 import java.net.InetAddress;
-import rpg.msg.c2s.RegistrationRequestMessage;
+import rpg.msg.c2s.RegistrationMessage;
 import rpg.msg.s2c.RegistrationAcceptanceMessage;
 import rpg.msg.s2c.RegistrationErrorMessage;
 import rpg.net.NetConfig;
@@ -9,13 +9,13 @@ import rpg.net.ToClientMessageSink;
 import rpg.server.Account;
 import rpg.server.AccountManager;
 
-public class RegistrationRequestHandler extends Handler<RegistrationRequestMessage> {
+public class RegistrationRequestHandler extends Handler<RegistrationMessage> {
   public static final RegistrationRequestHandler singleton = new RegistrationRequestHandler();
 
   private RegistrationRequestHandler() {}
 
   @Override
-  public void handle(RegistrationRequestMessage msg, InetAddress sender) {
+  public void handle(RegistrationMessage msg, InetAddress sender) {
     Account account = new Account(msg.email, msg.password);
     RegistrationErrorMessage.Reason failureReason = getFailureReason(msg);
     if (failureReason == null) {
@@ -29,7 +29,7 @@ public class RegistrationRequestHandler extends Handler<RegistrationRequestMessa
     }
   }
 
-  private RegistrationErrorMessage.Reason getFailureReason(RegistrationRequestMessage msg) {
+  private RegistrationErrorMessage.Reason getFailureReason(RegistrationMessage msg) {
     // FIXME: Check version.
 
     if (msg.email.length() > NetConfig.EMAIL_MAX_LEN)

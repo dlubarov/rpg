@@ -78,10 +78,6 @@ final class GlyphPage {
     }
     else
       rowHeight = Math.max(rowHeight, h);
-    // FIXME do this properly
-    //graphics.setComposite(AlphaComposite.Clear);
-    //graphics.fillRect(0, 0, w, h);
-    //graphics.setComposite(AlphaComposite.SrcOver);
     graphics.setColor(Color.WHITE);
     graphics.fill(shape);
 
@@ -92,7 +88,8 @@ final class GlyphPage {
       intBuffer.put(row);
     }
     texture.bind();
-    glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, w, h, GL12.GL_BGRA, GL_UNSIGNED_BYTE, byteBuffer);
+    glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, w, h,
+        GL12.GL_BGRA, GL_UNSIGNED_BYTE, byteBuffer);
     intBuffer.clear();
 
     Glyph glyph = new Glyph(texture, x, y, w, h);

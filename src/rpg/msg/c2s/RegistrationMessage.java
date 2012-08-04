@@ -13,11 +13,11 @@ import rpg.util.ToStringBuilder;
 /**
  * Requests the creation of a new account.
  */
-public class RegistrationRequestMessage extends Message {
+public class RegistrationMessage extends Message {
   public final String email, password;
   public final Byte[] version;
 
-  public RegistrationRequestMessage(String email, String password, Byte[] version) {
+  public RegistrationMessage(String email, String password, Byte[] version) {
     super(MessageType.REGISTRATION_REQUEST, serializer);
     this.email = email;
     this.password = password;
@@ -33,17 +33,17 @@ public class RegistrationRequestMessage extends Message {
         .toString();
   }
 
-  public static final Serializer<RegistrationRequestMessage> serializer =
-      new Serializer<RegistrationRequestMessage>() {
+  public static final Serializer<RegistrationMessage> serializer =
+      new Serializer<RegistrationMessage>() {
     @Override
-    public void serialize(RegistrationRequestMessage msg, ByteSink sink) {
+    public void serialize(RegistrationMessage msg, ByteSink sink) {
       StringSerializer.singleton.serialize(msg.password, sink);
       ArraySerializer.byteArraySerializer.serialize(msg.version, sink);
     }
 
     @Override
-    public RegistrationRequestMessage deserialize(ByteSource source) {
-      return new RegistrationRequestMessage(
+    public RegistrationMessage deserialize(ByteSource source) {
+      return new RegistrationMessage(
           StringSerializer.singleton.deserialize(source),
           StringSerializer.singleton.deserialize(source),
           ArraySerializer.byteArraySerializer.deserialize(source));

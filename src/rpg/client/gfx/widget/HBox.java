@@ -1,10 +1,10 @@
 package rpg.client.gfx.widget;
 
-public class HBox extends Widget {
-  private final Widget[] children;
+import rpg.util.Logger;
 
+public class HBox extends Container {
   public HBox(Widget... children) {
-    this.children = children;
+    super(children);
   }
 
   @Override
@@ -12,6 +12,8 @@ public class HBox extends Widget {
     super.setBounds(bounds);
     int extraSpace = bounds.w() - getMinWidth();
     int numRecipients = numStretchyChildren();
+    if (extraSpace > 0 && numRecipients == 0)
+      Logger.error("HBox has no stretchy children");
     int x = bounds.x1();
     for (Widget child : children) {
       int w = child.getMinWidth();
@@ -61,11 +63,5 @@ public class HBox extends Widget {
       if (child.stretchHorizontally())
         ++n;
     return n;
-  }
-
-  @Override
-  public void render() {
-    for (Widget child : children)
-      child.render();
   }
 }

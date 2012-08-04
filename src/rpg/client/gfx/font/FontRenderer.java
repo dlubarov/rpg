@@ -38,7 +38,6 @@ public class FontRenderer {
 
   public int getHeight() {
     // TODO: getMaxCharBounds seems too large, so I'm using a hack. Is there a better way?
-    //return (int) font.getMaxCharBounds(currentPage.renderContext).getHeight();
     return getHeight("Hg");
   }
 

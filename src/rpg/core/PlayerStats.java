@@ -1,42 +1,37 @@
 package rpg.core;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 public final class PlayerStats {
-  private final Map<CombatStat, Long> experienceByStat;
+  private final Map<Stat, Integer> statExperiences;
 
   public PlayerStats() {
-    this.experienceByStat = Collections.synchronizedMap(new HashMap<CombatStat, Long>());
-    setAllExperiences(0);
+    statExperiences = new HashMap<Stat, Integer>();
+    for (Stat stat : Stat.values())
+      setExperience(stat, 0);
   }
 
-  public long getExperience(CombatStat stat) {
-    return experienceByStat.get(stat);
+  public synchronized int getExperience(Stat stat) {
+    return statExperiences.get(stat);
   }
 
-  public int getLevel(CombatStat stat) {
-    return Levels.getLevel(getExperience(stat));
+  public synchronized int getLevel(Stat stat) {
+    return Levels.experienceToLevel(getExperience(stat));
   }
 
-  public boolean satisfies(LevelRequirements requirements) {
-    for (CombatStat stat : requirements.getAffectedStats())
+  public synchronized boolean satisfies(StatRequirements requirements) {
+    for (Stat stat : requirements.getAffectedStats())
       if (getLevel(stat) < requirements.getRequirementFor(stat))
         return false;
     return true;
   }
 
-  public void setExperience(CombatStat stat, long experience) {
-    experienceByStat.put(stat, experience);
+  public synchronized void setExperience(Stat stat, int experience) {
+    statExperiences.put(stat, experience);
   }
 
-  public void addExperience(CombatStat stat, long experience) {
+  public synchronized void addExperience(Stat stat, int experience) {
     setExperience(stat, getExperience(stat) + experience);
-  }
-
-  private void setAllExperiences(long experience) {
-    for (CombatStat stat : CombatStat.values())
-      setExperience(stat, experience);
   }
 }

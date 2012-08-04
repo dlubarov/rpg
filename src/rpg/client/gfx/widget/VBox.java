@@ -1,10 +1,8 @@
 package rpg.client.gfx.widget;
 
-public class VBox extends Widget {
-  private final Widget[] children;
-
+public class VBox extends Container {
   public VBox(Widget... children) {
-    this.children = children;
+    super(children);
   }
 
   @Override
@@ -61,11 +59,5 @@ public class VBox extends Widget {
       if (child.stretchVertically())
         ++n;
     return n;
-  }
-
-  @Override
-  public void render() {
-    for (Widget child : children)
-      child.render();
   }
 }

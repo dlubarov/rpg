@@ -1,12 +1,11 @@
 package rpg.client.gfx.widget.winow;
 
-import rpg.client.gfx.widget.Bounds;
 import rpg.client.gfx.widget.Widget;
 import rpg.util.Logger;
 
 public final class ChildWindow extends Window {
-  private final String caption;
-  private final Widget content;
+  final String caption;
+  final Widget content;
   private int x1, y1;
 
   public ChildWindow(String caption, Widget content, int x1, int y1, WindowButton... buttons) {
@@ -40,7 +39,7 @@ public final class ChildWindow extends Window {
     y1 = Math.min(y1, RootWindow.singleton.totalH() - totalH());
     this.x1 = x1;
     this.y1 = y1;
-    content.setBounds(new Bounds(x1(), y2(), x2(), y3()));
+    content.setBounds(bounds());
   }
 
   @Override

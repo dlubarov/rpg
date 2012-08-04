@@ -55,6 +55,10 @@ public abstract class Window {
     return BAR_HEIGHT + contentH();
   }
 
+  public Bounds bounds() {
+    return new Bounds(x1(), y2(), x2(), y3());
+  }
+
   public boolean inWindow(int x, int y) {
     return x1() <= x && x <= x2()
         && y1() <= y && y <= y3();

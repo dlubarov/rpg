@@ -20,17 +20,26 @@ public final class WindowManager {
 
   public static void onLeftMouseDown(int x, int y) {
     // TODO: check buttons
+    onLeftMouseDownDragging(x, y);
+    ChildWindow focusedChild = childFor(x, y);
+    if (focusedChild != null)
+      focusedChild.content.onClick(x, y);
+  }
+
+  private static void onLeftMouseDownDragging(int x, int y) {
     draggedWindow = focusedWindow = null;
-    for (ChildWindow window : childWindowsReversed())
-      if (window.inWindow(x, y)) {
-        bringToTop(window);
-        if (window.inTitleBar(x, y)) {
-          draggedWindow = window;
-          dragX = x - window.x1();
-          dragY = y - window.y1();
-        }
-        return;
+
+    ChildWindow focusedChild = childFor(x, y);
+    if (focusedChild != null) {
+      bringToTop(focusedChild);
+      if (focusedChild.inTitleBar(x, y)) {
+        draggedWindow = focusedChild;
+        dragX = x - focusedChild.x1();
+        dragY = y - focusedChild.y1();
       }
+      return;
+    }
+
     if (RootWindow.singleton.inTitleBar(x, y)) {
       draggedWindow = RootWindow.singleton;
       dragX = Mouse.getX();
@@ -38,6 +47,13 @@ public final class WindowManager {
       dragY = Display.getHeight() - Mouse.getY();
       Logger.info("Dragging from (%d, %d)", dragX, dragY);
     }
+  }
+
+  private static ChildWindow childFor(int x, int y) {
+    for (ChildWindow window : childWindowsReversed())
+      if (window.inWindow(x, y))
+        return window;
+    return null;
   }
 
   private static List<ChildWindow> childWindowsReversed() {

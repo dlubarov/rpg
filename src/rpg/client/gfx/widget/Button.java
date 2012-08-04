@@ -17,8 +17,8 @@ import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glVertex2d;
 import static org.lwjgl.opengl.GL11.glVertex2i;
 
-public class Button extends Widget {
-  private static final int PAD_TOP = 2, PAD_BOTTOM = 5;
+public abstract class Button extends Widget {
+  private static final int PAD_TOP = 2, PAD_BOTTOM = 5, PAD_SIDES = 6;
 
   private static final FontRenderer fontRenderer = FontRendererCache.singleton.get("Arial-BOLD-12");
 
@@ -28,9 +28,11 @@ public class Button extends Widget {
     this.content = content;
   }
 
+  protected abstract void onClick();
+
   @Override
   public int getMinWidth() {
-    return fontRenderer.getWidth(content);
+    return fontRenderer.getWidth(content) + 2 * PAD_SIDES;
   }
 
   @Override
@@ -40,12 +42,17 @@ public class Button extends Widget {
 
   @Override
   public boolean stretchHorizontally() {
-    return true;
+    return false;
   }
 
   @Override
   public boolean stretchVertically() {
     return false;
+  }
+
+  @Override
+  public void onClick(int x, int y) {
+    onClick();
   }
 
   @Override

@@ -4,8 +4,8 @@ import java.net.InetAddress;
 import rpg.msg.ConfirmationMessage;
 import rpg.msg.MessageType;
 import rpg.msg.c2s.HereIAmMessage;
-import rpg.msg.c2s.LoginRequestMessage;
-import rpg.msg.c2s.RegistrationRequestMessage;
+import rpg.msg.c2s.LoginMessage;
+import rpg.msg.c2s.RegistrationMessage;
 import rpg.net.ToClientMessageSink;
 import rpg.net.UUIDCache;
 import rpg.serialization.ByteSource;
@@ -57,10 +57,11 @@ public class MessageDispatcher implements Runnable {
         ConfirmationHandler.singleton.handle(ConfirmationMessage.serializer.deserialize(source));
         break;
       case REGISTRATION_REQUEST:
-        RegistrationRequestHandler.singleton.handle(RegistrationRequestMessage.serializer.deserialize(source), sender);
+        RegistrationRequestHandler.singleton.handle(
+            RegistrationMessage.serializer.deserialize(source), sender);
         break;
       case LOGIN_REQUEST:
-        LoginRequestHandler.singleton.handle(LoginRequestMessage.serializer.deserialize(source), sender);
+        LoginRequestHandler.singleton.handle(LoginMessage.serializer.deserialize(source), sender);
         break;
       case HERE_I_AM:
         HereIAmHandler.singleton.handle(HereIAmMessage.serializer.deserialize(source), sender);

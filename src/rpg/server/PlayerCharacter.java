@@ -2,6 +2,8 @@ package rpg.server;
 
 import rpg.core.CombatClass;
 import rpg.core.Outfit;
+import rpg.core.PlayerSkills;
+import rpg.core.PlayerStats;
 import rpg.math.Vector3;
 import rpg.realm.Realm;
 import rpg.realm.RealmManager;
@@ -14,6 +16,8 @@ public class PlayerCharacter {
   public final String name;
   public final Account owner;
   public final CombatClass combatClass;
+  public final PlayerStats stats;
+  public final PlayerSkills skills;
 
   private Realm realm;
   private Vector3 position, velocity, direction;
@@ -23,6 +27,8 @@ public class PlayerCharacter {
     this.name = name;
     this.owner = owner;
     this.combatClass = combatClass;
+    stats = new PlayerStats();
+    skills = new PlayerSkills();
     realm = STARTING_REALM;
     position = STARTING_POS;
     velocity = Vector3.ZERO;

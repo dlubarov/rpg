@@ -4,17 +4,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class StatBoost {
-  private final Map<CombatStat, Integer> statBoosts;
+  private final Map<Stat, Integer> statBoosts;
 
   public StatBoost() {
-    statBoosts = new HashMap<CombatStat, Integer>();
+    statBoosts = new HashMap<Stat, Integer>();
   }
 
-  public int getBoostFor(CombatStat stat) {
+  public int getBoostFor(Stat stat) {
     return statBoosts.get(stat);
   }
 
-  public StatBoost setBoost(CombatStat stat, int boost) {
+  public StatBoost setBoost(Stat stat, int boost) {
     statBoosts.put(stat, boost);
     return this;
   }
@@ -23,7 +23,7 @@ public final class StatBoost {
   public String toString() {
     StringBuilder sb = new StringBuilder("[");
     boolean first = true;
-    for (CombatStat stat : statBoosts.keySet()) {
+    for (Stat stat : statBoosts.keySet()) {
       if (!first)
         sb.append(", ");
       sb.append(stat).append(" += ").append(getBoostFor(stat));
