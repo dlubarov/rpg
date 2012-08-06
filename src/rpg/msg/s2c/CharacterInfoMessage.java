@@ -46,12 +46,14 @@ public class CharacterInfoMessage extends Message {
 
   private static final Serializer<CharacterSummary> partSerializer =
       new Serializer<CharacterSummary>() {
-    @Override public void serialize(CharacterSummary character, ByteSink sink) {
+    @Override
+    public void serialize(CharacterSummary character, ByteSink sink) {
       StringSerializer.singleton.serialize(character.name, sink);
       IntegerSerializer.singleton.serialize(character.combatClass.ordinal(), sink);
     }
 
-    @Override public CharacterSummary deserialize(ByteSource source) {
+    @Override
+    public CharacterSummary deserialize(ByteSource source) {
       return new CharacterSummary(
           StringSerializer.singleton.deserialize(source),
           CombatClass.values()[IntegerSerializer.singleton.deserialize(source)]);

@@ -1,23 +1,66 @@
 package rpg.client.mode;
 
+import org.lwjgl.input.Keyboard;
 import rpg.client.gfx.font.Alignment;
 import rpg.client.gfx.widget.Button;
 import rpg.client.gfx.widget.ConstantLabel;
 import rpg.client.gfx.widget.FixedHSpace;
 import rpg.client.gfx.widget.FixedVSpace;
+import rpg.client.gfx.widget.PasswordBox;
 import rpg.client.gfx.widget.TextBox;
 import rpg.client.gfx.widget.VBox;
 import rpg.client.gfx.widget.Widget;
+import rpg.client.gfx.widget.winow.WindowManager;
 import rpg.core.Info;
 import rpg.msg.c2s.RegistrationMessage;
 import rpg.net.ToServerMessageSink;
+import rpg.util.Logger;
 
 public class RegistrationMode extends Mode2D {
   public RegistrationMode() {
-    super(getContent());
+    super(createContent());
   }
 
-  private static Widget getContent() {
+  private Widget emailBox() {
+    return content.getWidget("email");
+  }
+
+  private Widget passwordBox() {
+    return content.getWidget("password");
+  }
+
+  private Widget confirmBox() {
+    return content.getWidget("confirm");
+  }
+
+  @Override
+  public void onKeyDown(int key) {
+    switch (key) {
+      case Keyboard.KEY_TAB:
+        if (emailBox().isFocused())
+          passwordBox().makeFocused();
+        else if (passwordBox().isFocused())
+          confirmBox().makeFocused();
+        else if (confirmBox().isFocused())
+          emailBox().makeFocused();
+        break;
+      case Keyboard.KEY_RETURN:
+        sendRegistration();
+        break;
+    }
+  }
+
+  private void sendRegistration() {
+    String email = content.getValue("email"),
+        password = content.getValue("password"),
+        confirm = content.getValue("confirm");
+    if (!password.equals(confirm))
+      ; // FIXME: display error
+    RegistrationMessage msg = new RegistrationMessage(email, password, Info.versionParts);
+    ToServerMessageSink.singleton.sendWithConfirmation(msg, 3);
+  }
+
+  private static Widget createContent() {
     return new VBox(
         new FixedHSpace(160),
         new ConstantLabel("Email"),
@@ -26,11 +69,11 @@ public class RegistrationMode extends Mode2D {
         new FixedVSpace(15),
         new ConstantLabel("Password"),
         new FixedVSpace(2),
-        new TextBox("password"),
+        new PasswordBox("password"),
         new FixedVSpace(15),
         new ConstantLabel("Confirm"),
         new FixedVSpace(2),
-        new TextBox("confirm"),
+        new PasswordBox("confirm"),
         new FixedVSpace(15),
         new RegisterButton().padSidesFlexible(),
         new FixedVSpace(60),
@@ -48,14 +91,7 @@ public class RegistrationMode extends Mode2D {
 
     @Override
     public void onClick() {
-      Widget form = ((RegistrationMode) ModeManager.getCurrentMode()).content;
-      String email = form.getValue("email"),
-          password = form.getValue("password"),
-          confirm = form.getValue("confirm");
-      if (!password.equals(confirm))
-        ; // FIXME: display error
-      RegistrationMessage msg = new RegistrationMessage(email, password, Info.versionParts);
-      ToServerMessageSink.singleton.sendWithConfirmation(msg, 3);
+      ((RegistrationMode) ModeManager.getCurrentMode()).sendRegistration();
     }
   }
 

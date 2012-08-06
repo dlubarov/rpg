@@ -7,6 +7,7 @@ import java.util.Deque;
 import java.util.List;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
+import rpg.client.gfx.widget.Widget;
 import rpg.util.Logger;
 
 public final class WindowManager {
@@ -14,6 +15,7 @@ public final class WindowManager {
 
   private static final Deque<ChildWindow> childWindows = new ArrayDeque<ChildWindow>();
   private static ChildWindow focusedWindow = null;
+  private static Widget focusedWidget = null;
 
   private static Window draggedWindow = null;
   private static int dragX, dragY;
@@ -28,6 +30,7 @@ public final class WindowManager {
 
   private static void onLeftMouseDownDragging(int x, int y) {
     draggedWindow = focusedWindow = null;
+    focusedWidget = null;
 
     ChildWindow focusedChild = childFor(x, y);
     if (focusedChild != null) {
@@ -37,15 +40,11 @@ public final class WindowManager {
         dragX = x - focusedChild.x1();
         dragY = y - focusedChild.y1();
       }
-      return;
-    }
-
-    if (RootWindow.singleton.inTitleBar(x, y)) {
+    } else if (RootWindow.singleton.inTitleBar(x, y)) {
       draggedWindow = RootWindow.singleton;
       dragX = Mouse.getX();
-      // win.x = (win.x + mouse.x - dragX)
       dragY = Display.getHeight() - Mouse.getY();
-      Logger.info("Dragging from (%d, %d)", dragX, dragY);
+      Logger.debug("Dragging from (%d, %d)", dragX, dragY);
     }
   }
 
@@ -77,6 +76,13 @@ public final class WindowManager {
     return childWindows.remove(window);
   }
 
+  public static void clearChildren() {
+    childWindows.clear();
+    focusedWindow = null;
+    if (draggedWindow instanceof ChildWindow)
+      draggedWindow = null;
+  }
+
   public static void bringToTop(ChildWindow window) {
     removeChild(window);
     addChild(window);
@@ -84,6 +90,14 @@ public final class WindowManager {
 
   public static ChildWindow getFocusedWindow() {
     return focusedWindow;
+  }
+
+  public static void makeFocused(Widget widget) {
+    focusedWidget = widget;
+  }
+
+  public static Widget getFocusedWidget() {
+    return focusedWidget;
   }
 
   public static void render() {

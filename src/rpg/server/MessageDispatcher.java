@@ -44,6 +44,7 @@ public class MessageDispatcher implements Runnable {
       return;
     }
 
+    Logger.debug("Received message of type %s.", msgType);
     try {
       dispatch(msgType);
     } catch (Exception e) {
@@ -57,8 +58,7 @@ public class MessageDispatcher implements Runnable {
         ConfirmationHandler.singleton.handle(ConfirmationMessage.serializer.deserialize(source));
         break;
       case REGISTRATION_REQUEST:
-        RegistrationRequestHandler.singleton.handle(
-            RegistrationMessage.serializer.deserialize(source), sender);
+        RegistrationRequestHandler.singleton.handle(RegistrationMessage.serializer.deserialize(source), sender);
         break;
       case LOGIN_REQUEST:
         LoginRequestHandler.singleton.handle(LoginMessage.serializer.deserialize(source), sender);

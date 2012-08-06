@@ -51,6 +51,7 @@ public class MessageDispatcher implements Runnable {
       return;
     }
 
+    Logger.debug("Received message of type %s.", msgType);
     try {
       dispatch(msgType);
     } catch (Exception e) {

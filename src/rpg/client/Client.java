@@ -109,6 +109,7 @@ public final class Client {
             System.exit(0);
           break;
       }
+      WindowManager.getFocusedWidget().onKeyDown(key);
       ModeManager.getCurrentMode().onKeyDown(key);
     }
   }

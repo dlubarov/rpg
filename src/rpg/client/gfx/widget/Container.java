@@ -15,6 +15,16 @@ public abstract class Container extends Widget {
   }
 
   @Override
+  public final Widget getWidget(String name) {
+    for (Widget child : children) {
+      Widget widget = child.getWidget(name);
+      if (widget != null)
+        return widget;
+    }
+    return null;
+  }
+
+  @Override
   public final String getValue(String name) {
     for (Widget child : children) {
       String childValue = child.getValue(name);

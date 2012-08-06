@@ -23,4 +23,9 @@ public abstract class Mode2D extends Mode {
   public final void render() {
     content.render();
   }
+
+  @Override
+  public final Widget getContent() {
+    return content;
+  }
 }

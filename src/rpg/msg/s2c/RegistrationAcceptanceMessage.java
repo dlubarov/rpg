@@ -19,9 +19,11 @@ public class RegistrationAcceptanceMessage extends Message {
 
   public static final Serializer<RegistrationAcceptanceMessage> serializer =
       new Serializer<RegistrationAcceptanceMessage>() {
-    @Override public void serialize(RegistrationAcceptanceMessage msg, ByteSink sink) {}
+    @Override
+    public void serialize(RegistrationAcceptanceMessage msg, ByteSink sink) {}
 
-    @Override public RegistrationAcceptanceMessage deserialize(ByteSource source) {
+    @Override
+    public RegistrationAcceptanceMessage deserialize(ByteSource source) {
       return new RegistrationAcceptanceMessage();
     }
   };

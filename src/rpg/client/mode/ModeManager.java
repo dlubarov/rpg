@@ -1,5 +1,7 @@
 package rpg.client.mode;
 
+import rpg.client.gfx.widget.winow.WindowManager;
+
 public final class ModeManager {
   private ModeManager() {}
 
@@ -16,6 +18,7 @@ public final class ModeManager {
 
   public static void switchTo(Mode mode) {
     currentMode.onExit();
+    WindowManager.clearChildren();
     currentMode = mode;
     currentMode.onEnter();
   }

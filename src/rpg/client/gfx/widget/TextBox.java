@@ -1,6 +1,7 @@
 package rpg.client.gfx.widget;
 
 import java.awt.Color;
+import org.lwjgl.input.Keyboard;
 import rpg.client.gfx.font.FontRenderer;
 import rpg.client.gfx.font.FontRendererCache;
 
@@ -16,13 +17,13 @@ import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glVertex2d;
 import static org.lwjgl.opengl.GL11.glVertex2i;
 
-public class TextBox extends Widget {
+public class TextBox extends FocusableWidget {
   private static final int PAD_TOP = 2, PAD_BOTTOM = 5, PAD_SIDE = 3;
 
   private static final FontRenderer fontRenderer = FontRendererCache.singleton.get("Arial-13");
 
   private final String name;
-  private String content;
+  protected String content;
 
   public TextBox(String name, String initialContent) {
     this.name = name;
@@ -31,6 +32,14 @@ public class TextBox extends Widget {
 
   public TextBox(String name) {
     this(name, "");
+  }
+
+  protected String getContentToDraw() {
+    return content;
+  }
+
+  public Widget getWidget(String name) {
+    return this.name.equals(name) ? this : null;
   }
 
   public String getValue(String name) {
@@ -68,7 +77,10 @@ public class TextBox extends Widget {
     glVertex2i(bounds.x2(), bounds.y1());
     glEnd();
 
-    glColor3d(.5, .5, .5);
+    if (isFocused())
+      glColor3d(0, 1, 0);
+    else
+      glColor3d(.5, .5, .5);
     glBegin(GL_LINE_LOOP);
     glVertex2d(bounds.x1() + .5, bounds.y1() + .5);
     glVertex2d(bounds.x1() + .5, bounds.y2() - .5);
@@ -77,8 +89,22 @@ public class TextBox extends Widget {
     glEnd();
     glEnable(GL_TEXTURE_2D);
 
-    fontRenderer.draw(content, Color.BLACK,
+    fontRenderer.draw(getContentToDraw(), Color.BLACK,
         bounds.x1() + PAD_SIDE,
         bounds.y2() - PAD_BOTTOM);
+  }
+
+  @Override
+  public void onKeyDown(int key) {
+    switch (key) {
+      case Keyboard.KEY_BACK:
+        if (content.length() > 0)
+          content = content.substring(0, content.length() - 1);
+        break;
+      default:
+        char c = Keyboard.getEventCharacter();
+        if (c != Keyboard.CHAR_NONE && c != '\t' && c != '\n')
+          content += c;
+    }
   }
 }

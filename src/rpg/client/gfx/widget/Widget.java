@@ -1,5 +1,7 @@
 package rpg.client.gfx.widget;
 
+import rpg.client.gfx.widget.winow.WindowManager;
+
 import static org.lwjgl.opengl.GL11.GL_LINE_LOOP;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL11.glBegin;
@@ -44,6 +46,15 @@ public abstract class Widget {
 
   public void onClick(int x, int y) {}
 
+  public void onKeyDown(int key) {
+    // This should only be called for FocusableWidget.
+    throw new UnsupportedOperationException();
+  }
+
+  public Widget getWidget(String name) {
+    return null;
+  }
+
   public String getValue(String name) {
     return null;
   }
@@ -60,6 +71,14 @@ public abstract class Widget {
 
   public Widget padSidesFlexible() {
     return new HBox(FlexibleSpace.singleton, this, FlexibleSpace.singleton);
+  }
+
+  public boolean isFocused() {
+    return WindowManager.getFocusedWidget() == this;
+  }
+
+  public void makeFocused() {
+    WindowManager.makeFocused(this);
   }
 
   public void renderBounds() {
