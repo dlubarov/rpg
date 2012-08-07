@@ -12,7 +12,8 @@ public abstract class MessageSink {
   protected abstract void sendRaw(byte[] data);
 
   @SuppressWarnings("unchecked")
-  private void sendOnce(Message msg, long uuid) {
+  void sendOnce(Message msg, long uuid) {
+    Logger.debug("Sending message: %s (uuid=%d)", msg, uuid);
     ByteSink sink = new ByteSink();
     LongSerializer.singleton.serialize(uuid, sink);
     msg.serializeWithTypeTo(sink);
@@ -29,6 +30,6 @@ public abstract class MessageSink {
   }
 
   public void sendWithConfirmation(Message msg, int retries) {
-    RetryQueue.startRetrying(msg, UUIDGenerator.generate(), retries, RETRY_AFTER_MILLIS);
+    RetryQueue.startRetrying(this, msg, UUIDGenerator.generate(), retries, RETRY_AFTER_MILLIS);
   }
 }

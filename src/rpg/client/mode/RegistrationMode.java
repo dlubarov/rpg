@@ -10,11 +10,9 @@ import rpg.client.gfx.widget.PasswordBox;
 import rpg.client.gfx.widget.TextBox;
 import rpg.client.gfx.widget.VBox;
 import rpg.client.gfx.widget.Widget;
-import rpg.client.gfx.widget.winow.WindowManager;
 import rpg.core.Info;
 import rpg.msg.c2s.RegistrationMessage;
 import rpg.net.ToServerMessageSink;
-import rpg.util.Logger;
 
 public class RegistrationMode extends Mode2D {
   public RegistrationMode() {

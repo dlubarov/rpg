@@ -48,6 +48,7 @@ public class CharacterInfoMessage extends Message {
       new Serializer<CharacterSummary>() {
     @Override
     public void serialize(CharacterSummary character, ByteSink sink) {
+      IntegerSerializer.singleton.serialize(character.characterID);
       StringSerializer.singleton.serialize(character.name, sink);
       IntegerSerializer.singleton.serialize(character.combatClass.ordinal(), sink);
     }
@@ -55,6 +56,7 @@ public class CharacterInfoMessage extends Message {
     @Override
     public CharacterSummary deserialize(ByteSource source) {
       return new CharacterSummary(
+          IntegerSerializer.singleton.deserialize(source),
           StringSerializer.singleton.deserialize(source),
           CombatClass.values()[IntegerSerializer.singleton.deserialize(source)]);
     }

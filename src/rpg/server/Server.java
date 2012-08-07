@@ -23,11 +23,12 @@ public final class Server {
     try {
       socket.send(new DatagramPacket(data, data.length, clientAddr, NetConfig.PORT_S2C));
     } catch (IOException e) {
-      Logger.error(e, "Failed to send message to client.");
+      Logger.error(e, "Failed to send message to client %s.", clientAddr);
     }
   }
 
   public static void main(String[] args) {
     new ServerListener(socket).start();
+    Logger.info("Server started, listening for messages...");
   }
 }

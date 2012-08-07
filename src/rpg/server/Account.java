@@ -2,17 +2,20 @@ package rpg.server;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import rpg.core.CharacterSummary;
 import rpg.util.StringUtil;
 import rpg.util.ToStringBuilder;
 
 public class Account {
+  private static final AtomicInteger idCounter = new AtomicInteger();
+
   public final int id;
   public final String email, password;
   private final Map<String, PlayerCharacter> characters;
 
   public Account(String email, String password) {
-    this.id = AccountManager.getNextId();
+    this.id = idCounter.getAndIncrement();
     this.email = email;
     this.password = password;
     characters = new HashMap<String, PlayerCharacter>();
@@ -23,7 +26,7 @@ public class Account {
     CharacterSummary[] summaries = new CharacterSummary[characters.size()];
     int i = 0;
     for (PlayerCharacter character : characters.values())
-      summaries[i++] = new CharacterSummary(character.name, character.combatClass);
+      summaries[i++] = new CharacterSummary(character.id, character.name, character.combatClass);
     return summaries;
   }
 

@@ -43,5 +43,6 @@ public class RegistrationErrorMessage extends Message {
   public static enum Reason {
     EMAIL_TAKEN, EMAIL_BAD_FORMAT, EMAIL_LONG,
     PASSWORD_SHORT, PASSWORD_LONG, PASSWORD_EASY,
+    BAD_VERSION
   }
 }

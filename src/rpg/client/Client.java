@@ -43,7 +43,7 @@ public final class Client {
   static {
     try {
       Levels.experienceToLevel(50);
-      socket = new DatagramSocket(NetConfig.PORT_C2S, NetConfig.serverAddr);
+      socket = new DatagramSocket(NetConfig.PORT_S2C, NetConfig.serverAddr);
     } catch (SocketException e) {
       Logger.fatal(e, "Failed to establish socket to server.");
       throw new RuntimeException(e);

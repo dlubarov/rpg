@@ -4,12 +4,9 @@ import java.net.InetAddress;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public final class AccountManager {
   private AccountManager() {}
-
-  private static final AtomicInteger idCounter = new AtomicInteger();
 
   private static final Map<Integer, Account> accountsById;
   private static final Map<String, Account> accountsByEmail;
@@ -22,10 +19,6 @@ public final class AccountManager {
     accountsByEmail = Collections.synchronizedMap(new HashMap<String, Account>());
     playersById = Collections.synchronizedMap(new HashMap<Integer, ActivePlayer>());
     playersByAddr = Collections.synchronizedMap(new HashMap<InetAddress, ActivePlayer>());
-  }
-
-  public static int getNextId() {
-    return idCounter.getAndIncrement();
   }
 
   public static Account getAccountById(int id) {

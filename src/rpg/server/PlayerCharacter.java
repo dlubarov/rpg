@@ -1,5 +1,6 @@
 package rpg.server;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import rpg.core.CombatClass;
 import rpg.core.Outfit;
 import rpg.core.PlayerSkills;
@@ -13,6 +14,9 @@ public class PlayerCharacter {
   private static final Realm STARTING_REALM = RealmManager.getRealmById(0);
   private static final Vector3 STARTING_POS = Vector3.ZERO;
 
+  private static final AtomicInteger idCounter = new AtomicInteger();
+
+  public final int id;
   public final String name;
   public final Account owner;
   public final CombatClass combatClass;
@@ -24,6 +28,7 @@ public class PlayerCharacter {
   public final Outfit outfit;
 
   public PlayerCharacter(String name, Account owner, CombatClass combatClass) {
+    this.id = idCounter.getAndIncrement();
     this.name = name;
     this.owner = owner;
     this.combatClass = combatClass;

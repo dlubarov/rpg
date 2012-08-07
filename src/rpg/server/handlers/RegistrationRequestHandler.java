@@ -1,6 +1,11 @@
 package rpg.server.handlers;
 
 import java.net.InetAddress;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.regex.Pattern;
+import rpg.core.Info;
 import rpg.msg.c2s.RegistrationMessage;
 import rpg.msg.s2c.RegistrationAcceptanceMessage;
 import rpg.msg.s2c.RegistrationErrorMessage;
@@ -12,15 +17,21 @@ import rpg.server.AccountManager;
 public class RegistrationRequestHandler extends Handler<RegistrationMessage> {
   public static final RegistrationRequestHandler singleton = new RegistrationRequestHandler();
 
+  // This is far from perfect, but I don't really care...
+  private static final Pattern emailPattern = Pattern.compile(
+      "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{1,})$");
+
+  private static final Set<String> commonPasswords = new HashSet<String>(Arrays.asList(
+      "password", "password1", "secret", "qwerty", "qazqaz"
+  ));
+
   private RegistrationRequestHandler() {}
 
   @Override
   public void handle(RegistrationMessage msg, InetAddress sender) {
-    Account account = new Account(msg.email, msg.password);
     RegistrationErrorMessage.Reason failureReason = getFailureReason(msg);
     if (failureReason == null) {
-      AccountManager.register(account);
-      // FIXME: Send
+      AccountManager.register(new Account(msg.email, msg.password));
       RegistrationAcceptanceMessage acceptanceMessage = new RegistrationAcceptanceMessage();
       new ToClientMessageSink(sender).sendWithConfirmation(acceptanceMessage, 3);
     } else {
@@ -30,8 +41,11 @@ public class RegistrationRequestHandler extends Handler<RegistrationMessage> {
   }
 
   private RegistrationErrorMessage.Reason getFailureReason(RegistrationMessage msg) {
-    // FIXME: Check version.
+    // Validate version.
+    if (!Arrays.equals(msg.version, Info.versionParts))
+      return RegistrationErrorMessage.Reason.BAD_VERSION;
 
+    // Validate email.
     if (msg.email.length() > NetConfig.EMAIL_MAX_LEN)
       return RegistrationErrorMessage.Reason.EMAIL_LONG;
     if (!isEmailValid(msg.email))
@@ -39,6 +53,7 @@ public class RegistrationRequestHandler extends Handler<RegistrationMessage> {
     if (AccountManager.getAccountByEmail(msg.email) != null)
       return RegistrationErrorMessage.Reason.EMAIL_TAKEN;
 
+    // Validate password.
     if (msg.password.length() < NetConfig.PASSWORD_MIN_LEN)
       return RegistrationErrorMessage.Reason.PASSWORD_SHORT;
     if (msg.password.length() > NetConfig.PASSWORD_MAX_LEN)
@@ -50,12 +65,12 @@ public class RegistrationRequestHandler extends Handler<RegistrationMessage> {
   }
 
   private static boolean isEmailValid(String email) {
-    // FIXME: Do proper email validation.
-    return email.contains("@");
+    return emailPattern.matcher(email).matches();
   }
 
   private static boolean isEasyPassword(String password, String email) {
-    // TODO: Check for easy passwords, e.g. substrings of email.
-    return false;
+    email = email.toLowerCase();
+    password = password.toLowerCase();
+    return email.contains(password) || commonPasswords.contains(password);
   }
 }

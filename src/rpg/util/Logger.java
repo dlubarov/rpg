@@ -45,7 +45,7 @@ public final class Logger {
   }
 
   private static Severity getDesiredSeverity() {
-    return Severity.INFO;
+    return Severity.DEBUG;
   }
 
   private static enum Severity {

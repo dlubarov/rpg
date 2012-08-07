@@ -1,9 +1,12 @@
 package rpg.server.handlers;
 
 import java.net.InetAddress;
+import java.util.Arrays;
+import rpg.core.Info;
 import rpg.msg.c2s.LoginMessage;
 import rpg.msg.s2c.CharacterInfoMessage;
 import rpg.msg.s2c.LoginErrorMessage;
+import rpg.net.ToClientMessageSink;
 import rpg.server.Account;
 import rpg.server.AccountManager;
 
@@ -14,33 +17,35 @@ public class LoginRequestHandler extends Handler<LoginMessage> {
 
   @Override
   public void handle(LoginMessage msg, InetAddress sender) {
-    // FIXME: Check version.
-
+    if (!Arrays.equals(msg.version, Info.versionParts)) {
+      sendRejection(LoginErrorMessage.Reason.BAD_VERSION, sender);
+      return;
+    }
     if (msg.email.isEmpty()) {
-      sendRejection(LoginErrorMessage.Reason.MISSING_USERNAME_OR_EMAIL);
+      sendRejection(LoginErrorMessage.Reason.MISSING_USERNAME_OR_EMAIL, sender);
       return;
     }
     if (msg.password.isEmpty()) {
-      sendRejection(LoginErrorMessage.Reason.MISSING_PASSWORD);
+      sendRejection(LoginErrorMessage.Reason.MISSING_PASSWORD, sender);
       return;
     }
 
     Account account = AccountManager.getAccountByEmail(msg.email);
     if (account == null) {
-      sendRejection(LoginErrorMessage.Reason.BAD_USERNAME_OR_EMAIL);
+      sendRejection(LoginErrorMessage.Reason.BAD_USERNAME_OR_EMAIL, sender);
       return;
     }
     if (!msg.password.equals(account.password)) {
-      sendRejection(LoginErrorMessage.Reason.BAD_PASSWORD);
+      sendRejection(LoginErrorMessage.Reason.BAD_PASSWORD, sender);
       return;
     }
 
     CharacterInfoMessage charInfoMsg = new CharacterInfoMessage(account.getCharacterSummaries());
-    // FIXME: Send character info.
+    new ToClientMessageSink(sender).sendWithConfirmation(charInfoMsg, 3);
   }
 
-  private void sendRejection(LoginErrorMessage.Reason reason) {
+  private void sendRejection(LoginErrorMessage.Reason reason, InetAddress sender) {
     LoginErrorMessage msg = new LoginErrorMessage(reason);
-    // FIXME: Send rejection message.
+    new ToClientMessageSink(sender).sendWithConfirmation(msg, 3);
   }
 }

@@ -44,6 +44,7 @@ public class LoginErrorMessage extends Message {
     MISSING_USERNAME_OR_EMAIL,
     BAD_USERNAME_OR_EMAIL,
     MISSING_PASSWORD,
-    BAD_PASSWORD
+    BAD_PASSWORD,
+    BAD_VERSION
   }
 }
