@@ -2,6 +2,7 @@ package rpg.msg.s2c;
 
 import rpg.msg.Message;
 import rpg.msg.MessageType;
+import rpg.net.NetConfig;
 import rpg.serialization.ByteSink;
 import rpg.serialization.ByteSource;
 import rpg.serialization.IntegerSerializer;
@@ -41,8 +42,22 @@ public class RegistrationErrorMessage extends Message {
   };
 
   public static enum Reason {
-    EMAIL_TAKEN, EMAIL_BAD_FORMAT, EMAIL_LONG,
-    PASSWORD_SHORT, PASSWORD_LONG, PASSWORD_EASY,
-    BAD_VERSION
+    EMAIL_MISSING("You must enter an email."),
+    EMAIL_TAKEN("That email is already in use. Please use a different one."),
+    EMAIL_BAD_FORMAT("The email you entered appears to be malformed."),
+    EMAIL_LONG("Emails can be at most " + NetConfig.EMAIL_MAX_LEN + " characters long."),
+    PASSWORD_MISSING("You must enter a password."),
+    PASSWORD_SHORT("Passwords must be at least " + NetConfig.PASSWORD_MIN_LEN + " characters long."),
+    PASSWORD_LONG("Password can be at most " + NetConfig.PASSWORD_MAX_LEN + " characters long."),
+    PASSWORD_EASY("The password you entered is too easy to guess."),
+    CONFIRMATION_MISSING("You must enter a password confirmation."),
+    BAD_CONFIRMATION("The password confirmation did not match the original password."),
+    BAD_VERSION("Your client is out of date. Please download the latest version.");
+
+    public final String message;
+
+    private Reason(String message) {
+      this.message = message;
+    }
   }
 }

@@ -18,32 +18,27 @@ import static org.lwjgl.opengl.GL11.glVertex2d;
 import static org.lwjgl.opengl.GL11.glVertex2i;
 
 public class TextBox extends FocusableWidget {
+  private static double BLINK_PHASE = 0.8, VISIBLE_FRACTION = 0.6;
   private static final int PAD_TOP = 2, PAD_BOTTOM = 5, PAD_SIDE = 3;
 
   private static final FontRenderer fontRenderer = FontRendererCache.singleton.get("Arial-13");
 
-  private final String name;
   protected String content;
 
-  public TextBox(String name, String initialContent) {
-    this.name = name;
+  public TextBox(String initialContent) {
     content = initialContent;
   }
 
-  public TextBox(String name) {
-    this(name, "");
+  public TextBox() {
+    this("");
+  }
+
+  public String getContent() {
+    return content;
   }
 
   protected String getContentToDraw() {
     return content;
-  }
-
-  public Widget getWidget(String name) {
-    return this.name.equals(name) ? this : null;
-  }
-
-  public String getValue(String name) {
-    return this.name.equals(name) ? content : null;
   }
 
   @Override
@@ -89,9 +84,17 @@ public class TextBox extends FocusableWidget {
     glEnd();
     glEnable(GL_TEXTURE_2D);
 
-    fontRenderer.draw(getContentToDraw(), Color.BLACK,
+    String text = getContentToDraw();
+    if (isFocused() && cursorTime())
+      text += '|';
+    fontRenderer.draw(text, Color.BLACK,
         bounds.x1() + PAD_SIDE,
         bounds.y2() - PAD_BOTTOM);
+  }
+
+  private boolean cursorTime() {
+    double t = System.currentTimeMillis() * 1e-3;
+    return t % BLINK_PHASE < BLINK_PHASE * VISIBLE_FRACTION;
   }
 
   @Override

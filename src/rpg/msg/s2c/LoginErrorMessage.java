@@ -41,10 +41,16 @@ public class LoginErrorMessage extends Message {
   };
 
   public static enum Reason {
-    MISSING_USERNAME_OR_EMAIL,
-    BAD_USERNAME_OR_EMAIL,
-    MISSING_PASSWORD,
-    BAD_PASSWORD,
-    BAD_VERSION
+    MISSING_EMAIL("You must enter an email."),
+    BAD_EMAIL("No user with that email was found."),
+    MISSING_PASSWORD("You must enter a password."),
+    BAD_PASSWORD("The password you entered did not match our records."),
+    BAD_VERSION("Your client is out of date. Please download the latest version.");
+
+    public final String message;
+
+    private Reason(String message) {
+      this.message = message;
+    }
   }
 }

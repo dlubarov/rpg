@@ -9,10 +9,10 @@ import rpg.net.ToClientMessageSink;
 import rpg.server.Account;
 import rpg.server.AccountManager;
 
-public class LoginRequestHandler extends Handler<LoginMessage> {
-  public static final LoginRequestHandler singleton = new LoginRequestHandler();
+public class LoginHandler extends Handler<LoginMessage> {
+  public static final LoginHandler singleton = new LoginHandler();
 
-  private LoginRequestHandler() {}
+  private LoginHandler() {}
 
   @Override
   public void handle(LoginMessage msg, InetAddress sender) {
@@ -21,7 +21,7 @@ public class LoginRequestHandler extends Handler<LoginMessage> {
       return;
     }
     if (msg.email.isEmpty()) {
-      sendRejection(LoginErrorMessage.Reason.MISSING_USERNAME_OR_EMAIL, sender);
+      sendRejection(LoginErrorMessage.Reason.MISSING_EMAIL, sender);
       return;
     }
     if (msg.password.isEmpty()) {
@@ -31,7 +31,7 @@ public class LoginRequestHandler extends Handler<LoginMessage> {
 
     Account account = AccountManager.getAccountByEmail(msg.email);
     if (account == null) {
-      sendRejection(LoginErrorMessage.Reason.BAD_USERNAME_OR_EMAIL, sender);
+      sendRejection(LoginErrorMessage.Reason.BAD_EMAIL, sender);
       return;
     }
     if (!msg.password.equals(account.password)) {

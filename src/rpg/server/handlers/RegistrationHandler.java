@@ -14,8 +14,8 @@ import rpg.net.ToClientMessageSink;
 import rpg.server.Account;
 import rpg.server.AccountManager;
 
-public class RegistrationRequestHandler extends Handler<RegistrationMessage> {
-  public static final RegistrationRequestHandler singleton = new RegistrationRequestHandler();
+public class RegistrationHandler extends Handler<RegistrationMessage> {
+  public static final RegistrationHandler singleton = new RegistrationHandler();
 
   // This is far from perfect, but I don't really care...
   private static final Pattern emailPattern = Pattern.compile(
@@ -25,7 +25,7 @@ public class RegistrationRequestHandler extends Handler<RegistrationMessage> {
       "password", "password1", "secret", "qwerty", "qazqaz"
   ));
 
-  private RegistrationRequestHandler() {}
+  private RegistrationHandler() {}
 
   @Override
   public void handle(RegistrationMessage msg, InetAddress sender) {
@@ -46,6 +46,8 @@ public class RegistrationRequestHandler extends Handler<RegistrationMessage> {
       return RegistrationErrorMessage.Reason.BAD_VERSION;
 
     // Validate email.
+    if (msg.email.isEmpty())
+      return RegistrationErrorMessage.Reason.EMAIL_MISSING;
     if (msg.email.length() > NetConfig.EMAIL_MAX_LEN)
       return RegistrationErrorMessage.Reason.EMAIL_LONG;
     if (!isEmailValid(msg.email))
@@ -54,6 +56,8 @@ public class RegistrationRequestHandler extends Handler<RegistrationMessage> {
       return RegistrationErrorMessage.Reason.EMAIL_TAKEN;
 
     // Validate password.
+    if (msg.password.isEmpty())
+      return RegistrationErrorMessage.Reason.PASSWORD_MISSING;
     if (msg.password.length() < NetConfig.PASSWORD_MIN_LEN)
       return RegistrationErrorMessage.Reason.PASSWORD_SHORT;
     if (msg.password.length() > NetConfig.PASSWORD_MAX_LEN)

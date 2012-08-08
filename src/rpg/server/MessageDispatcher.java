@@ -12,8 +12,8 @@ import rpg.serialization.ByteSource;
 import rpg.serialization.LongSerializer;
 import rpg.server.handlers.ConfirmationHandler;
 import rpg.server.handlers.HereIAmHandler;
-import rpg.server.handlers.LoginRequestHandler;
-import rpg.server.handlers.RegistrationRequestHandler;
+import rpg.server.handlers.LoginHandler;
+import rpg.server.handlers.RegistrationHandler;
 import rpg.util.Logger;
 
 /**
@@ -58,10 +58,10 @@ public class MessageDispatcher implements Runnable {
         ConfirmationHandler.singleton.handle(ConfirmationMessage.serializer.deserialize(source));
         break;
       case REGISTRATION_REQUEST:
-        RegistrationRequestHandler.singleton.handle(RegistrationMessage.serializer.deserialize(source), sender);
+        RegistrationHandler.singleton.handle(RegistrationMessage.serializer.deserialize(source), sender);
         break;
       case LOGIN_REQUEST:
-        LoginRequestHandler.singleton.handle(LoginMessage.serializer.deserialize(source), sender);
+        LoginHandler.singleton.handle(LoginMessage.serializer.deserialize(source), sender);
         break;
       case HERE_I_AM:
         HereIAmHandler.singleton.handle(HereIAmMessage.serializer.deserialize(source), sender);

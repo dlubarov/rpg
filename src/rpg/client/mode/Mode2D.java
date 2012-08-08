@@ -4,16 +4,12 @@ import rpg.client.gfx.widget.Widget;
 import rpg.client.gfx.widget.winow.RootWindow;
 
 public abstract class Mode2D extends Mode {
-  public final Widget content;
-
-  protected Mode2D(Widget content) {
-    this.content = content;
-    content.setBounds(RootWindow.singleton.bounds());
-  }
+  @Override
+  public abstract Widget getContent();
 
   @Override
   public final void onLeftMouse(int x, int y) {
-    content.onClick(x, y);
+    getContent().onClick(x, y);
   }
 
   @Override
@@ -21,11 +17,10 @@ public abstract class Mode2D extends Mode {
 
   @Override
   public final void render() {
-    content.render();
+    getContent().render();
   }
 
-  @Override
-  public final Widget getContent() {
-    return content;
+  protected void setContentBounds() {
+    getContent().setBounds(RootWindow.singleton.bounds());
   }
 }

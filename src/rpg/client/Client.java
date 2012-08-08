@@ -11,6 +11,7 @@ import org.lwjgl.opengl.Util;
 import org.lwjgl.util.glu.GLU;
 import rpg.client.gfx.GraphicsMode;
 import rpg.client.gfx.TextureReleaser;
+import rpg.client.gfx.widget.Widget;
 import rpg.client.gfx.widget.winow.RootWindow;
 import rpg.client.gfx.widget.winow.WindowManager;
 import rpg.client.mode.Mode;
@@ -109,7 +110,9 @@ public final class Client {
             System.exit(0);
           break;
       }
-      WindowManager.getFocusedWidget().onKeyDown(key);
+      Widget focusedWidget = WindowManager.getFocusedWidget();
+      if (focusedWidget != null)
+        focusedWidget.onKeyDown(key);
       ModeManager.getCurrentMode().onKeyDown(key);
     }
   }

@@ -9,9 +9,19 @@ public abstract class Label extends Widget {
   private static final FontRenderer fontRenderer = FontRendererCache.singleton.get("Arial-13");
 
   private final Alignment alignment;
+  private final Color color;
+
+  public Label(Alignment alignment, Color color) {
+    this.alignment = alignment;
+    this.color = color;
+  }
 
   public Label(Alignment alignment) {
-    this.alignment = alignment;
+    this(alignment, Color.BLACK);
+  }
+
+  public Label() {
+    this(Alignment.LEFT_ALIGNED);
   }
 
   protected abstract String getContent();
@@ -40,7 +50,7 @@ public abstract class Label extends Widget {
   public void render() {
     int extraH = bounds.h() - getMinHeight();
     int base = bounds.y2() - extraH / 2;
-    fontRenderer.draw(getContent(), Color.BLACK,
+    fontRenderer.draw(getContent(), color,
         bounds.x1(), bounds.y2(), bounds.w(), alignment);
   }
 }

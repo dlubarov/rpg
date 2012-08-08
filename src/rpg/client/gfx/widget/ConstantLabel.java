@@ -1,9 +1,15 @@
 package rpg.client.gfx.widget;
 
+import java.awt.Color;
 import rpg.client.gfx.font.Alignment;
 
 public class ConstantLabel extends Label {
   private final String content;
+
+  public ConstantLabel(String content, Alignment alignment, Color color) {
+    super(alignment, color);
+    this.content = content;
+  }
 
   public ConstantLabel(String content, Alignment alignment) {
     super(alignment);
@@ -11,7 +17,8 @@ public class ConstantLabel extends Label {
   }
 
   public ConstantLabel(String content) {
-    this(content, Alignment.LEFT_ALIGNED);
+    super();
+    this.content = content;
   }
 
   @Override

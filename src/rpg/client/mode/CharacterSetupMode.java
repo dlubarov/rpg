@@ -8,8 +8,16 @@ import rpg.client.gfx.widget.VBox;
 import rpg.client.gfx.widget.Widget;
 
 public class CharacterSetupMode extends Mode2D {
+  private final Widget content;
+
   protected CharacterSetupMode() {
-    super(createContent());
+    content = createContent();
+    setContentBounds();
+  }
+
+  @Override
+  public Widget getContent() {
+    return content;
   }
 
   private static Widget createContent() {

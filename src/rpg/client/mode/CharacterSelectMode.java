@@ -9,8 +9,16 @@ import rpg.client.gfx.widget.Widget;
 import rpg.core.CharacterSummary;
 
 public class CharacterSelectMode extends Mode2D {
+  private final Widget content;
+
   public CharacterSelectMode(List<CharacterSummary> options) {
-    super(createContent(options));
+    content = createContent(options);
+    setContentBounds();
+  }
+
+  @Override
+  public Widget getContent() {
+    return content;
   }
 
   private static Widget createContent(List<CharacterSummary> options) {

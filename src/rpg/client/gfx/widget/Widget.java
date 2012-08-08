@@ -51,14 +51,6 @@ public abstract class Widget {
     throw new UnsupportedOperationException();
   }
 
-  public Widget getWidget(String name) {
-    return null;
-  }
-
-  public String getValue(String name) {
-    return null;
-  }
-
   public abstract void render();
 
   public Widget pad(int amount) {

@@ -37,6 +37,7 @@ public class RegistrationMessage extends Message {
       new Serializer<RegistrationMessage>() {
     @Override
     public void serialize(RegistrationMessage msg, ByteSink sink) {
+      StringSerializer.singleton.serialize(msg.email, sink);
       StringSerializer.singleton.serialize(msg.password, sink);
       ListSerializer.byteListSerializer.serialize(msg.version, sink);
     }
