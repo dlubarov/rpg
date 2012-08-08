@@ -14,6 +14,9 @@ public final class ByteSource {
   }
 
   public byte[] takeN(int n) {
+    assert data.length - pos >= n : String.format(
+        "Attempted to take %d, but only %d remaining",
+        n, data.length - pos);
     byte[] result = new byte[n];
     System.arraycopy(data, pos, result, 0, n);
     pos += n;

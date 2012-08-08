@@ -1,12 +1,11 @@
 package rpg.msg.s2c;
 
-import java.util.Arrays;
+import java.util.List;
 import rpg.msg.Message;
 import rpg.msg.MessageType;
-import rpg.serialization.ArraySerializer;
 import rpg.serialization.ByteSink;
 import rpg.serialization.ByteSource;
-import rpg.serialization.IntegerSerializer;
+import rpg.serialization.ListSerializer;
 import rpg.serialization.Serializer;
 import rpg.util.ToStringBuilder;
 
@@ -16,9 +15,9 @@ import rpg.util.ToStringBuilder;
  * peers, so the client should stop rendering them.
  */
 public class PeerGoodbyeMessage extends Message {
-  public final Integer[] ids;
+  public final List<Integer> ids;
 
-  public PeerGoodbyeMessage(Integer[] ids) {
+  public PeerGoodbyeMessage(List<Integer> ids) {
     super(MessageType.PEER_GOODBYE, serializer);
     this.ids = ids;
   }
@@ -26,23 +25,20 @@ public class PeerGoodbyeMessage extends Message {
   @Override
   public String toString() {
     return new ToStringBuilder(this)
-        .append("ids", Arrays.toString(ids))
+        .append("ids", ids)
         .toString();
   }
 
   public static final Serializer<PeerGoodbyeMessage> serializer =
       new Serializer<PeerGoodbyeMessage>() {
-    private final Serializer<Integer[]> arraySerializer =
-        new ArraySerializer<Integer>(IntegerSerializer.singleton);
-
     @Override
     public void serialize(PeerGoodbyeMessage msg, ByteSink sink) {
-      arraySerializer.serialize(msg.ids, sink);
+      ListSerializer.integerListSerializer.serialize(msg.ids, sink);
     }
 
     @Override
     public PeerGoodbyeMessage deserialize(ByteSource source) {
-      return new PeerGoodbyeMessage(arraySerializer.deserialize(source));
+      return new PeerGoodbyeMessage(ListSerializer.integerListSerializer.deserialize(source));
     }
   };
 }

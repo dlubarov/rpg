@@ -1,7 +1,6 @@
 package rpg.server.handlers;
 
 import java.net.InetAddress;
-import java.util.Arrays;
 import rpg.core.Info;
 import rpg.msg.c2s.LoginMessage;
 import rpg.msg.s2c.CharacterInfoMessage;
@@ -17,7 +16,7 @@ public class LoginRequestHandler extends Handler<LoginMessage> {
 
   @Override
   public void handle(LoginMessage msg, InetAddress sender) {
-    if (!Arrays.equals(msg.version, Info.versionParts)) {
+    if (!msg.version.equals(Info.versionParts)) {
       sendRejection(LoginErrorMessage.Reason.BAD_VERSION, sender);
       return;
     }

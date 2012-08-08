@@ -1,13 +1,13 @@
 package rpg.msg.s2c;
 
-import java.util.Arrays;
+import java.util.List;
 import rpg.math.Vector3;
 import rpg.msg.Message;
 import rpg.msg.MessageType;
-import rpg.serialization.ArraySerializer;
 import rpg.serialization.ByteSink;
 import rpg.serialization.ByteSource;
 import rpg.serialization.IntegerSerializer;
+import rpg.serialization.ListSerializer;
 import rpg.serialization.Serializer;
 import rpg.serialization.StringSerializer;
 import rpg.serialization.Vector3Serializer;
@@ -18,9 +18,9 @@ import rpg.util.ToStringBuilder;
  * previously aware of.
  */
 public class PeerIntroductionMessage extends Message {
-  public final Part[] parts;
+  public final List<Part> parts;
 
-  public PeerIntroductionMessage(Part[] parts) {
+  public PeerIntroductionMessage(List<Part> parts) {
     super(MessageType.PEER_INTRODUCTION, serializer);
     this.parts = parts;
   }
@@ -28,23 +28,23 @@ public class PeerIntroductionMessage extends Message {
   @Override
   public String toString() {
     return new ToStringBuilder(this)
-        .append("parts", Arrays.toString(parts))
+        .append("parts", parts)
         .toString();
   }
 
   public static final Serializer<PeerIntroductionMessage> serializer =
       new Serializer<PeerIntroductionMessage>() {
-    private final Serializer<Part[]> arraySerializer =
-        new ArraySerializer<Part>(partSerializer);
+    private final Serializer<List<Part>> listSerializer =
+        new ListSerializer<Part>(partSerializer);
 
     @Override
     public void serialize(PeerIntroductionMessage msg, ByteSink sink) {
-      arraySerializer.serialize(msg.parts, sink);
+      listSerializer.serialize(msg.parts, sink);
     }
 
     @Override
     public PeerIntroductionMessage deserialize(ByteSource source) {
-      return new PeerIntroductionMessage(arraySerializer.deserialize(source));
+      return new PeerIntroductionMessage(listSerializer.deserialize(source));
     }
   };
 

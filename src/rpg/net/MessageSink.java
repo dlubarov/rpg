@@ -1,5 +1,6 @@
 package rpg.net;
 
+import java.util.Arrays;
 import rpg.msg.Message;
 import rpg.serialization.ByteSink;
 import rpg.serialization.LongSerializer;
@@ -22,6 +23,7 @@ public abstract class MessageSink {
     byte[] data = sink.getData();
     if (data.length > 512)
       Logger.warning("Unsafe length %d of message %s.", data.length, msg);
+    Logger.debug("Sending data: %s.", Arrays.toString(data));
     sendRaw(data);
   }
 

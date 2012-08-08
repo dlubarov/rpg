@@ -31,10 +31,11 @@ public class LoginMode extends Mode2D {
   public void onKeyDown(int key) {
     switch (key) {
       case Keyboard.KEY_TAB:
-        if (emailBox().isFocused())
+        if (emailBox().isFocused()) {
           passwordBox().makeFocused();
-        else if (passwordBox().isFocused())
+        } else if (passwordBox().isFocused()) {
           emailBox().makeFocused();
+        }
         break;
       case Keyboard.KEY_RETURN:
         sendLogin();

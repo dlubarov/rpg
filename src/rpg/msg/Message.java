@@ -1,7 +1,6 @@
 package rpg.msg;
 
 import rpg.serialization.ByteSink;
-import rpg.serialization.IntegerSerializer;
 import rpg.serialization.Serializer;
 
 public abstract class Message {
@@ -15,7 +14,7 @@ public abstract class Message {
 
   @SuppressWarnings("unchecked")
   public void serializeWithTypeTo(ByteSink sink) {
-    IntegerSerializer.singleton.serialize(type.ordinal(), sink);
+    sink.give((byte) type.ordinal());
     serializer.serialize(this, sink);
   }
 

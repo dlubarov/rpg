@@ -1,5 +1,6 @@
 package rpg.client.mode;
 
+import java.util.List;
 import rpg.client.gfx.widget.Button;
 import rpg.client.gfx.widget.ConstantLabel;
 import rpg.client.gfx.widget.HBox;
@@ -8,17 +9,17 @@ import rpg.client.gfx.widget.Widget;
 import rpg.core.CharacterSummary;
 
 public class CharacterSelectMode extends Mode2D {
-  public CharacterSelectMode(CharacterSummary[] options) {
+  public CharacterSelectMode(List<CharacterSummary> options) {
     super(createContent(options));
   }
 
-  private static Widget createContent(CharacterSummary[] options) {
-    VBox[] parts = new VBox[options.length];
+  private static Widget createContent(List<CharacterSummary> options) {
+    VBox[] parts = new VBox[options.size()];
     for (int i = 0; i < parts.length; ++i)
       parts[i] = new VBox(
-          new ConstantLabel(options[i].name),
-          new ConstantLabel(options[i].combatClass.name()),
-          new CharacterSelectionButton(options[i]));
+          new ConstantLabel(options.get(i).name),
+          new ConstantLabel(options.get(i).combatClass.name()),
+          new CharacterSelectionButton(options.get(i)));
     return new HBox(parts).padFlexible();
   }
 

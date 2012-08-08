@@ -1,6 +1,8 @@
 package rpg.server;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import rpg.core.CharacterSummary;
@@ -22,11 +24,10 @@ public class Account {
     AccountManager.register(this);
   }
 
-  public CharacterSummary[] getCharacterSummaries() {
-    CharacterSummary[] summaries = new CharacterSummary[characters.size()];
-    int i = 0;
+  public List<CharacterSummary> getCharacterSummaries() {
+    List<CharacterSummary> summaries = new ArrayList<CharacterSummary>(characters.size());
     for (PlayerCharacter character : characters.values())
-      summaries[i++] = new CharacterSummary(character.id, character.name, character.combatClass);
+      summaries.add(new CharacterSummary(character.id, character.name, character.combatClass));
     return summaries;
   }
 

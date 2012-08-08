@@ -42,7 +42,7 @@ public class RegistrationRequestHandler extends Handler<RegistrationMessage> {
 
   private RegistrationErrorMessage.Reason getFailureReason(RegistrationMessage msg) {
     // Validate version.
-    if (!Arrays.equals(msg.version, Info.versionParts))
+    if (!msg.version.equals(Info.versionParts))
       return RegistrationErrorMessage.Reason.BAD_VERSION;
 
     // Validate email.

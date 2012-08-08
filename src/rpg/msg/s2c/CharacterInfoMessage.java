@@ -1,22 +1,22 @@
 package rpg.msg.s2c;
 
-import java.util.Arrays;
+import java.util.List;
 import rpg.core.CharacterSummary;
 import rpg.core.CombatClass;
 import rpg.msg.Message;
 import rpg.msg.MessageType;
-import rpg.serialization.ArraySerializer;
 import rpg.serialization.ByteSink;
 import rpg.serialization.ByteSource;
 import rpg.serialization.IntegerSerializer;
+import rpg.serialization.ListSerializer;
 import rpg.serialization.Serializer;
 import rpg.serialization.StringSerializer;
 import rpg.util.ToStringBuilder;
 
 public class CharacterInfoMessage extends Message {
-  public final CharacterSummary[] parts;
+  public final List<CharacterSummary> parts;
 
-  public CharacterInfoMessage(CharacterSummary[] parts) {
+  public CharacterInfoMessage(List<CharacterSummary> parts) {
     super(MessageType.CHARACTER_INFO, serializer);
     this.parts = parts;
   }
@@ -24,14 +24,14 @@ public class CharacterInfoMessage extends Message {
   @Override
   public String toString() {
     return new ToStringBuilder(this)
-        .append("parts", Arrays.toString(parts))
+        .append("parts", parts)
         .toString();
   }
 
   public static final Serializer<CharacterInfoMessage> serializer =
       new Serializer<CharacterInfoMessage>() {
-    private final Serializer<CharacterSummary[]> arraySerializer =
-        new ArraySerializer<CharacterSummary>(partSerializer);
+    private final Serializer<List<CharacterSummary>> arraySerializer =
+        new ListSerializer<CharacterSummary>(partSerializer);
 
     @Override
     public void serialize(CharacterInfoMessage msg, ByteSink sink) {

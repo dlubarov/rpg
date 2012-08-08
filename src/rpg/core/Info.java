@@ -1,15 +1,16 @@
 package rpg.core;
 
-import rpg.util.ArrayUtil;
+import java.util.Arrays;
+import java.util.List;
 
 public final class Info {
   private Info() {}
 
   public static final String name = "Yet Another RPG";
 
-  public static final Byte[] versionParts = {0, 1};
+  public static final List<Byte> versionParts = Arrays.asList(new Byte[] {0, 1});
 
   public static String getVersionString() {
-    return ArrayUtil.implode('.', versionParts);
+    return versionParts.toString(); // TODO: CollectionUtil.implode
   }
 }

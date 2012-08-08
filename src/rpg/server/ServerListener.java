@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.Arrays;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import rpg.serialization.ByteSource;
@@ -42,6 +43,7 @@ public class ServerListener extends Thread {
     InetAddress sender = packet.getAddress();
     byte[] data = new byte[packet.getLength()];
     System.arraycopy(packet.getData(), packet.getOffset(), data, 0, data.length);
+    Logger.debug("Received data: %s.", Arrays.toString(data));
     ByteSource source = new ByteSource(data);
     executor.execute(new MessageDispatcher(source, sender));
   }

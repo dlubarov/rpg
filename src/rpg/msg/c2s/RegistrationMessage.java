@@ -1,13 +1,13 @@
 package rpg.msg.c2s;
 
+import java.util.List;
 import rpg.msg.Message;
 import rpg.msg.MessageType;
-import rpg.serialization.ArraySerializer;
 import rpg.serialization.ByteSink;
 import rpg.serialization.ByteSource;
+import rpg.serialization.ListSerializer;
 import rpg.serialization.Serializer;
 import rpg.serialization.StringSerializer;
-import rpg.util.ArrayUtil;
 import rpg.util.ToStringBuilder;
 
 /**
@@ -15,9 +15,9 @@ import rpg.util.ToStringBuilder;
  */
 public class RegistrationMessage extends Message {
   public final String email, password;
-  public final Byte[] version;
+  public final List<Byte> version;
 
-  public RegistrationMessage(String email, String password, Byte[] version) {
+  public RegistrationMessage(String email, String password, List<Byte> version) {
     super(MessageType.REGISTRATION_REQUEST, serializer);
     this.email = email;
     this.password = password;
@@ -29,7 +29,7 @@ public class RegistrationMessage extends Message {
     return new ToStringBuilder(this)
         .append("email", email)
         .append("password", password)
-        .append("version", ArrayUtil.implode('.', version))
+        .append("version", version) // TODO: CollectionUtil.implode
         .toString();
   }
 
@@ -38,7 +38,7 @@ public class RegistrationMessage extends Message {
     @Override
     public void serialize(RegistrationMessage msg, ByteSink sink) {
       StringSerializer.singleton.serialize(msg.password, sink);
-      ArraySerializer.byteArraySerializer.serialize(msg.version, sink);
+      ListSerializer.byteListSerializer.serialize(msg.version, sink);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class RegistrationMessage extends Message {
       return new RegistrationMessage(
           StringSerializer.singleton.deserialize(source),
           StringSerializer.singleton.deserialize(source),
-          ArraySerializer.byteArraySerializer.deserialize(source));
+          ListSerializer.byteListSerializer.deserialize(source));
     }
   };
 }
