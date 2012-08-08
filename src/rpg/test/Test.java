@@ -1,12 +1,9 @@
 package rpg.test;
 
-import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.Random;
 
 public abstract class Test {
-  private static final PrintStream ps = System.err;
-
   protected final Random rng;
 
   protected Test() {
@@ -26,15 +23,9 @@ public abstract class Test {
 
   protected static void fail(String msg, Object... args) {
     StackTraceElement[] trace = new Exception().getStackTrace();
-    for (StackTraceElement elem : trace)
-      if (!elem.getClassName().equals(Test.class.getName())) {
-        ps.printf("Failed %s.%s (line %d).\n",
-            elem.getClassName(), elem.getMethodName(), elem.getLineNumber());
-        if (msg != null) {
-          ps.printf("    %s\n", String.format(msg, args));
-        }
-        return;
-      }
+    for (StackTraceElement frame : trace)
+      if (!frame.getClassName().equals(Test.class.getName()))
+        throw new FailureException(frame, msg == null ? null : String.format(msg, args));
     throw new AssertionError("Shouldn't get here.");
   }
 
@@ -43,27 +34,23 @@ public abstract class Test {
   }
 
   protected static void assertTrue(boolean b) {
-    if (!b) {
+    if (!b)
       fail();
-    }
   }
 
   protected static void assertFalse(boolean b) {
-    if (b) {
+    if (b)
       fail();
-    }
   }
 
   protected static void assertEqual(Object a, Object b) {
-    if (!a.equals(b)) {
+    if (!a.equals(b))
       fail("%s is not equal to %s.", a, b);
-    }
   }
 
   protected static void assertNotEqual(Object a, Object b) {
-    if (a.equals(b)) {
+    if (a.equals(b))
       fail("%s is equal to %s.", a, b);
-    }
   }
 
   protected static void assertArraysEqual(Object[] a, Object[] b) {

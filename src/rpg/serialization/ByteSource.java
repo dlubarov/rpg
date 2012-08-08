@@ -9,6 +9,7 @@ public final class ByteSource {
   }
 
   public byte take() {
+    assert pos < data.length : String.format("Exhausted source of length %d.", data.length);
     return data[pos++];
   }
 

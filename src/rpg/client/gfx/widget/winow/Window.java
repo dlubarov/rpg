@@ -147,12 +147,14 @@ public abstract class Window {
   }
 
   private void renderButtons() {
-    int pad = 3, size = BAR_HEIGHT - 2 * pad;
-    int x = x2() - pad;
-    for (WindowButton b : buttons) {
-      Bounds bounds = new Bounds(x - size, y1() + pad, x, y2() - pad);
-      b.render(bounds);
-      x -= size + pad;
-    }
+    for (int i = 0; i < buttons.length; ++i)
+      buttons[i].render(getButtonBounds(i));
+  }
+
+  private Bounds getButtonBounds(int index) {
+    int pad = 3;
+    int size = BAR_HEIGHT - 2 * pad;
+    int x  = x2() - pad - index * size;
+    return new Bounds(x - size, y1() + pad, x, y2() - pad);
   }
 }

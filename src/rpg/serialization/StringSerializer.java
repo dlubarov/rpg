@@ -12,7 +12,7 @@ public class StringSerializer extends Serializer<String> {
   @Override
   public void serialize(String s, ByteSink sink) {
     byte[] data = s.getBytes(utf8);
-    sink.giveAll(IntegerSerializer.singleton.serialize(data.length));
+    IntegerSerializer.singleton.serialize(data.length, sink);
     sink.giveAll(data);
   }
 

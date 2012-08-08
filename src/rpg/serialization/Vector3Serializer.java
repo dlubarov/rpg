@@ -9,9 +9,9 @@ public class Vector3Serializer extends Serializer<Vector3> {
 
   @Override
   public void serialize(Vector3 v, ByteSink sink) {
-    sink.giveAll(DoubleSerializer.singleton.serialize(v.x));
-    sink.giveAll(DoubleSerializer.singleton.serialize(v.y));
-    sink.giveAll(DoubleSerializer.singleton.serialize(v.z));
+    DoubleSerializer.singleton.serialize(v.x, sink);
+    DoubleSerializer.singleton.serialize(v.y, sink);
+    DoubleSerializer.singleton.serialize(v.z, sink);
   }
 
   @Override

@@ -15,7 +15,7 @@ public class LongSerializer extends Serializer<Long> {
   public Long deserialize(ByteSource source) {
     long n = 0;
     for (int i = 0; i < 8; ++i)
-      n |= (((long) source.take()) & 0xFF) << i * 8;
+      n |= (((long) source.take()) & 0xFFL) << i * 8;
     return n;
   }
 }

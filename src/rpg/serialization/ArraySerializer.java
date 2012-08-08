@@ -14,9 +14,9 @@ public class ArraySerializer<T> extends Serializer<T[]> {
 
   @Override
   public void serialize(T[] arr, ByteSink sink) {
-    sink.giveAll(IntegerSerializer.singleton.serialize(arr.length));
+    IntegerSerializer.singleton.serialize(arr.length, sink);
     for (T elem : arr)
-      sink.giveAll(elementSerializer.serialize(elem));
+      elementSerializer.serialize(elem, sink);
   }
 
   /**

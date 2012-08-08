@@ -4,13 +4,15 @@ import rpg.serialization.IntegerSerializer;
 import rpg.test.Test;
 
 public class IntegerSerializerTest extends Test {
+  private static final int TEST_SIZE = 50;
 
-  @Override protected void run() {
-    for (int i = 0; i < 20; ++i) {
-      int randInt = rng.nextInt();
-      byte[] byteArray = IntegerSerializer.singleton.serialize(randInt);
-      int deserialized = IntegerSerializer.singleton.deserialize(byteArray);
-      assertEqual(randInt, deserialized);
+  @Override
+  protected void run() {
+    for (int i = 0; i < TEST_SIZE; ++i) {
+      int expected = rng.nextInt();
+      byte[] data = IntegerSerializer.singleton.serialize(expected);
+      int result = IntegerSerializer.singleton.deserialize(data);
+      assertEqual(expected, result);
     }
   }
 }
