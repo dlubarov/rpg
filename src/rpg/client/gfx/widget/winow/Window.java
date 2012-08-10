@@ -6,6 +6,7 @@ import rpg.client.gfx.font.Alignment;
 import rpg.client.gfx.font.FontRenderer;
 import rpg.client.gfx.font.FontRendererCache;
 import rpg.client.gfx.widget.Bounds;
+import rpg.util.Logger;
 
 import static org.lwjgl.opengl.GL11.GL_LINES;
 import static org.lwjgl.opengl.GL11.GL_QUADS;
@@ -101,17 +102,21 @@ public abstract class Window {
     glDisable(GL_TEXTURE_2D);
     glColor3d(.7, .7, .7);
     glBegin(GL_QUADS);
-    if (isFocused())
+    if (isFocused()) {
       ColorUtil.bindColor(ColorUtil.phaseColor(sat, val, 0.00));
+    }
     glVertex2i(x1(), y1());
-    if (isFocused())
+    if (isFocused()) {
       ColorUtil.bindColor(ColorUtil.phaseColor(sat, val, 0.25));
+    }
     glVertex2i(x1(), y2());
-    if (isFocused())
+    if (isFocused()) {
       ColorUtil.bindColor(ColorUtil.phaseColor(sat, val, 0.50));
+    }
     glVertex2i(x2(), y2());
-    if (isFocused())
+    if (isFocused()) {
       ColorUtil.bindColor(ColorUtil.phaseColor(sat, val, 0.75));
+    }
     glVertex2i(x2(), y1());
     glEnd();
     glEnable(GL_TEXTURE_2D);
@@ -157,4 +162,12 @@ public abstract class Window {
     int x  = x2() - pad - index * size;
     return new Bounds(x - size, y1() + pad, x, y2() - pad);
   }
+
+  public void onClick(int x, int y) {
+    for (int i = 0; i < buttons.length; ++i)
+      if (getButtonBounds(i).contains(x, y))
+        buttons[i].onClick(this);
+  }
+
+  public abstract void close();
 }

@@ -3,6 +3,7 @@ package rpg.client.mode;
 import java.util.List;
 import rpg.client.gfx.widget.Button;
 import rpg.client.gfx.widget.ConstantLabel;
+import rpg.client.gfx.widget.FixedVSpace;
 import rpg.client.gfx.widget.HBox;
 import rpg.client.gfx.widget.VBox;
 import rpg.client.gfx.widget.Widget;
@@ -28,7 +29,22 @@ public class CharacterSelectMode extends Mode2D {
           new ConstantLabel(options.get(i).name),
           new ConstantLabel(options.get(i).combatClass.name()),
           new CharacterSelectionButton(options.get(i)));
-    return new HBox(parts).padFlexible();
+    HBox characters = new HBox(parts);
+    return new VBox(
+        characters.padSidesFlexible(),
+        new FixedVSpace(50),
+        new NewCharacterButton().padSidesFlexible()
+    ).padFlexible();
+  }
+
+  private static class NewCharacterButton extends Button {
+    public NewCharacterButton() {
+      super("Create New Character");
+    }
+
+    @Override protected void onClick() {
+      ModeManager.switchTo(new CharacterSetupMode());
+    }
   }
 
   private static class CharacterSelectionButton extends Button {

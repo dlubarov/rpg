@@ -48,4 +48,9 @@ public final class RootWindow extends Window {
     ModeManager.getCurrentMode().render();
     WindowManager.render();
   }
+
+  @Override
+  public void close() {
+    System.exit(0);
+  }
 }

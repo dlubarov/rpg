@@ -24,8 +24,11 @@ public final class WindowManager {
     // TODO: check buttons
     onLeftMouseDownDragging(x, y);
     ChildWindow focusedChild = childFor(x, y);
-    if (focusedChild != null)
+    if (focusedChild != null) {
       focusedChild.content.onClick(x, y);
+      focusedChild.onClick(x, y);
+    }
+    RootWindow.singleton.onClick(x, y);
   }
 
   private static void onLeftMouseDownDragging(int x, int y) {

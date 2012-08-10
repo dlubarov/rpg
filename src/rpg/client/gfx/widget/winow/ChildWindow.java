@@ -28,8 +28,9 @@ public final class ChildWindow extends Window {
     WindowManager.addChild(this);
   }
 
-  public boolean hide() {
-    return WindowManager.removeChild(this);
+  @Override
+  public void close() {
+    WindowManager.removeChild(this);
   }
 
   public void moveTo(int x1, int y1) {

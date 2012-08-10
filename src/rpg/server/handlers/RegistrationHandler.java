@@ -13,6 +13,7 @@ import rpg.net.NetConfig;
 import rpg.net.ToClientMessageSink;
 import rpg.server.Account;
 import rpg.server.AccountManager;
+import rpg.util.Logger;
 
 public class RegistrationHandler extends Handler<RegistrationMessage> {
   public static final RegistrationHandler singleton = new RegistrationHandler();
@@ -31,9 +32,11 @@ public class RegistrationHandler extends Handler<RegistrationMessage> {
   public void handle(RegistrationMessage msg, InetAddress sender) {
     RegistrationErrorMessage.Reason failureReason = getFailureReason(msg);
     if (failureReason == null) {
-      AccountManager.register(new Account(msg.email, msg.password));
+      Account account = new Account(msg.email, msg.password);
+      AccountManager.register(account);
       RegistrationAcceptanceMessage acceptanceMessage = new RegistrationAcceptanceMessage();
       new ToClientMessageSink(sender).sendWithConfirmation(acceptanceMessage, 3);
+      Logger.info("New account registered: %s", account);
     } else {
       RegistrationErrorMessage rejectionMsg = new RegistrationErrorMessage(failureReason);
       new ToClientMessageSink(sender).sendWithConfirmation(rejectionMsg, 3);
@@ -42,28 +45,37 @@ public class RegistrationHandler extends Handler<RegistrationMessage> {
 
   private RegistrationErrorMessage.Reason getFailureReason(RegistrationMessage msg) {
     // Validate version.
-    if (!msg.version.equals(Info.versionParts))
+    if (!msg.version.equals(Info.versionParts)) {
       return RegistrationErrorMessage.Reason.BAD_VERSION;
+    }
 
     // Validate email.
-    if (msg.email.isEmpty())
+    if (msg.email.isEmpty()) {
       return RegistrationErrorMessage.Reason.EMAIL_MISSING;
-    if (msg.email.length() > NetConfig.EMAIL_MAX_LEN)
+    }
+    if (msg.email.length() > NetConfig.EMAIL_MAX_LEN) {
       return RegistrationErrorMessage.Reason.EMAIL_LONG;
-    if (!isEmailValid(msg.email))
+    }
+    if (!isEmailValid(msg.email)) {
       return RegistrationErrorMessage.Reason.EMAIL_BAD_FORMAT;
-    if (AccountManager.getAccountByEmail(msg.email) != null)
+    }
+    if (AccountManager.getAccountByEmail(msg.email) != null) {
       return RegistrationErrorMessage.Reason.EMAIL_TAKEN;
+    }
 
     // Validate password.
-    if (msg.password.isEmpty())
+    if (msg.password.isEmpty()) {
       return RegistrationErrorMessage.Reason.PASSWORD_MISSING;
-    if (msg.password.length() < NetConfig.PASSWORD_MIN_LEN)
+    }
+    if (msg.password.length() < NetConfig.PASSWORD_MIN_LEN) {
       return RegistrationErrorMessage.Reason.PASSWORD_SHORT;
-    if (msg.password.length() > NetConfig.PASSWORD_MAX_LEN)
+    }
+    if (msg.password.length() > NetConfig.PASSWORD_MAX_LEN) {
       return RegistrationErrorMessage.Reason.PASSWORD_LONG;
-    if (isEasyPassword(msg.password, msg.email))
+    }
+    if (isEasyPassword(msg.password, msg.email)) {
       return RegistrationErrorMessage.Reason.PASSWORD_EASY;
+    }
 
     return null;
   }

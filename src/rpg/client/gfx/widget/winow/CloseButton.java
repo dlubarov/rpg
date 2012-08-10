@@ -21,4 +21,9 @@ public class CloseButton extends WindowButton {
     glVertex2i(bounds.x1(), bounds.y2());
     glEnd();
   }
+
+  @Override
+  public void onClick(Window parent) {
+    parent.close();
+  }
 }

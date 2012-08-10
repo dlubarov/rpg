@@ -42,4 +42,6 @@ public abstract class WindowButton {
     glVertex2d(bounds.x2() - .5, bounds.y1() + .5);
     glEnd();
   }
+
+  public abstract void onClick(Window parent);
 }
