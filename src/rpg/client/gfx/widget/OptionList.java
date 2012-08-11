@@ -74,7 +74,7 @@ public class OptionList<T> extends Widget {
 
       fontRenderer.draw(options[i].toString(), c,
           bounds.x1(),
-          getOptionBounds(i).y2());
+          getOptionBounds(i).y1());
     }
   }
 

@@ -1,9 +1,12 @@
 package rpg.client.handlers;
 
+import java.util.ArrayList;
+import rpg.client.mode.CharacterSelectMode;
 import rpg.client.mode.CharacterSetupMode;
 import rpg.client.mode.Mode;
 import rpg.client.mode.ModeManager;
 import rpg.client.mode.RegistrationMode;
+import rpg.core.CharacterSummary;
 import rpg.msg.s2c.RegistrationAcceptanceMessage;
 import rpg.util.Logger;
 
@@ -17,6 +20,6 @@ public class RegistrationAcceptanceHandler extends Handler<RegistrationAcceptanc
       Logger.warning("Received %s while in %s.", msg, currentMode);
       return;
     }
-    ModeManager.switchTo(new CharacterSetupMode());
+    ModeManager.switchTo(new CharacterSelectMode(new ArrayList<CharacterSummary>(0)));
   }
 }

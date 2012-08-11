@@ -10,10 +10,12 @@ import rpg.client.gfx.widget.Widget;
 import rpg.core.CharacterSummary;
 
 public class CharacterSelectMode extends Mode2D {
+  List<CharacterSummary> options;
   private final Widget content;
 
   public CharacterSelectMode(List<CharacterSummary> options) {
-    content = createContent(options);
+    this.options = options;
+    content = createContent();
     setContentBounds();
   }
 
@@ -22,7 +24,7 @@ public class CharacterSelectMode extends Mode2D {
     return content;
   }
 
-  private static Widget createContent(List<CharacterSummary> options) {
+  private Widget createContent() {
     VBox[] parts = new VBox[options.size()];
     for (int i = 0; i < parts.length; ++i)
       parts[i] = new VBox(
@@ -37,13 +39,13 @@ public class CharacterSelectMode extends Mode2D {
     ).padFlexible();
   }
 
-  private static class NewCharacterButton extends Button {
+  private class NewCharacterButton extends Button {
     public NewCharacterButton() {
       super("Create New Character");
     }
 
     @Override protected void onClick() {
-      ModeManager.switchTo(new CharacterSetupMode());
+      ModeManager.switchTo(new CharacterSetupMode(options));
     }
   }
 

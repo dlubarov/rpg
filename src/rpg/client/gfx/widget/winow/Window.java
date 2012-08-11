@@ -6,7 +6,6 @@ import rpg.client.gfx.font.Alignment;
 import rpg.client.gfx.font.FontRenderer;
 import rpg.client.gfx.font.FontRendererCache;
 import rpg.client.gfx.widget.Bounds;
-import rpg.util.Logger;
 
 import static org.lwjgl.opengl.GL11.GL_LINES;
 import static org.lwjgl.opengl.GL11.GL_QUADS;
@@ -125,7 +124,8 @@ public abstract class Window {
   protected void renderCaption() {
     glColor3f(0, 0, 0);
     fontRenderer.draw(getCaption(), Color.WHITE,
-        x1(), y2() - 5, contentW(), Alignment.CENTER_ALIGNED);
+        x1(), y1() + 1,
+        contentW(), Alignment.CENTER_ALIGNED);
   }
 
   private void renderOutline() {

@@ -76,6 +76,6 @@ public abstract class Button extends Widget {
     glEnable(GL_TEXTURE_2D);
 
     fontRenderer.draw(content, Color.BLACK,
-        bounds.x1(), bounds.y2() - PAD_BOTTOM, bounds.w(), Alignment.CENTER_ALIGNED);
+        bounds.x1(), bounds.y1() + PAD_TOP, bounds.w(), Alignment.CENTER_ALIGNED);
   }
 }

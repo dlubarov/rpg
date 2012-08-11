@@ -48,9 +48,8 @@ public abstract class Label extends Widget {
 
   @Override
   public void render() {
-    int extraH = bounds.h() - getMinHeight();
-    int base = bounds.y2() - extraH / 2;
     fontRenderer.draw(getContent(), color,
-        bounds.x1(), bounds.y2(), bounds.w(), alignment);
+        bounds.x1(), bounds.y1(),
+        bounds.w(), alignment);
   }
 }

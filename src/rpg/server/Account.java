@@ -12,6 +12,11 @@ import rpg.util.ToStringBuilder;
 public class Account {
   private static final AtomicInteger idCounter = new AtomicInteger();
 
+  static {
+    // TODO: Remove hardcoded account.
+    new Account("d@l.com", "abcdef");
+  }
+
   public final int id;
   public final String email, password;
   private final Map<String, PlayerCharacter> characters;

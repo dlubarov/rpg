@@ -46,7 +46,7 @@ final class GlyphPage {
   // TODO: the scratch buffers are static in slick; can they be here?
   // TODO: BufferedImage could be smaller (MAX_CHAR_SIZE)
   private final BufferedImage image = new BufferedImage(SIZE, SIZE, BufferedImage.TYPE_INT_ARGB);
-  private final Graphics2D graphics = (Graphics2D) image.getGraphics();
+  public final Graphics2D graphics = (Graphics2D) image.getGraphics();
   private final Texture texture = Texture.createBlank(SIZE, SIZE);
   private final ByteBuffer byteBuffer = ByteBuffer.allocateDirect(SIZE * SIZE * 4)
       .order(ByteOrder.LITTLE_ENDIAN);

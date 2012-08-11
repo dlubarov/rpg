@@ -19,6 +19,7 @@ import static org.lwjgl.opengl.GL11.glVertex2d;
 
 public class FontRenderer {
   private final Font font;
+  private final int height;
   private final Map<Character, Glyph> glyphs = new HashMap<Character, Glyph>();
   private GlyphPage currentPage;
   private final GlyphVectorCache glyphVectorCache;
@@ -26,6 +27,9 @@ public class FontRenderer {
   public FontRenderer(Font font) {
     currentPage = new GlyphPage(this.font = font);
     glyphVectorCache = new GlyphVectorCache(font, currentPage.renderContext);
+
+    // TODO: getMaxCharBounds seems too large, so I'm using a hack. Is there a better way?
+    height = getHeight("Hg");
   }
 
   public int getWidth(String s) {
@@ -37,13 +41,13 @@ public class FontRenderer {
   }
 
   public int getHeight() {
-    // TODO: getMaxCharBounds seems too large, so I'm using a hack. Is there a better way?
-    return getHeight("Hg");
+    return height;
   }
 
   public void draw(String s, Color color, int x, int y) {
     // TODO: Optimize with display list cache.
     glPushMatrix();
+    y += currentPage.graphics.getFontMetrics(font).getAscent();
     glTranslatef(x, y, 0);
     drawNoMemo(s, color);
     glPopMatrix();

@@ -89,7 +89,7 @@ public class TextBox extends FocusableWidget {
       text += '|';
     fontRenderer.draw(text, Color.BLACK,
         bounds.x1() + PAD_SIDE,
-        bounds.y2() - PAD_BOTTOM);
+        bounds.y1() + PAD_TOP);
   }
 
   private boolean cursorTime() {
