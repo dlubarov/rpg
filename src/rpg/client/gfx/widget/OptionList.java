@@ -88,4 +88,10 @@ public class OptionList<T> extends Widget {
     return new Bounds(bounds.x1(), bounds.y1() + i * fontRenderer.getHeight(),
                       bounds.x2(), bounds.y1() + (i + 1) * fontRenderer.getHeight());
   }
+
+  public T getSelected() {
+    if (selectedOpt == null)
+      return null;
+    return options[selectedOpt];
+  }
 }

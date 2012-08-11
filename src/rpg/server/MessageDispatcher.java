@@ -5,6 +5,7 @@ import rpg.msg.ConfirmationMessage;
 import rpg.msg.MessageType;
 import rpg.msg.c2s.HereIAmMessage;
 import rpg.msg.c2s.LoginMessage;
+import rpg.msg.c2s.NewCharacterMessage;
 import rpg.msg.c2s.RegistrationMessage;
 import rpg.net.ToClientMessageSink;
 import rpg.net.UUIDCache;
@@ -13,6 +14,7 @@ import rpg.serialization.LongSerializer;
 import rpg.server.handlers.ConfirmationHandler;
 import rpg.server.handlers.HereIAmHandler;
 import rpg.server.handlers.LoginHandler;
+import rpg.server.handlers.NewCharacterHandler;
 import rpg.server.handlers.RegistrationHandler;
 import rpg.util.Logger;
 
@@ -62,6 +64,9 @@ public class MessageDispatcher implements Runnable {
         break;
       case LOGIN_REQUEST:
         LoginHandler.singleton.handle(LoginMessage.serializer.deserialize(source), sender);
+        break;
+      case NEW_CHARACTER:
+        NewCharacterHandler.singleton.handle(NewCharacterMessage.serializer.deserialize(source), sender);
         break;
       case HERE_I_AM:
         HereIAmHandler.singleton.handle(HereIAmMessage.serializer.deserialize(source), sender);

@@ -31,7 +31,7 @@ public class CharacterInfoMessage extends Message {
   public static final Serializer<CharacterInfoMessage> serializer =
       new Serializer<CharacterInfoMessage>() {
     private final Serializer<List<CharacterSummary>> arraySerializer =
-        new ListSerializer<CharacterSummary>(partSerializer);
+        new ListSerializer<CharacterSummary>(CharacterSummary.serializer);
 
     @Override
     public void serialize(CharacterInfoMessage msg, ByteSink sink) {
@@ -41,24 +41,6 @@ public class CharacterInfoMessage extends Message {
     @Override
     public CharacterInfoMessage deserialize(ByteSource source) {
       return new CharacterInfoMessage(arraySerializer.deserialize(source));
-    }
-  };
-
-  private static final Serializer<CharacterSummary> partSerializer =
-      new Serializer<CharacterSummary>() {
-    @Override
-    public void serialize(CharacterSummary character, ByteSink sink) {
-      IntegerSerializer.singleton.serialize(character.characterID);
-      StringSerializer.singleton.serialize(character.name, sink);
-      IntegerSerializer.singleton.serialize(character.combatClass.ordinal(), sink);
-    }
-
-    @Override
-    public CharacterSummary deserialize(ByteSource source) {
-      return new CharacterSummary(
-          IntegerSerializer.singleton.deserialize(source),
-          StringSerializer.singleton.deserialize(source),
-          CombatClass.values()[IntegerSerializer.singleton.deserialize(source)]);
     }
   };
 }

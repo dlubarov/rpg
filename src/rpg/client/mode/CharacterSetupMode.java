@@ -13,15 +13,26 @@ import rpg.client.gfx.widget.VBox;
 import rpg.client.gfx.widget.Widget;
 import rpg.core.CharacterSummary;
 import rpg.core.CombatClass;
+import rpg.msg.c2s.NewCharacterMessage;
+import rpg.net.ToServerMessageSink;
+import rpg.server.PlayerCharacter;
+import rpg.util.Logger;
 
 public class CharacterSetupMode extends Mode2D {
   private final List<CharacterSummary> existingCharacters;
   private final Widget content;
+  private TextBox characterName;
+  private OptionList<CombatClass> combatClasses;
 
   public CharacterSetupMode(List<CharacterSummary> existingCharacters) {
     this.existingCharacters = existingCharacters;
     content = createContent();
     setContentBounds();
+  }
+
+  public void receivedSuccess(CharacterSummary characterSummary) {
+    existingCharacters.add(characterSummary);
+    ModeManager.switchTo(new CharacterSelectMode(existingCharacters));
   }
 
   @Override
@@ -35,14 +46,14 @@ public class CharacterSetupMode extends Mode2D {
           new VBox(
               new ConstantLabel("Character Name"),
               new FixedVSpace(2),
-              new TextBox(),
+              characterName = new TextBox(),
               FlexibleSpace.singleton
           ),
           new FixedHSpace(50),
           new VBox(
               new ConstantLabel("Combat Class"),
               new FixedVSpace(2),
-              new OptionList<CombatClass>(CombatClass.values()),
+              combatClasses = new OptionList<CombatClass>(CombatClass.values()),
               FlexibleSpace.singleton
           )
         ),
@@ -53,13 +64,29 @@ public class CharacterSetupMode extends Mode2D {
     ).padFlexible();
   }
 
-  private static class CreateCharacterButton extends Button {
+  private class CreateCharacterButton extends Button {
     public CreateCharacterButton() {
       super("Create Character");
     }
 
     @Override protected void onClick() {
-      //ModeManager.switchTo();
+      // TODO: show actual errors instead of logging
+
+      if (characterName.getContent().isEmpty()) {
+        Logger.info("Name must be some characters!");
+        return;
+      }
+      if (combatClasses.getSelected() == null) {
+        Logger.info("Must select a character class!");
+        return;
+      }
+
+      // make a new character on the server
+      NewCharacterMessage msg = new NewCharacterMessage(characterName.getContent(),
+          combatClasses.getSelected());
+      ToServerMessageSink.singleton.sendWithConfirmation(msg, 3);
+
+      // TODO: Show waiting message and don't let the user send another request
     }
   }
 

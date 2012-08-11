@@ -3,6 +3,7 @@ package rpg.client;
 import rpg.client.handlers.CharacterInfoHandler;
 import rpg.client.handlers.ConfirmationHandler;
 import rpg.client.handlers.LoginErrorHandler;
+import rpg.client.handlers.NewCharacterSuccessHandler;
 import rpg.client.handlers.PeerGoodbyeHandler;
 import rpg.client.handlers.PeerIntroductionHandler;
 import rpg.client.handlers.PeerUpdateHandler;
@@ -13,6 +14,7 @@ import rpg.msg.ConfirmationMessage;
 import rpg.msg.MessageType;
 import rpg.msg.s2c.CharacterInfoMessage;
 import rpg.msg.s2c.LoginErrorMessage;
+import rpg.msg.s2c.NewCharacterSuccessMessage;
 import rpg.msg.s2c.PeerGoodbyeMessage;
 import rpg.msg.s2c.PeerIntroductionMessage;
 import rpg.msg.s2c.PeerUpdateMessage;
@@ -72,6 +74,9 @@ public class MessageDispatcher implements Runnable {
         break;
       case LOGIN_ERROR:
         LoginErrorHandler.singleton.handle(LoginErrorMessage.serializer.deserialize(source));
+        break;
+      case NEW_CHARACTER_SUCCESS:
+        NewCharacterSuccessHandler.singleton.handle(NewCharacterSuccessMessage.serializer.deserialize(source));
         break;
       case CHARACTER_INFO:
         CharacterInfoHandler.singleton.handle(CharacterInfoMessage.serializer.deserialize(source));

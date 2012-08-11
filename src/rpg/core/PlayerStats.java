@@ -4,20 +4,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class PlayerStats {
-  private final Map<Stat, Integer> statExperiences;
+  private final Map<Stat, Integer> statLevels;
 
   public PlayerStats() {
-    statExperiences = new HashMap<Stat, Integer>();
+    statLevels = new HashMap<Stat, Integer>();
     for (Stat stat : Stat.values())
-      setExperience(stat, 0);
-  }
-
-  public synchronized int getExperience(Stat stat) {
-    return statExperiences.get(stat);
+      setLevel(stat, 0);
   }
 
   public synchronized int getLevel(Stat stat) {
-    return Levels.experienceToLevel(getExperience(stat));
+    return statLevels.get(stat);
   }
 
   public synchronized boolean satisfies(StatRequirements requirements) {
@@ -27,11 +23,7 @@ public final class PlayerStats {
     return true;
   }
 
-  public synchronized void setExperience(Stat stat, int experience) {
-    statExperiences.put(stat, experience);
-  }
-
-  public synchronized void addExperience(Stat stat, int experience) {
-    setExperience(stat, getExperience(stat) + experience);
+  public synchronized void setLevel(Stat stat, int level) {
+    statLevels.put(stat, level);
   }
 }

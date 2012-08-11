@@ -2,6 +2,7 @@ package rpg.server;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import rpg.core.CombatClass;
+import rpg.core.Levels;
 import rpg.core.Outfit;
 import rpg.core.PlayerSkills;
 import rpg.core.PlayerStats;
@@ -20,6 +21,7 @@ public class PlayerCharacter {
   public final String name;
   public final Account owner;
   public final CombatClass combatClass;
+  public final int experience;
   public final PlayerStats stats;
   public final PlayerSkills skills;
 
@@ -32,6 +34,7 @@ public class PlayerCharacter {
     this.name = name;
     this.owner = owner;
     this.combatClass = combatClass;
+    experience = 0;
     stats = new PlayerStats();
     skills = new PlayerSkills();
     realm = STARTING_REALM;
@@ -39,6 +42,10 @@ public class PlayerCharacter {
     velocity = Vector3.ZERO;
     direction = Vector3.UNIT_X;
     outfit = new Outfit();
+  }
+
+  public int getLevel() {
+    return Levels.experienceToLevel(experience);
   }
 
   public Realm getRealm() {

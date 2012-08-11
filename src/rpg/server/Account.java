@@ -32,7 +32,7 @@ public class Account {
   public List<CharacterSummary> getCharacterSummaries() {
     List<CharacterSummary> summaries = new ArrayList<CharacterSummary>(characters.size());
     for (PlayerCharacter character : characters.values())
-      summaries.add(new CharacterSummary(character.id, character.name, character.combatClass));
+      summaries.add(new CharacterSummary(character));
     return summaries;
   }
 
