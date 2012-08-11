@@ -23,14 +23,14 @@ public class ConfirmationMessage extends Message {
 
   public static final Serializer<ConfirmationMessage> serializer =
       new Serializer<ConfirmationMessage>() {
-    @Override
-    public void serialize(ConfirmationMessage msg, ByteSink sink) {
-      LongSerializer.singleton.serialize(msg.uuid, sink);
-    }
+        @Override
+        public void serialize(ConfirmationMessage msg, ByteSink sink) {
+          LongSerializer.singleton.serialize(msg.uuid, sink);
+        }
 
-    @Override
-    public ConfirmationMessage deserialize(ByteSource source) {
-      return new ConfirmationMessage(LongSerializer.singleton.deserialize(source));
-    }
-  };
+        @Override
+        public ConfirmationMessage deserialize(ByteSource source) {
+          return new ConfirmationMessage(LongSerializer.singleton.deserialize(source));
+        }
+      };
 }

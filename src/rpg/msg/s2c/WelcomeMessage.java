@@ -43,24 +43,24 @@ public class WelcomeMessage extends Message {
 
   public static final Serializer<WelcomeMessage> serializer =
       new Serializer<WelcomeMessage>() {
-    @Override
-    public void serialize(WelcomeMessage msg, ByteSink sink) {
-      IntegerSerializer.singleton.serialize(msg.id, sink);
-      IntegerSerializer.singleton.serialize(msg.realm.id, sink);
-      Vector3Serializer.singleton.serialize(msg.position, sink);
-      Vector3Serializer.singleton.serialize(msg.velocity, sink);
-      Vector3Serializer.singleton.serialize(msg.direction, sink);
-    }
+        @Override
+        public void serialize(WelcomeMessage msg, ByteSink sink) {
+          IntegerSerializer.singleton.serialize(msg.id, sink);
+          IntegerSerializer.singleton.serialize(msg.realm.id, sink);
+          Vector3Serializer.singleton.serialize(msg.position, sink);
+          Vector3Serializer.singleton.serialize(msg.velocity, sink);
+          Vector3Serializer.singleton.serialize(msg.direction, sink);
+        }
 
-    @Override
-    public WelcomeMessage deserialize(ByteSource source) {
-      return new WelcomeMessage(
-          IntegerSerializer.singleton.deserialize(source),
-          RealmManager.getRealmById(IntegerSerializer.singleton.deserialize(source)),
-          Vector3Serializer.singleton.deserialize(source),
-          Vector3Serializer.singleton.deserialize(source),
-          Vector3Serializer.singleton.deserialize(source)
-      );
-    }
-  };
+        @Override
+        public WelcomeMessage deserialize(ByteSource source) {
+          return new WelcomeMessage(
+              IntegerSerializer.singleton.deserialize(source),
+              RealmManager.getRealmById(IntegerSerializer.singleton.deserialize(source)),
+              Vector3Serializer.singleton.deserialize(source),
+              Vector3Serializer.singleton.deserialize(source),
+              Vector3Serializer.singleton.deserialize(source)
+          );
+        }
+      };
 }

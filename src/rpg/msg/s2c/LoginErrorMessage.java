@@ -28,17 +28,17 @@ public class LoginErrorMessage extends Message {
 
   public static final Serializer<LoginErrorMessage> serializer =
       new Serializer<LoginErrorMessage>() {
-    @Override
-    public void serialize(LoginErrorMessage msg, ByteSink sink) {
-      IntegerSerializer.singleton.serialize(msg.reason.ordinal(), sink);
-    }
+        @Override
+        public void serialize(LoginErrorMessage msg, ByteSink sink) {
+          IntegerSerializer.singleton.serialize(msg.reason.ordinal(), sink);
+        }
 
-    @Override
-    public LoginErrorMessage deserialize(ByteSource source) {
-      int ordinal = IntegerSerializer.singleton.deserialize(source);
-      return new LoginErrorMessage(Reason.values()[ordinal]);
-    }
-  };
+        @Override
+        public LoginErrorMessage deserialize(ByteSource source) {
+          int ordinal = IntegerSerializer.singleton.deserialize(source);
+          return new LoginErrorMessage(Reason.values()[ordinal]);
+        }
+      };
 
   public static enum Reason {
     MISSING_EMAIL("You must enter an email."),

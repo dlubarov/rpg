@@ -35,19 +35,19 @@ public class RegistrationMessage extends Message {
 
   public static final Serializer<RegistrationMessage> serializer =
       new Serializer<RegistrationMessage>() {
-    @Override
-    public void serialize(RegistrationMessage msg, ByteSink sink) {
-      StringSerializer.singleton.serialize(msg.email, sink);
-      StringSerializer.singleton.serialize(msg.password, sink);
-      ListSerializer.byteListSerializer.serialize(msg.version, sink);
-    }
+        @Override
+        public void serialize(RegistrationMessage msg, ByteSink sink) {
+          StringSerializer.singleton.serialize(msg.email, sink);
+          StringSerializer.singleton.serialize(msg.password, sink);
+          ListSerializer.byteListSerializer.serialize(msg.version, sink);
+        }
 
-    @Override
-    public RegistrationMessage deserialize(ByteSource source) {
-      return new RegistrationMessage(
-          StringSerializer.singleton.deserialize(source),
-          StringSerializer.singleton.deserialize(source),
-          ListSerializer.byteListSerializer.deserialize(source));
-    }
-  };
+        @Override
+        public RegistrationMessage deserialize(ByteSource source) {
+          return new RegistrationMessage(
+              StringSerializer.singleton.deserialize(source),
+              StringSerializer.singleton.deserialize(source),
+              ListSerializer.byteListSerializer.deserialize(source));
+        }
+      };
 }

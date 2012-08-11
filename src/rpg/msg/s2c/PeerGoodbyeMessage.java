@@ -31,14 +31,14 @@ public class PeerGoodbyeMessage extends Message {
 
   public static final Serializer<PeerGoodbyeMessage> serializer =
       new Serializer<PeerGoodbyeMessage>() {
-    @Override
-    public void serialize(PeerGoodbyeMessage msg, ByteSink sink) {
-      ListSerializer.integerListSerializer.serialize(msg.ids, sink);
-    }
+        @Override
+        public void serialize(PeerGoodbyeMessage msg, ByteSink sink) {
+          ListSerializer.integerListSerializer.serialize(msg.ids, sink);
+        }
 
-    @Override
-    public PeerGoodbyeMessage deserialize(ByteSource source) {
-      return new PeerGoodbyeMessage(ListSerializer.integerListSerializer.deserialize(source));
-    }
-  };
+        @Override
+        public PeerGoodbyeMessage deserialize(ByteSource source) {
+          return new PeerGoodbyeMessage(ListSerializer.integerListSerializer.deserialize(source));
+        }
+      };
 }

@@ -29,17 +29,17 @@ public class RegistrationErrorMessage extends Message {
 
   public static final Serializer<RegistrationErrorMessage> serializer =
       new Serializer<RegistrationErrorMessage>() {
-    @Override
-    public void serialize(RegistrationErrorMessage msg, ByteSink sink) {
-      IntegerSerializer.singleton.serialize(msg.reason.ordinal(), sink);
-    }
+        @Override
+        public void serialize(RegistrationErrorMessage msg, ByteSink sink) {
+          IntegerSerializer.singleton.serialize(msg.reason.ordinal(), sink);
+        }
 
-    @Override
-    public RegistrationErrorMessage deserialize(ByteSource source) {
-      int ordinal = IntegerSerializer.singleton.deserialize(source);
-      return new RegistrationErrorMessage(Reason.values()[ordinal]);
-    }
-  };
+        @Override
+        public RegistrationErrorMessage deserialize(ByteSource source) {
+          int ordinal = IntegerSerializer.singleton.deserialize(source);
+          return new RegistrationErrorMessage(Reason.values()[ordinal]);
+        }
+      };
 
   public static enum Reason {
     EMAIL_MISSING("You must enter an email."),

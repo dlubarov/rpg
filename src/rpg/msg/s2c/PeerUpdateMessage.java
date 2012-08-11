@@ -33,19 +33,19 @@ public class PeerUpdateMessage extends Message {
 
   public static final Serializer<PeerUpdateMessage> serializer =
       new Serializer<PeerUpdateMessage>() {
-    private final Serializer<List<Part>> listSerializer =
-        new ListSerializer<Part>(partSerializer);
+        private final Serializer<List<Part>> listSerializer =
+            new ListSerializer<Part>(partSerializer);
 
-    @Override
-    public void serialize(PeerUpdateMessage msg, ByteSink sink) {
-      listSerializer.serialize(msg.parts, sink);
-    }
+        @Override
+        public void serialize(PeerUpdateMessage msg, ByteSink sink) {
+          listSerializer.serialize(msg.parts, sink);
+        }
 
-    @Override
-    public PeerUpdateMessage deserialize(ByteSource source) {
-      return new PeerUpdateMessage(listSerializer.deserialize(source));
-    }
-  };
+        @Override
+        public PeerUpdateMessage deserialize(ByteSource source) {
+          return new PeerUpdateMessage(listSerializer.deserialize(source));
+        }
+      };
 
   private static final Serializer<Part> partSerializer = new Serializer<Part>() {
     @Override

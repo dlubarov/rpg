@@ -15,7 +15,6 @@ import rpg.core.CharacterSummary;
 import rpg.core.CombatClass;
 import rpg.msg.c2s.NewCharacterMessage;
 import rpg.net.ToServerMessageSink;
-import rpg.server.PlayerCharacter;
 import rpg.util.Logger;
 
 public class CharacterSetupMode extends Mode2D {

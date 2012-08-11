@@ -2,7 +2,6 @@ package rpg.client.handlers;
 
 import java.util.ArrayList;
 import rpg.client.mode.CharacterSelectMode;
-import rpg.client.mode.CharacterSetupMode;
 import rpg.client.mode.Mode;
 import rpg.client.mode.ModeManager;
 import rpg.client.mode.RegistrationMode;
