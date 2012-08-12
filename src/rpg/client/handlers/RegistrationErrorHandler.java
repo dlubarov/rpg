@@ -11,8 +11,7 @@ public class RegistrationErrorHandler extends Handler<RegistrationErrorMessage> 
 
   private RegistrationErrorHandler() {}
 
-  @Override
-  public void handle(RegistrationErrorMessage msg) {
+  @Override public void handle(RegistrationErrorMessage msg) {
     Mode currentMode = ModeManager.getCurrentMode();
     if (!(currentMode instanceof RegistrationMode)) {
       Logger.warning("Received %s while in %s.", msg, currentMode);

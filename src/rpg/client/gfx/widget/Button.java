@@ -30,33 +30,27 @@ public abstract class Button extends Widget {
 
   protected abstract void onClick();
 
-  @Override
-  public int getMinWidth() {
+  @Override public int getMinWidth() {
     return fontRenderer.getWidth(content) + 2 * PAD_SIDES;
   }
 
-  @Override
-  public int getMinHeight() {
+  @Override public int getMinHeight() {
     return PAD_TOP + fontRenderer.getHeight() + PAD_BOTTOM;
   }
 
-  @Override
-  public boolean stretchHorizontally() {
+  @Override public boolean stretchHorizontally() {
     return false;
   }
 
-  @Override
-  public boolean stretchVertically() {
+  @Override public boolean stretchVertically() {
     return false;
   }
 
-  @Override
-  public void onClick(int x, int y) {
+  @Override public void onClick(int x, int y) {
     onClick();
   }
 
-  @Override
-  public void render() {
+  @Override public void render() {
     glDisable(GL_TEXTURE_2D);
     glColor3f(1, 1, 1);
     glBegin(GL_QUADS);

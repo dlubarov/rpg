@@ -64,8 +64,7 @@ public class PlayerCharacter {
     return direction;
   }
 
-  @Override
-  public String toString() {
+  @Override public String toString() {
     return new ToStringBuilder(this)
         .append("name", name)
         .append("owner", owner.email)

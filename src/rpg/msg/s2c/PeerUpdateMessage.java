@@ -24,8 +24,7 @@ public class PeerUpdateMessage extends Message {
     this.parts = parts;
   }
 
-  @Override
-  public String toString() {
+  @Override public String toString() {
     return new ToStringBuilder(this)
         .append("parts", parts)
         .toString();
@@ -36,28 +35,24 @@ public class PeerUpdateMessage extends Message {
         private final Serializer<List<Part>> listSerializer =
             new ListSerializer<Part>(partSerializer);
 
-        @Override
-        public void serialize(PeerUpdateMessage msg, ByteSink sink) {
+        @Override public void serialize(PeerUpdateMessage msg, ByteSink sink) {
           listSerializer.serialize(msg.parts, sink);
         }
 
-        @Override
-        public PeerUpdateMessage deserialize(ByteSource source) {
+        @Override public PeerUpdateMessage deserialize(ByteSource source) {
           return new PeerUpdateMessage(listSerializer.deserialize(source));
         }
       };
 
   private static final Serializer<Part> partSerializer = new Serializer<Part>() {
-    @Override
-    public void serialize(Part part, ByteSink sink) {
+    @Override public void serialize(Part part, ByteSink sink) {
       IntegerSerializer.singleton.serialize(part.id, sink);
       Vector3Serializer.singleton.serialize(part.position, sink);
       Vector3Serializer.singleton.serialize(part.velocity, sink);
       Vector3Serializer.singleton.serialize(part.direction, sink);
     }
 
-    @Override
-    public Part deserialize(ByteSource source) {
+    @Override public Part deserialize(ByteSource source) {
       return new Part(
           IntegerSerializer.singleton.deserialize(source),
           Vector3Serializer.singleton.deserialize(source),
@@ -77,8 +72,7 @@ public class PeerUpdateMessage extends Message {
       this.direction = direction;
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
       return new ToStringBuilder(this)
           .append("id", id)
           .append("position", position)

@@ -5,14 +5,12 @@ public class IntegerSerializer extends Serializer<Integer> {
 
   private IntegerSerializer() {}
 
-  @Override
-  public void serialize(Integer n, ByteSink sink) {
+  @Override public void serialize(Integer n, ByteSink sink) {
     for (int i = 0; i < 4; ++i)
       sink.give((byte) (n >>> i * 8));
   }
 
-  @Override
-  public Integer deserialize(ByteSource source) {
+  @Override public Integer deserialize(ByteSource source) {
     int n = 0;
     for (int i = 0; i < 4; ++i)
       n |= (((int) source.take()) & 0xFF) << i * 8;

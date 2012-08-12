@@ -11,8 +11,7 @@ public class LoginErrorHandler extends Handler<LoginErrorMessage> {
 
   private LoginErrorHandler() {}
 
-  @Override
-  public void handle(LoginErrorMessage msg) {
+  @Override public void handle(LoginErrorMessage msg) {
     Mode currentMode = ModeManager.getCurrentMode();
     if (!(currentMode instanceof LoginMode)) {
       Logger.warning("Received %s while in %s.", msg, currentMode);

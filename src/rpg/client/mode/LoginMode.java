@@ -33,13 +33,11 @@ public class LoginMode extends Mode2D {
     errorMessage = reason.message;
   }
 
-  @Override
-  public Widget getContent() {
+  @Override public Widget getContent() {
     return content;
   }
 
-  @Override
-  public void onKeyDown(int key) {
+  @Override public void onKeyDown(int key) {
     switch (key) {
       case Keyboard.KEY_TAB:
         if (emailBox.isFocused())
@@ -58,6 +56,8 @@ public class LoginMode extends Mode2D {
     // TODO: Do as much client-side verification as possible.
     LoginMessage msg = new LoginMessage(email, password, Info.versionParts);
     ToServerMessageSink.singleton.sendWithConfirmation(msg, 3);
+
+    // TODO: Show a "connecting" message and prevent the user from sending more requests. Also timeout.
   }
 
   private Widget createContent() {
@@ -87,8 +87,7 @@ public class LoginMode extends Mode2D {
       super(Alignment.CENTER_ALIGNED, Color.RED);
     }
 
-    @Override
-    protected String getContent() {
+    @Override protected String getContent() {
       return errorMessage;
     }
   }
@@ -98,8 +97,7 @@ public class LoginMode extends Mode2D {
       super("Sign In");
     }
 
-    @Override
-    public void onClick() {
+    @Override public void onClick() {
       sendLogin();
     }
   }
@@ -109,8 +107,7 @@ public class LoginMode extends Mode2D {
       super("Create Account");
     }
 
-    @Override
-    public void onClick() {
+    @Override public void onClick() {
       ModeManager.switchTo(new RegistrationMode());
     }
   }

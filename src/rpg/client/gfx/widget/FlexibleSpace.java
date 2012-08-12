@@ -5,26 +5,21 @@ public class FlexibleSpace extends Widget {
 
   private FlexibleSpace() {}
 
-  @Override
-  public int getMinWidth() {
+  @Override public int getMinWidth() {
     return 0;
   }
 
-  @Override
-  public int getMinHeight() {
+  @Override public int getMinHeight() {
     return 0;
   }
 
-  @Override
-  public boolean stretchHorizontally() {
+  @Override public boolean stretchHorizontally() {
     return true;
   }
 
-  @Override
-  public boolean stretchVertically() {
+  @Override public boolean stretchVertically() {
     return true;
   }
 
-  @Override
-  public void render() {}
+  @Override public void render() {}
 }

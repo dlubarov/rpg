@@ -5,13 +5,11 @@ public class DoubleSerializer extends Serializer<Double> {
 
   private DoubleSerializer() {}
 
-  @Override
-  public void serialize(Double x, ByteSink sink) {
+  @Override public void serialize(Double x, ByteSink sink) {
     LongSerializer.singleton.serialize(Double.doubleToLongBits(x), sink);
   }
 
-  @Override
-  public Double deserialize(ByteSource source) {
+  @Override public Double deserialize(ByteSource source) {
     return Double.longBitsToDouble(LongSerializer.singleton.deserialize(source));
   }
 }

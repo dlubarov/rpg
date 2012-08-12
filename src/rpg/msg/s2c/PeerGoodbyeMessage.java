@@ -22,8 +22,7 @@ public class PeerGoodbyeMessage extends Message {
     this.ids = ids;
   }
 
-  @Override
-  public String toString() {
+  @Override public String toString() {
     return new ToStringBuilder(this)
         .append("ids", ids)
         .toString();
@@ -31,13 +30,11 @@ public class PeerGoodbyeMessage extends Message {
 
   public static final Serializer<PeerGoodbyeMessage> serializer =
       new Serializer<PeerGoodbyeMessage>() {
-        @Override
-        public void serialize(PeerGoodbyeMessage msg, ByteSink sink) {
+        @Override public void serialize(PeerGoodbyeMessage msg, ByteSink sink) {
           ListSerializer.integerListSerializer.serialize(msg.ids, sink);
         }
 
-        @Override
-        public PeerGoodbyeMessage deserialize(ByteSource source) {
+        @Override public PeerGoodbyeMessage deserialize(ByteSource source) {
           return new PeerGoodbyeMessage(ListSerializer.integerListSerializer.deserialize(source));
         }
       };

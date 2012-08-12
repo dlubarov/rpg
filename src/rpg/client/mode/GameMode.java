@@ -32,8 +32,7 @@ public class GameMode extends Mode {
     octree = new BodyOctree(center, size.max() / 2);
   }
 
-  @Override
-  public void render() {
+  @Override public void render() {
     GraphicsMode.end2D();
     drawScene();
     GraphicsMode.start2D();

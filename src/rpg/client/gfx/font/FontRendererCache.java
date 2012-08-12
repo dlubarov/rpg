@@ -10,8 +10,7 @@ public class FontRendererCache extends ResourceCache<FontRenderer> {
     super(100);
   }
 
-  @Override
-  protected FontRenderer loadResource(String fontDescriptor) {
+  @Override protected FontRenderer loadResource(String fontDescriptor) {
     return new FontRenderer(Font.decode(fontDescriptor));
   }
 }

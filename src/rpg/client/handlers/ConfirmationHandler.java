@@ -8,8 +8,7 @@ public class ConfirmationHandler extends Handler<ConfirmationMessage> {
 
   private ConfirmationHandler() {}
 
-  @Override
-  public void handle(ConfirmationMessage msg) {
+  @Override public void handle(ConfirmationMessage msg) {
     RetryQueue.stopRetrying(msg.uuid);
   }
 }

@@ -7,8 +7,7 @@ public class PeerGoodbyeHandler extends Handler<PeerGoodbyeMessage> {
 
   private PeerGoodbyeHandler() {}
 
-  @Override
-  public void handle(PeerGoodbyeMessage msg) {
+  @Override public void handle(PeerGoodbyeMessage msg) {
     // FIXME handle
   }
 }

@@ -8,6 +8,8 @@ import rpg.client.gfx.widget.HBox;
 import rpg.client.gfx.widget.VBox;
 import rpg.client.gfx.widget.Widget;
 import rpg.core.CharacterSummary;
+import rpg.msg.c2s.CharacterSelectedMessage;
+import rpg.net.ToServerMessageSink;
 
 public class CharacterSelectMode extends Mode2D {
   List<CharacterSummary> options;
@@ -19,8 +21,7 @@ public class CharacterSelectMode extends Mode2D {
     setContentBounds();
   }
 
-  @Override
-  public Widget getContent() {
+  @Override public Widget getContent() {
     return content;
   }
 
@@ -57,9 +58,9 @@ public class CharacterSelectMode extends Mode2D {
       this.character = character;
     }
 
-    @Override
-    protected void onClick() {
-      // FIXME: select character
+    @Override protected void onClick() {
+      CharacterSelectedMessage msg = new CharacterSelectedMessage(character.id);
+      ToServerMessageSink.singleton.sendWithConfirmation(msg, 3);
     }
   }
 }

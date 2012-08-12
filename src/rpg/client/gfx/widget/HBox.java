@@ -7,8 +7,7 @@ public class HBox extends Container {
     super(children);
   }
 
-  @Override
-  public void setBounds(Bounds bounds) {
+  @Override public void setBounds(Bounds bounds) {
     super.setBounds(bounds);
     int extraSpace = bounds.w() - getMinWidth();
     int numRecipients = numStretchyChildren();
@@ -28,29 +27,25 @@ public class HBox extends Container {
     assert x == bounds.x2() : x + " != " + bounds.x2();
   }
 
-  @Override
-  public int getMinWidth() {
+  @Override public int getMinWidth() {
     int sum = 0;
     for (Widget child : children)
       sum += child.getMinWidth();
     return sum;
   }
 
-  @Override
-  public int getMinHeight() {
+  @Override public int getMinHeight() {
     int max = 0;
     for (Widget child : children)
       max = Math.max(max, child.getMinHeight());
     return max;
   }
 
-  @Override
-  public boolean stretchHorizontally() {
+  @Override public boolean stretchHorizontally() {
     return numStretchyChildren() > 0;
   }
 
-  @Override
-  public boolean stretchVertically() {
+  @Override public boolean stretchVertically() {
     for (Widget child : children)
       if (!child.stretchVertically())
         return false;

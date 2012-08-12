@@ -19,8 +19,7 @@ public class ClientListener extends Thread {
     setDaemon(true);
   }
 
-  @Override
-  public void run() {
+  @Override public void run() {
     byte[] receiveData = new byte[1024];
     for (;;) {
       DatagramPacket packet = new DatagramPacket(receiveData, receiveData.length);

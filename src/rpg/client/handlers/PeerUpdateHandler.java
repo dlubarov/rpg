@@ -7,8 +7,7 @@ public class PeerUpdateHandler extends Handler<PeerUpdateMessage> {
 
   private PeerUpdateHandler() {}
 
-  @Override
-  public void handle(PeerUpdateMessage msg) {
+  @Override public void handle(PeerUpdateMessage msg) {
     // FIXME handle
   }
 }

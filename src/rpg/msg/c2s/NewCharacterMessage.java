@@ -29,14 +29,12 @@ public class NewCharacterMessage extends Message {
 
   public static final Serializer<NewCharacterMessage> serializer =
       new Serializer<NewCharacterMessage>() {
-        @Override
-        public void serialize(NewCharacterMessage msg, ByteSink sink) {
+        @Override public void serialize(NewCharacterMessage msg, ByteSink sink) {
           StringSerializer.singleton.serialize(msg.characterName, sink);
           IntegerSerializer.singleton.serialize(msg.combatClass.ordinal(), sink);
         }
 
-        @Override
-        public NewCharacterMessage deserialize(ByteSource source) {
+        @Override public NewCharacterMessage deserialize(ByteSource source) {
           return new NewCharacterMessage(
               StringSerializer.singleton.deserialize(source),
               CombatClass.values()[IntegerSerializer.singleton.deserialize(source)]);

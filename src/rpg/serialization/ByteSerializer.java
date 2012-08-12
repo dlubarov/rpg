@@ -5,13 +5,11 @@ public final class ByteSerializer extends Serializer<Byte> {
 
   private ByteSerializer() {}
 
-  @Override
-  public void serialize(Byte b, ByteSink sink) {
+  @Override public void serialize(Byte b, ByteSink sink) {
     sink.give(b);
   }
 
-  @Override
-  public Byte deserialize(ByteSource source) {
+  @Override public Byte deserialize(ByteSource source) {
     return source.take();
   }
 }

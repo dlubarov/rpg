@@ -15,31 +15,26 @@ public class FixedPadding extends Container {
     this(content, padding, padding, padding, padding);
   }
 
-  @Override
-  public void setBounds(Bounds bounds) {
+  @Override public void setBounds(Bounds bounds) {
     super.setBounds(bounds);
     children[0].setBounds(new Bounds(
         bounds.x1() + left, bounds.y1() + top,
         bounds.x2() - right, bounds.y2() - bottom));
   }
 
-  @Override
-  public int getMinWidth() {
+  @Override public int getMinWidth() {
     return left + children[0].getMinWidth() + right;
   }
 
-  @Override
-  public int getMinHeight() {
+  @Override public int getMinHeight() {
     return top + children[0].getMinHeight() + bottom;
   }
 
-  @Override
-  public boolean stretchHorizontally() {
+  @Override public boolean stretchHorizontally() {
     return children[0].stretchHorizontally();
   }
 
-  @Override
-  public boolean stretchVertically() {
+  @Override public boolean stretchVertically() {
     return children[0].stretchVertically();
   }
 }

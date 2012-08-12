@@ -9,15 +9,13 @@ public class StringSerializer extends Serializer<String> {
 
   private StringSerializer() {}
 
-  @Override
-  public void serialize(String s, ByteSink sink) {
+  @Override public void serialize(String s, ByteSink sink) {
     byte[] data = s.getBytes(utf8);
     IntegerSerializer.singleton.serialize(data.length, sink);
     sink.giveAll(data);
   }
 
-  @Override
-  public String deserialize(ByteSource source) {
+  @Override public String deserialize(ByteSource source) {
     int len = IntegerSerializer.singleton.deserialize(source);
     byte[] data = source.takeN(len);
     return new String(data, utf8);

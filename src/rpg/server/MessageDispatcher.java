@@ -3,6 +3,7 @@ package rpg.server;
 import java.net.InetAddress;
 import rpg.msg.ConfirmationMessage;
 import rpg.msg.MessageType;
+import rpg.msg.c2s.CharacterSelectedMessage;
 import rpg.msg.c2s.HereIAmMessage;
 import rpg.msg.c2s.LoginMessage;
 import rpg.msg.c2s.NewCharacterMessage;
@@ -11,6 +12,7 @@ import rpg.net.ToClientMessageSink;
 import rpg.net.UUIDCache;
 import rpg.serialization.ByteSource;
 import rpg.serialization.LongSerializer;
+import rpg.server.handlers.CharacterSelectedHandler;
 import rpg.server.handlers.ConfirmationHandler;
 import rpg.server.handlers.HereIAmHandler;
 import rpg.server.handlers.LoginHandler;
@@ -30,8 +32,7 @@ public class MessageDispatcher implements Runnable {
     this.sender = sender;
   }
 
-  @Override
-  public void run() {
+  @Override public void run() {
     long uuid = LongSerializer.singleton.deserialize(source);
     if (uuid != 0) {
       UUIDCache.addUUID(uuid);
@@ -67,6 +68,9 @@ public class MessageDispatcher implements Runnable {
         break;
       case NEW_CHARACTER:
         NewCharacterHandler.singleton.handle(NewCharacterMessage.serializer.deserialize(source), sender);
+        break;
+      case CHARACTER_SELECTED:
+        CharacterSelectedHandler.singleton.handle(CharacterSelectedMessage.serializer.deserialize(source), sender);
         break;
       case HERE_I_AM:
         HereIAmHandler.singleton.handle(HereIAmMessage.serializer.deserialize(source), sender);

@@ -5,8 +5,7 @@ public class VBox extends Container {
     super(children);
   }
 
-  @Override
-  public void setBounds(Bounds bounds) {
+  @Override public void setBounds(Bounds bounds) {
     super.setBounds(bounds);
     int extraSpace = bounds.h() - getMinHeight();
     int numRecipients = numStretchyChildren();
@@ -24,32 +23,28 @@ public class VBox extends Container {
     assert y == bounds.y2() : y + " != " + bounds.y2();
   }
 
-  @Override
-  public int getMinWidth() {
+  @Override public int getMinWidth() {
     int max = 0;
     for (Widget child : children)
       max = Math.max(max, child.getMinWidth());
     return max;
   }
 
-  @Override
-  public int getMinHeight() {
+  @Override public int getMinHeight() {
     int sum = 0;
     for (Widget child : children)
       sum += child.getMinHeight();
     return sum;
   }
 
-  @Override
-  public boolean stretchHorizontally() {
+  @Override public boolean stretchHorizontally() {
     for (Widget child : children)
       if (!child.stretchHorizontally())
         return false;
     return true;
   }
 
-  @Override
-  public boolean stretchVertically() {
+  @Override public boolean stretchVertically() {
     return numStretchyChildren() > 0;
   }
 

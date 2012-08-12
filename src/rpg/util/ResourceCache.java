@@ -27,8 +27,7 @@ public abstract class ResourceCache<T> {
       this.capacity = capacity;
     }
 
-    @Override
-    public boolean removeEldestEntry(Map.Entry<K, V> entry) {
+    @Override public boolean removeEldestEntry(Map.Entry<K, V> entry) {
       return size() >= capacity;
     }
   }

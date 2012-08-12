@@ -41,28 +41,23 @@ public class TextBox extends FocusableWidget {
     return content;
   }
 
-  @Override
-  public int getMinWidth() {
+  @Override public int getMinWidth() {
     return fontRenderer.getWidth(content);
   }
 
-  @Override
-  public int getMinHeight() {
+  @Override public int getMinHeight() {
     return PAD_TOP + fontRenderer.getHeight() + PAD_BOTTOM;
   }
 
-  @Override
-  public boolean stretchHorizontally() {
+  @Override public boolean stretchHorizontally() {
     return true;
   }
 
-  @Override
-  public boolean stretchVertically() {
+  @Override public boolean stretchVertically() {
     return false;
   }
 
-  @Override
-  public void render() {
+  @Override public void render() {
     glDisable(GL_TEXTURE_2D);
     glColor3f(1, 1, 1);
     glBegin(GL_QUADS);
@@ -97,8 +92,7 @@ public class TextBox extends FocusableWidget {
     return t % BLINK_PHASE < BLINK_PHASE * VISIBLE_FRACTION;
   }
 
-  @Override
-  public void onKeyDown(int key) {
+  @Override public void onKeyDown(int key) {
     switch (key) {
       case Keyboard.KEY_BACK:
         if (content.length() > 0)

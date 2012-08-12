@@ -5,8 +5,7 @@ public class FlexiblePadding extends Container {
     super(content);
   }
 
-  @Override
-  public void setBounds(Bounds bounds) {
+  @Override public void setBounds(Bounds bounds) {
     super.setBounds(bounds);
     int extraW = bounds.w() - children[0].getMinWidth(),
         extraH = bounds.h() - children[0].getMinHeight();
@@ -17,23 +16,19 @@ public class FlexiblePadding extends Container {
         bounds.x2() - right, bounds.y2() - bottom));
   }
 
-  @Override
-  public int getMinWidth() {
+  @Override public int getMinWidth() {
     return children[0].getMinWidth();
   }
 
-  @Override
-  public int getMinHeight() {
+  @Override public int getMinHeight() {
     return children[0].getMinHeight();
   }
 
-  @Override
-  public boolean stretchHorizontally() {
+  @Override public boolean stretchHorizontally() {
     return true;
   }
 
-  @Override
-  public boolean stretchVertically() {
+  @Override public boolean stretchVertically() {
     return true;
   }
 }

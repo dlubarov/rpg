@@ -25,8 +25,7 @@ public class PeerIntroductionMessage extends Message {
     this.parts = parts;
   }
 
-  @Override
-  public String toString() {
+  @Override public String toString() {
     return new ToStringBuilder(this)
         .append("parts", parts)
         .toString();
@@ -37,20 +36,17 @@ public class PeerIntroductionMessage extends Message {
         private final Serializer<List<Part>> listSerializer =
             new ListSerializer<Part>(partSerializer);
 
-        @Override
-        public void serialize(PeerIntroductionMessage msg, ByteSink sink) {
+        @Override public void serialize(PeerIntroductionMessage msg, ByteSink sink) {
           listSerializer.serialize(msg.parts, sink);
         }
 
-        @Override
-        public PeerIntroductionMessage deserialize(ByteSource source) {
+        @Override public PeerIntroductionMessage deserialize(ByteSource source) {
           return new PeerIntroductionMessage(listSerializer.deserialize(source));
         }
       };
 
   private static final Serializer<Part> partSerializer = new Serializer<Part>() {
-    @Override
-    public void serialize(Part part, ByteSink sink) {
+    @Override public void serialize(Part part, ByteSink sink) {
       IntegerSerializer.singleton.serialize(part.id, sink);
       StringSerializer.singleton.serialize(part.username, sink);
       Vector3Serializer.singleton.serialize(part.position, sink);
@@ -58,8 +54,7 @@ public class PeerIntroductionMessage extends Message {
       Vector3Serializer.singleton.serialize(part.direction, sink);
     }
 
-    @Override
-    public Part deserialize(ByteSource source) {
+    @Override public Part deserialize(ByteSource source) {
       return new Part(
           IntegerSerializer.singleton.deserialize(source),
           StringSerializer.singleton.deserialize(source),
@@ -82,8 +77,7 @@ public class PeerIntroductionMessage extends Message {
       this.direction = direction;
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
       return new ToStringBuilder(this)
           .append("id", id)
           .append("username", username)

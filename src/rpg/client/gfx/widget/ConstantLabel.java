@@ -21,8 +21,7 @@ public class ConstantLabel extends Label {
     this.content = content;
   }
 
-  @Override
-  protected String getContent() {
+  @Override protected String getContent() {
     return content;
   }
 }

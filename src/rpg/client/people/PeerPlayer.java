@@ -9,8 +9,7 @@ public class PeerPlayer extends Player {
     super(combatClass);
   }
 
-  @Override
-  public Vector3 getPos() {
+  @Override public Vector3 getPos() {
     // FIXME: impl
     throw new NotImplementedException();
   }

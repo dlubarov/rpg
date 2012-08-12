@@ -20,8 +20,7 @@ public class RegistrationErrorMessage extends Message {
     this.reason = reason;
   }
 
-  @Override
-  public String toString() {
+  @Override public String toString() {
     return new ToStringBuilder(this)
         .append("reason", reason)
         .toString();
@@ -29,13 +28,11 @@ public class RegistrationErrorMessage extends Message {
 
   public static final Serializer<RegistrationErrorMessage> serializer =
       new Serializer<RegistrationErrorMessage>() {
-        @Override
-        public void serialize(RegistrationErrorMessage msg, ByteSink sink) {
+        @Override public void serialize(RegistrationErrorMessage msg, ByteSink sink) {
           IntegerSerializer.singleton.serialize(msg.reason.ordinal(), sink);
         }
 
-        @Override
-        public RegistrationErrorMessage deserialize(ByteSource source) {
+        @Override public RegistrationErrorMessage deserialize(ByteSource source) {
           int ordinal = IntegerSerializer.singleton.deserialize(source);
           return new RegistrationErrorMessage(Reason.values()[ordinal]);
         }

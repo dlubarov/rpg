@@ -3,15 +3,16 @@ package rpg.client.handlers;
 import rpg.client.mode.CharacterSetupMode;
 import rpg.client.mode.Mode;
 import rpg.client.mode.ModeManager;
+import rpg.msg.s2c.NewCharacterErrorMessage;
 import rpg.msg.s2c.NewCharacterSuccessMessage;
 import rpg.util.Logger;
 
-public class NewCharacterSuccessHandler extends Handler<NewCharacterSuccessMessage> {
-  public static final NewCharacterSuccessHandler singleton = new NewCharacterSuccessHandler();
+public class NewCharacterErrorHandler extends Handler<NewCharacterErrorMessage> {
+  public static final NewCharacterErrorHandler singleton = new NewCharacterErrorHandler();
 
-  private NewCharacterSuccessHandler() {}
+  private NewCharacterErrorHandler() {}
 
-  @Override public void handle(NewCharacterSuccessMessage msg) {
+  @Override public void handle(NewCharacterErrorMessage msg) {
     Mode currentMode = ModeManager.getCurrentMode();
     if (!(currentMode instanceof CharacterSetupMode)) {
       Logger.warning("Received %s while in %s.", msg, currentMode);
@@ -19,6 +20,6 @@ public class NewCharacterSuccessHandler extends Handler<NewCharacterSuccessMessa
     }
 
     CharacterSetupMode characterSetupMode = (CharacterSetupMode) currentMode;
-    characterSetupMode.receivedSuccess(msg.characterSummary);
+    characterSetupMode.receivedError(msg.reason);
   }
 }

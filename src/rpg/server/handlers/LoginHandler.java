@@ -14,8 +14,7 @@ public class LoginHandler extends Handler<LoginMessage> {
 
   private LoginHandler() {}
 
-  @Override
-  public void handle(LoginMessage msg, InetAddress sender) {
+  @Override public void handle(LoginMessage msg, InetAddress sender) {
     if (!msg.version.equals(Info.versionParts)) {
       sendRejection(LoginErrorMessage.Reason.BAD_VERSION, sender);
       return;
@@ -38,6 +37,9 @@ public class LoginHandler extends Handler<LoginMessage> {
       sendRejection(LoginErrorMessage.Reason.BAD_PASSWORD, sender);
       return;
     }
+
+    // Successful login.
+    AccountManager.noteLastAddress(account, sender);
 
     CharacterInfoMessage charInfoMsg = new CharacterInfoMessage(account.getCharacterSummaries());
     new ToClientMessageSink(sender).sendWithConfirmation(charInfoMsg, 3);

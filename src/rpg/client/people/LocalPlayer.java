@@ -10,8 +10,7 @@ public class LocalPlayer extends Player {
     super(combatClass);
   }
 
-  @Override
-  public Vector3 getPos() {
+  @Override public Vector3 getPos() {
     return position;
   }
 }

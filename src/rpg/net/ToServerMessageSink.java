@@ -10,8 +10,7 @@ public class ToServerMessageSink extends MessageSink {
 
   private ToServerMessageSink() {}
 
-  @Override
-  protected void sendRaw(byte[] data) {
+  @Override protected void sendRaw(byte[] data) {
     try {
       Client.socket.send(new DatagramPacket(data, data.length,
           NetConfig.serverAddr, NetConfig.PORT_C2S));

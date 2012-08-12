@@ -26,8 +26,7 @@ public class Cylinder extends Shape3D {
     return new Circle(new Vector2(base.x, base.y), radius);
   }
 
-  @Override
-  public AAB getBoundingBox() {
+  @Override public AAB getBoundingBox() {
     return null;
   }
 }

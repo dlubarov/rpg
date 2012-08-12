@@ -5,14 +5,12 @@ public class LongSerializer extends Serializer<Long> {
 
   private LongSerializer() {}
 
-  @Override
-  public void serialize(Long n, ByteSink sink) {
+  @Override public void serialize(Long n, ByteSink sink) {
     for (int i = 0; i < 8; ++i)
       sink.give((byte) (n >>> i * 8));
   }
 
-  @Override
-  public Long deserialize(ByteSource source) {
+  @Override public Long deserialize(ByteSource source) {
     long n = 0;
     for (int i = 0; i < 8; ++i)
       n |= (((long) source.take()) & 0xFFL) << i * 8;

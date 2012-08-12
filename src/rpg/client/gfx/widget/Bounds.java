@@ -41,8 +41,7 @@ public class Bounds {
         && y >= y1 && y < y2;
   }
 
-  @Override
-  public String toString() {
+  @Override public String toString() {
     return new ToStringBuilder(this)
         .append("x1", x1)
         .append("y1", y1)

@@ -20,8 +20,7 @@ public final class BodyOctree extends Broadphase {
     bodies = new ArrayList<Body>();
   }
 
-  @Override
-  public synchronized void add(Body b) {
+  @Override public synchronized void add(Body b) {
     BodyOctree child = childFor(b);
     if (child == null)
       bodies.add(b);
@@ -32,8 +31,7 @@ public final class BodyOctree extends Broadphase {
       split();
   }
 
-  @Override
-  public synchronized void remove(Body b) {
+  @Override public synchronized void remove(Body b) {
     BodyOctree child = childFor(b);
     if (child == null)
       bodies.remove(b);
@@ -44,8 +42,7 @@ public final class BodyOctree extends Broadphase {
       unsplit();
   }
 
-  @Override
-  public synchronized Collection<Body> getNeighbors(Body src) {
+  @Override public synchronized Collection<Body> getNeighbors(Body src) {
     Collection<Body> result = new ArrayList<Body>();
     addNeighborsTo(src, result);
     return result;

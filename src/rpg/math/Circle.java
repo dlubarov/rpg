@@ -17,8 +17,7 @@ public class Circle extends Shape2D {
     return center.minus(that.center).normSquared() < combinedRad * combinedRad;
   }
 
-  @Override
-  public String toString() {
+  @Override public String toString() {
     return new ToStringBuilder(this)
         .append("center", center)
         .append("radius", radius)

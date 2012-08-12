@@ -16,14 +16,12 @@ public class Sphere extends Shape3D {
     return center.minus(that.center).normSquared() < combinedRad * combinedRad;
   }
 
-  @Override
-  public AAB getBoundingBox() {
+  @Override public AAB getBoundingBox() {
     Vector3 rrr = new Vector3(radius, radius, radius);
     return new AAB(center.minus(rrr), center.plus(rrr));
   }
 
-  @Override
-  public String toString() {
+  @Override public String toString() {
     return new ToStringBuilder(this)
         .append("center", center)
         .append("radius", radius)

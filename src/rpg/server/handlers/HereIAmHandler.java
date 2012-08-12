@@ -8,8 +8,7 @@ public class HereIAmHandler extends NormalHandler<HereIAmMessage> {
 
   private HereIAmHandler() {}
 
-  @Override
-  public void handle(HereIAmMessage msg, ActivePlayer sender) {
+  @Override public void handle(HereIAmMessage msg, ActivePlayer sender) {
     // FIXME handle
   }
 }

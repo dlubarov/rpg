@@ -7,8 +7,7 @@ public class PeerIntroductionHandler extends Handler<PeerIntroductionMessage> {
 
   private PeerIntroductionHandler() {}
 
-  @Override
-  public void handle(PeerIntroductionMessage msg) {
+  @Override public void handle(PeerIntroductionMessage msg) {
     // FIXME handle
   }
 }

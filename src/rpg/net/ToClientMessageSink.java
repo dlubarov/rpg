@@ -10,8 +10,7 @@ public class ToClientMessageSink extends MessageSink {
     this.clientAddr = clientAddr;
   }
 
-  @Override
-  protected void sendRaw(byte[] data) {
+  @Override protected void sendRaw(byte[] data) {
     Server.sendClient(data, clientAddr);
   }
 }

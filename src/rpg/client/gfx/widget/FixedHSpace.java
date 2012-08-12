@@ -7,26 +7,21 @@ public class FixedHSpace extends Widget {
     this.amount = amount;
   }
 
-  @Override
-  public int getMinWidth() {
+  @Override public int getMinWidth() {
     return amount;
   }
 
-  @Override
-  public int getMinHeight() {
+  @Override public int getMinHeight() {
     return 0;
   }
 
-  @Override
-  public boolean stretchHorizontally() {
+  @Override public boolean stretchHorizontally() {
     return false;
   }
 
-  @Override
-  public boolean stretchVertically() {
+  @Override public boolean stretchVertically() {
     return true;
   }
 
-  @Override
-  public void render() {}
+  @Override public void render() {}
 }

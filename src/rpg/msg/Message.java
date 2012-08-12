@@ -18,6 +18,5 @@ public abstract class Message {
     serializer.serialize(this, sink);
   }
 
-  @Override
-  public abstract String toString();
+  @Override public abstract String toString();
 }

@@ -9,8 +9,7 @@ import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glVertex2i;
 
 public class CloseButton extends WindowButton {
-  @Override
-  public void renderContent(Bounds bounds) {
+  @Override public void renderContent(Bounds bounds) {
     int pad = 3;
     glColor3d(.5, .5, .5);
     bounds = new Bounds(bounds.x1() + pad, bounds.y1() + pad, bounds.x2() - pad, bounds.y2() - pad);
@@ -22,8 +21,7 @@ public class CloseButton extends WindowButton {
     glEnd();
   }
 
-  @Override
-  public void onClick(Window parent) {
+  @Override public void onClick(Window parent) {
     parent.close();
   }
 }

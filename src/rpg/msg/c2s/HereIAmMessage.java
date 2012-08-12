@@ -22,8 +22,7 @@ public class HereIAmMessage extends Message {
     this.direction = direction;
   }
 
-  @Override
-  public String toString() {
+  @Override public String toString() {
     return new ToStringBuilder(this)
         .append("position", position)
         .append("velocity", velocity)
@@ -32,15 +31,13 @@ public class HereIAmMessage extends Message {
   }
 
   public static final Serializer<HereIAmMessage> serializer = new Serializer<HereIAmMessage>() {
-    @Override
-    public void serialize(HereIAmMessage msg, ByteSink sink) {
+    @Override public void serialize(HereIAmMessage msg, ByteSink sink) {
       Vector3Serializer.singleton.serialize(msg.position, sink);
       Vector3Serializer.singleton.serialize(msg.velocity, sink);
       Vector3Serializer.singleton.serialize(msg.direction, sink);
     }
 
-    @Override
-    public HereIAmMessage deserialize(ByteSource source) {
+    @Override public HereIAmMessage deserialize(ByteSource source) {
       return new HereIAmMessage(
           Vector3Serializer.singleton.deserialize(source),
           Vector3Serializer.singleton.deserialize(source),

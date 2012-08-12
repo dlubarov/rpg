@@ -25,19 +25,27 @@ public final class NetConfig {
     }
   }
 
-  public static final Set<Character> validUsernameChars = new HashSet<Character>();
+  public static final Set<Character> validNameChars = new HashSet<Character>();
 
   static {
+    // TODO: Allow spaces, but not at start/end and not more than 1 consecutive.
     for (char c = 'a'; c <= 'z'; ++c)
-      validUsernameChars.add(c);
+      validNameChars.add(c);
     for (char c = 'A'; c <= 'Z'; ++c)
-      validUsernameChars.add(c);
+      validNameChars.add(c);
     for (char c = '0'; c <= '9'; ++c)
-      validUsernameChars.add(c);
-    validUsernameChars.add('_');
+      validNameChars.add(c);
+    validNameChars.add('_');
   }
 
-  public static boolean validUsernameCharacter(char c) {
-    return validUsernameChars.contains(c);
+  private static boolean validNameCharacter(char c) {
+    return validNameChars.contains(c);
+  }
+
+  public static boolean allValidNameCharacters(String s) {
+    for (char c : s.toCharArray())
+      if (!validNameCharacter(c))
+        return false;
+    return true;
   }
 }

@@ -90,21 +90,18 @@ public final class Vector3 {
     return Math.min(x, Math.min(y, z));
   }
 
-  @Override
-  public boolean equals(Object o) {
+  @Override public boolean equals(Object o) {
     if (!(o instanceof Vector3))
       return false;
     Vector3 that = (Vector3) o;
     return x == that.x && y == that.y && z == that.z;
   }
 
-  @Override
-  public int hashCode() {
+  @Override public int hashCode() {
     return Arrays.hashCode(components());
   }
 
-  @Override
-  public String toString() {
+  @Override public String toString() {
     return String.format("[%.2f, %.2f, %.2f]", x, y, z);
   }
 }

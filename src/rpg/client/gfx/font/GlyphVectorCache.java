@@ -15,8 +15,7 @@ public class GlyphVectorCache extends ResourceCache<GlyphVector> {
     this.context = context;
   }
 
-  @Override
-  protected GlyphVector loadResource(String s) {
+  @Override protected GlyphVector loadResource(String s) {
     return font.createGlyphVector(context, s);
   }
 }

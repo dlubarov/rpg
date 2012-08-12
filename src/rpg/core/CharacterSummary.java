@@ -9,29 +9,28 @@ import rpg.server.PlayerCharacter;
 import rpg.util.ToStringBuilder;
 
 public class CharacterSummary {
-  public final int characterID;
+  public final int id;
   public final String name;
   public final CombatClass combatClass;
   public final int level;
 
-  public CharacterSummary(int characterID, String name, CombatClass combatClass, int level) {
-    this.characterID = characterID;
+  public CharacterSummary(int id, String name, CombatClass combatClass, int level) {
+    this.id = id;
     this.name = name;
     this.combatClass = combatClass;
     this.level = level;
   }
 
   public CharacterSummary(PlayerCharacter character) {
-    this.characterID = character.id;
+    this.id = character.id;
     this.name = character.name;
     this.combatClass = character.combatClass;
     this.level = character.getLevel();
   }
 
-  @Override
-  public String toString() {
+  @Override public String toString() {
     return new ToStringBuilder(this)
-        .append("characterID", characterID)
+        .append("id", id)
         .append("name", name)
         .append("combatClass", combatClass)
         .append("level", level)
@@ -40,16 +39,14 @@ public class CharacterSummary {
 
   public static final Serializer<CharacterSummary> serializer =
       new Serializer<CharacterSummary>() {
-        @Override
-        public void serialize(CharacterSummary character, ByteSink sink) {
-          IntegerSerializer.singleton.serialize(character.characterID, sink);
+        @Override public void serialize(CharacterSummary character, ByteSink sink) {
+          IntegerSerializer.singleton.serialize(character.id, sink);
           StringSerializer.singleton.serialize(character.name, sink);
           IntegerSerializer.singleton.serialize(character.combatClass.ordinal(), sink);
           IntegerSerializer.singleton.serialize(character.level, sink);
         }
 
-        @Override
-        public CharacterSummary deserialize(ByteSource source) {
+        @Override public CharacterSummary deserialize(ByteSource source) {
           return new CharacterSummary(
               IntegerSerializer.singleton.deserialize(source),
               StringSerializer.singleton.deserialize(source),

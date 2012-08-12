@@ -28,12 +28,13 @@ public class RegistrationHandler extends Handler<RegistrationMessage> {
 
   private RegistrationHandler() {}
 
-  @Override
-  public void handle(RegistrationMessage msg, InetAddress sender) {
+  @Override public void handle(RegistrationMessage msg, InetAddress sender) {
     RegistrationErrorMessage.Reason failureReason = getFailureReason(msg);
     if (failureReason == null) {
       Account account = new Account(msg.email, msg.password);
       AccountManager.register(account);
+      AccountManager.noteLastAddress(account, sender);
+
       RegistrationAcceptanceMessage acceptanceMessage = new RegistrationAcceptanceMessage();
       new ToClientMessageSink(sender).sendWithConfirmation(acceptanceMessage, 3);
       Logger.info("New account registered: %s", account);

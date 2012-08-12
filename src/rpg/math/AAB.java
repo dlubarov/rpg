@@ -24,13 +24,11 @@ public class AAB extends Shape3D {
     return true;
   }
 
-  @Override
-  public AAB getBoundingBox() {
+  @Override public AAB getBoundingBox() {
     return this;
   }
 
-  @Override
-  public String toString() {
+  @Override public String toString() {
     return new ToStringBuilder(this)
         .append("min", min)
         .append("max", max)

@@ -22,13 +22,11 @@ public class NewCharacterSuccessMessage extends Message {
 
   public static final Serializer<NewCharacterSuccessMessage> serializer =
       new Serializer<NewCharacterSuccessMessage>() {
-        @Override
-        public void serialize(NewCharacterSuccessMessage msg, ByteSink sink) {
+        @Override public void serialize(NewCharacterSuccessMessage msg, ByteSink sink) {
           CharacterSummary.serializer.serialize(msg.characterSummary, sink);
         }
 
-        @Override
-        public NewCharacterSuccessMessage deserialize(ByteSource source) {
+        @Override public NewCharacterSuccessMessage deserialize(ByteSource source) {
           CharacterSummary characterSummary = CharacterSummary.serializer.deserialize(source);
           return new NewCharacterSuccessMessage(characterSummary);
         }

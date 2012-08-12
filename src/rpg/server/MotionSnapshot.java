@@ -14,8 +14,7 @@ public final class MotionSnapshot {
     this.direction = direction;
   }
 
-  @Override
-  public String toString() {
+  @Override public String toString() {
     return new ToStringBuilder(this)
         .append("position", position)
         .append("velocity", velocity)

@@ -9,13 +9,13 @@ import static java.util.Collections.synchronizedMap;
 
 public final class ActivePlayer {
   private final PlayerCharacter character;
-  private final InetAddress address;
   private final Map<PlayerCharacter, MotionSnapshot> peerSnapshots;
+  private final InetAddress address;
 
   public ActivePlayer(PlayerCharacter character, InetAddress address) {
     this.character = character;
-    this.address = address;
     this.peerSnapshots = synchronizedMap(new HashMap<PlayerCharacter, MotionSnapshot>());
+    this.address = address;
   }
 
   public void send(Message msg) {

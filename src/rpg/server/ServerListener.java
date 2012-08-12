@@ -22,8 +22,7 @@ public class ServerListener extends Thread {
     this.socket = socket;
   }
 
-  @Override
-  public void run() {
+  @Override public void run() {
     for (;;) {
       try {
         listenForMessage();

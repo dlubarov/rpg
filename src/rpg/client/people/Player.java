@@ -9,13 +9,11 @@ public abstract class Player extends Person {
     this.combatClass = combatClass;
   }
 
-  @Override
-  protected double getHeight() {
+  @Override protected double getHeight() {
     return 1.8;
   }
 
-  @Override
-  protected double getRadius() {
+  @Override protected double getRadius() {
     return 0.3;
   }
 }

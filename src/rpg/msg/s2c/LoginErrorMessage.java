@@ -19,8 +19,7 @@ public class LoginErrorMessage extends Message {
     this.reason = reason;
   }
 
-  @Override
-  public String toString() {
+  @Override public String toString() {
     return new ToStringBuilder(this)
         .append("reason", reason)
         .toString();
@@ -28,13 +27,11 @@ public class LoginErrorMessage extends Message {
 
   public static final Serializer<LoginErrorMessage> serializer =
       new Serializer<LoginErrorMessage>() {
-        @Override
-        public void serialize(LoginErrorMessage msg, ByteSink sink) {
+        @Override public void serialize(LoginErrorMessage msg, ByteSink sink) {
           IntegerSerializer.singleton.serialize(msg.reason.ordinal(), sink);
         }
 
-        @Override
-        public LoginErrorMessage deserialize(ByteSource source) {
+        @Override public LoginErrorMessage deserialize(ByteSource source) {
           int ordinal = IntegerSerializer.singleton.deserialize(source);
           return new LoginErrorMessage(Reason.values()[ordinal]);
         }

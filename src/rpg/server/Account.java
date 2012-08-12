@@ -36,8 +36,7 @@ public class Account {
     return summaries;
   }
 
-  @Override
-  public String toString() {
+  @Override public String toString() {
     return new ToStringBuilder(this)
         .append("id", id)
         .append("email", email)

@@ -28,6 +28,10 @@ public final class AccountManager {
     playersByAddr = Collections.synchronizedMap(new HashMap<InetAddress, ActivePlayer>());
   }
 
+  public static void noteLastAddress(Account account, InetAddress address) {
+    accountsByLastAddress.put(address, account);
+  }
+
   public static Account getAccountById(int id) {
     return accountsById.get(id);
   }

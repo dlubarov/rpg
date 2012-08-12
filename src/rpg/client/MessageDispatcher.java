@@ -3,6 +3,7 @@ package rpg.client;
 import rpg.client.handlers.CharacterInfoHandler;
 import rpg.client.handlers.ConfirmationHandler;
 import rpg.client.handlers.LoginErrorHandler;
+import rpg.client.handlers.NewCharacterErrorHandler;
 import rpg.client.handlers.NewCharacterSuccessHandler;
 import rpg.client.handlers.PeerGoodbyeHandler;
 import rpg.client.handlers.PeerIntroductionHandler;
@@ -14,6 +15,7 @@ import rpg.msg.ConfirmationMessage;
 import rpg.msg.MessageType;
 import rpg.msg.s2c.CharacterInfoMessage;
 import rpg.msg.s2c.LoginErrorMessage;
+import rpg.msg.s2c.NewCharacterErrorMessage;
 import rpg.msg.s2c.NewCharacterSuccessMessage;
 import rpg.msg.s2c.PeerGoodbyeMessage;
 import rpg.msg.s2c.PeerIntroductionMessage;
@@ -37,8 +39,7 @@ public class MessageDispatcher implements Runnable {
     this.source = source;
   }
 
-  @Override
-  public void run() {
+  @Override public void run() {
     long uuid = LongSerializer.singleton.deserialize(source);
     if (uuid != 0) {
       UUIDCache.addUUID(uuid);
@@ -77,6 +78,9 @@ public class MessageDispatcher implements Runnable {
         break;
       case NEW_CHARACTER_SUCCESS:
         NewCharacterSuccessHandler.singleton.handle(NewCharacterSuccessMessage.serializer.deserialize(source));
+        break;
+      case NEW_CHARACTER_ERROR:
+        NewCharacterErrorHandler.singleton.handle(NewCharacterErrorMessage.serializer.deserialize(source));
         break;
       case CHARACTER_INFO:
         CharacterInfoHandler.singleton.handle(CharacterInfoMessage.serializer.deserialize(source));

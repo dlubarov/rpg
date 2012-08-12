@@ -10,8 +10,7 @@ public class RealmAdmin {
     this.realm = realm;
   }
 
-  @Override
-  public String toString() {
+  @Override public String toString() {
     return new ToStringBuilder(this)
         .append("realm", realm)
         .toString();

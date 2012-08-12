@@ -12,45 +12,37 @@ public final class RootWindow extends Window {
     super(new CloseButton());
   }
 
-  @Override
-  public String getCaption() {
+  @Override public String getCaption() {
     return String.format("%s v%s [%d FPS]",
         Info.name, Info.getVersionString(), FPSManager.getFps());
   }
 
-  @Override
-  public boolean isFocused() {
+  @Override public boolean isFocused() {
     return Display.isActive();
   }
 
-  @Override
-  protected int x1() {
+  @Override protected int x1() {
     return 0;
   }
 
-  @Override
-  protected int y1() {
+  @Override protected int y1() {
     return 0;
   }
 
-  @Override
-  protected int contentW() {
+  @Override protected int contentW() {
     return Display.getWidth();
   }
 
-  @Override
-  protected int contentH() {
+  @Override protected int contentH() {
     return Display.getHeight() - BAR_HEIGHT;
   }
 
-  @Override
-  protected void renderContent() {
+  @Override protected void renderContent() {
     ModeManager.getCurrentMode().render();
     WindowManager.render();
   }
 
-  @Override
-  public void close() {
+  @Override public void close() {
     System.exit(0);
   }
 }

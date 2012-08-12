@@ -25,8 +25,7 @@ public final class StatRequirements {
     return this;
   }
 
-  @Override
-  public String toString() {
+  @Override public String toString() {
     StringBuilder sb = new StringBuilder("[");
     boolean first = true;
     for (Stat stat : levelRequirements.keySet()) {

@@ -12,8 +12,7 @@ import rpg.util.Logger;
 public class RegistrationAcceptanceHandler extends Handler<RegistrationAcceptanceMessage> {
   public static final RegistrationAcceptanceHandler singleton = new RegistrationAcceptanceHandler();
 
-  @Override
-  public void handle(RegistrationAcceptanceMessage msg) {
+  @Override public void handle(RegistrationAcceptanceMessage msg) {
     Mode currentMode = ModeManager.getCurrentMode();
     if (!(currentMode instanceof RegistrationMode)) {
       Logger.warning("Received %s while in %s.", msg, currentMode);

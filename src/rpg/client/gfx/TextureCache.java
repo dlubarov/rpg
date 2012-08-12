@@ -16,8 +16,7 @@ public final class TextureCache extends ResourceCache<Texture> {
     get(name).bind();
   }
 
-  @Override
-  protected Texture loadResource(String name) {
+  @Override protected Texture loadResource(String name) {
     name = "/resources/tex/" + name + ".png";
     try {
       InputStream stream = TextureCache.class.getResourceAsStream(name);

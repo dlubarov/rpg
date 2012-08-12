@@ -28,8 +28,7 @@ public final class ChildWindow extends Window {
     WindowManager.addChild(this);
   }
 
-  @Override
-  public void close() {
+  @Override public void close() {
     WindowManager.removeChild(this);
   }
 
@@ -43,38 +42,31 @@ public final class ChildWindow extends Window {
     content.setBounds(bounds());
   }
 
-  @Override
-  public String getCaption() {
+  @Override public String getCaption() {
     return caption;
   }
 
-  @Override
-  public boolean isFocused() {
+  @Override public boolean isFocused() {
     return this == WindowManager.getFocusedWindow();
   }
 
-  @Override
-  protected int x1() {
+  @Override protected int x1() {
     return x1;
   }
 
-  @Override
-  protected int y1() {
+  @Override protected int y1() {
     return y1;
   }
 
-  @Override
-  protected int contentW() {
+  @Override protected int contentW() {
     return content.getMinWidth();
   }
 
-  @Override
-  protected int contentH() {
+  @Override protected int contentH() {
     return content.getMinHeight();
   }
 
-  @Override
-  protected void renderContent() {
+  @Override protected void renderContent() {
     content.render();
   }
 }

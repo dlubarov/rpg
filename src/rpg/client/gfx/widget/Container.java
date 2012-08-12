@@ -7,15 +7,13 @@ public abstract class Container extends Widget {
     this.children = children;
   }
 
-  @Override
-  public final void onClick(int x, int y) {
+  @Override public final void onClick(int x, int y) {
     for (Widget child : children)
       if (child.bounds.contains(x, y))
         child.onClick(x, y);
   }
 
-  @Override
-  public final void render() {
+  @Override public final void render() {
     for (Widget child : children)
       child.render();
   }

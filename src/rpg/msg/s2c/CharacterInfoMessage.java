@@ -18,8 +18,7 @@ public class CharacterInfoMessage extends Message {
     this.parts = parts;
   }
 
-  @Override
-  public String toString() {
+  @Override public String toString() {
     return new ToStringBuilder(this)
         .append("parts", parts)
         .toString();
@@ -30,13 +29,11 @@ public class CharacterInfoMessage extends Message {
         private final Serializer<List<CharacterSummary>> arraySerializer =
             new ListSerializer<CharacterSummary>(CharacterSummary.serializer);
 
-        @Override
-        public void serialize(CharacterInfoMessage msg, ByteSink sink) {
+        @Override public void serialize(CharacterInfoMessage msg, ByteSink sink) {
           arraySerializer.serialize(msg.parts, sink);
         }
 
-        @Override
-        public CharacterInfoMessage deserialize(ByteSource source) {
+        @Override public CharacterInfoMessage deserialize(ByteSource source) {
           return new CharacterInfoMessage(arraySerializer.deserialize(source));
         }
       };

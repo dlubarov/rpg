@@ -16,8 +16,7 @@ public final class UUIDCache {
 
   // A map from UUID to time received.
   private static final Map<Long, Long> store = new LinkedHashMap<Long, Long>(CAPACITY, 1, false) {
-    @Override
-    protected boolean removeEldestEntry(Map.Entry<Long, Long> eldest) {
+    @Override protected boolean removeEldestEntry(Map.Entry<Long, Long> eldest) {
       return size() < CAPACITY;
     }
   };

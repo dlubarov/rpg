@@ -12,18 +12,15 @@ public class RegistrationAcceptanceMessage extends Message {
     super(MessageType.REGISTRATION_ACCEPTANCE, serializer);
   }
 
-  @Override
-  public String toString() {
+  @Override public String toString() {
     return new ToStringBuilder(this).toString();
   }
 
   public static final Serializer<RegistrationAcceptanceMessage> serializer =
       new Serializer<RegistrationAcceptanceMessage>() {
-        @Override
-        public void serialize(RegistrationAcceptanceMessage msg, ByteSink sink) {}
+        @Override public void serialize(RegistrationAcceptanceMessage msg, ByteSink sink) {}
 
-        @Override
-        public RegistrationAcceptanceMessage deserialize(ByteSource source) {
+        @Override public RegistrationAcceptanceMessage deserialize(ByteSource source) {
           return new RegistrationAcceptanceMessage();
         }
   };

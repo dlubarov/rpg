@@ -24,8 +24,7 @@ public class LoginMessage extends Message {
     this.version = version;
   }
 
-  @Override
-  public String toString() {
+  @Override public String toString() {
     return new ToStringBuilder(this)
         .append("email", email)
         .append("password", password)
@@ -35,15 +34,13 @@ public class LoginMessage extends Message {
 
   public static final Serializer<LoginMessage> serializer =
       new Serializer<LoginMessage>() {
-        @Override
-        public void serialize(LoginMessage msg, ByteSink sink) {
+        @Override public void serialize(LoginMessage msg, ByteSink sink) {
           StringSerializer.singleton.serialize(msg.email, sink);
           StringSerializer.singleton.serialize(msg.password, sink);
           ListSerializer.byteListSerializer.serialize(msg.version, sink);
         }
 
-        @Override
-        public LoginMessage deserialize(ByteSource source) {
+        @Override public LoginMessage deserialize(ByteSource source) {
           return new LoginMessage(
               StringSerializer.singleton.deserialize(source),
               StringSerializer.singleton.deserialize(source),

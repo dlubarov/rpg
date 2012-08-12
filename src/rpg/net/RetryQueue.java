@@ -42,8 +42,7 @@ public class RetryQueue {
       this.retriesLeft = retries;
     }
 
-    @Override
-    public void run() {
+    @Override public void run() {
       if (activeMessageUUIDs.contains(uuid)) {
         sink.sendOnce(msg, uuid);
         if (--retriesLeft > 0) {

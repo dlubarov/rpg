@@ -15,15 +15,13 @@ public class ListSerializer<T> extends Serializer<List<T>> {
     this.elementSerializer = elementSerializer;
   }
 
-  @Override
-  public void serialize(List<T> list, ByteSink sink) {
+  @Override public void serialize(List<T> list, ByteSink sink) {
     IntegerSerializer.singleton.serialize(list.size(), sink);
     for (T elem : list)
       elementSerializer.serialize(elem, sink);
   }
 
-  @Override
-  public List<T> deserialize(ByteSource source) {
+  @Override public List<T> deserialize(ByteSource source) {
     int size = IntegerSerializer.singleton.deserialize(source);
     ArrayList<T> result = new ArrayList<T>(size);
     for (int i = 0; i < size; ++i)

@@ -75,21 +75,18 @@ public final class Vector2 {
     return scaled(1 / norm());
   }
 
-  @Override
-  public boolean equals(Object o) {
+  @Override public boolean equals(Object o) {
     if (!(o instanceof Vector2))
       return false;
     Vector2 that = (Vector2) o;
     return x == that.x && y == that.y;
   }
 
-  @Override
-  public int hashCode() {
+  @Override public int hashCode() {
     return Arrays.hashCode(components());
   }
 
-  @Override
-  public String toString() {
+  @Override public String toString() {
     return String.format("[%.2f, %.2f]", x, y);
   }
 }

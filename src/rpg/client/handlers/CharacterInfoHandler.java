@@ -12,8 +12,7 @@ public class CharacterInfoHandler extends Handler<CharacterInfoMessage> {
 
   private CharacterInfoHandler() {}
 
-  @Override
-  public void handle(CharacterInfoMessage msg) {
+  @Override public void handle(CharacterInfoMessage msg) {
     Mode mode = ModeManager.getCurrentMode();
     if (!(mode instanceof LoginMode)) {
       Logger.warning("Received %s while in %s", msg, mode);
