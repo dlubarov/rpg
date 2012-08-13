@@ -47,7 +47,10 @@ public class OptionList<T> extends Widget {
 
   @Override public void render() {
     glDisable(GL_TEXTURE_2D);
-    glColor3f(1, 1, 1);
+    if (isFrozen())
+      glColor3f(.8f, .8f, .8f);
+    else
+      glColor3f(1, 1, 1);
     glBegin(GL_QUADS);
     glVertex2i(bounds.x1(), bounds.y1());
     glVertex2i(bounds.x1(), bounds.y2());
@@ -55,10 +58,7 @@ public class OptionList<T> extends Widget {
     glVertex2i(bounds.x2(), bounds.y1());
     glEnd();
 
-    if (isFocused())
-      glColor3d(0, 1, 0);
-    else
-      glColor3d(.5, .5, .5);
+    glColor3d(.5, .5, .5);
     glBegin(GL_LINE_LOOP);
     glVertex2d(bounds.x1() + .5, bounds.y1() + .5);
     glVertex2d(bounds.x1() + .5, bounds.y2() - .5);
@@ -73,8 +73,7 @@ public class OptionList<T> extends Widget {
         c = Color.GREEN;
 
       fontRenderer.draw(options[i].toString(), c,
-          bounds.x1(),
-          getOptionBounds(i).y1());
+          bounds.x1(), getOptionBounds(i).y1());
     }
   }
 

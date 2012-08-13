@@ -19,8 +19,8 @@ import rpg.net.ToServerMessageSink;
 
 public class LoginMode extends Mode2D {
   private final Widget content;
-  private String errorMessage = "";
   private final TextBox emailBox, passwordBox;
+  private String message = "";
 
   public LoginMode() {
     emailBox = new TextBox();
@@ -29,8 +29,9 @@ public class LoginMode extends Mode2D {
     setContentBounds();
   }
 
-  public void setErrorReason(LoginErrorMessage.Reason reason) {
-    errorMessage = reason.message;
+  public void receiveError(LoginErrorMessage.Reason reason) {
+    message = reason.message;
+    content.setFrozen(false);
   }
 
   @Override public Widget getContent() {
@@ -40,24 +41,31 @@ public class LoginMode extends Mode2D {
   @Override public void onKeyDown(int key) {
     switch (key) {
       case Keyboard.KEY_TAB:
-        if (emailBox.isFocused())
-          passwordBox.makeFocused();
-        else if (passwordBox.isFocused())
-          emailBox.makeFocused();
+        Widget[] fields = new Widget[] {emailBox, passwordBox};
+        for (int i = 0; i < fields.length; ++i)
+          if (fields[i].isFocused()) {
+            boolean shift = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)
+                         || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
+            int next = (i + (shift ? -1 : 1) + fields.length) % fields.length;
+            fields[next].makeFocused();
+            return;
+          }
         break;
       case Keyboard.KEY_RETURN:
-        sendLogin();
+        submit();
         break;
     }
   }
 
-  private void sendLogin() {
+  private void submit() {
     String email = emailBox.getContent(), password = passwordBox.getContent();
     // TODO: Do as much client-side verification as possible.
     LoginMessage msg = new LoginMessage(email, password, Info.versionParts);
     ToServerMessageSink.singleton.sendWithConfirmation(msg, 3);
 
-    // TODO: Show a "connecting" message and prevent the user from sending more requests. Also timeout.
+    // TODO: Timeout.
+    message = "Connecting to server...";
+    content.setFrozen(true);
   }
 
   private Widget createContent() {
@@ -88,7 +96,7 @@ public class LoginMode extends Mode2D {
     }
 
     @Override protected String getContent() {
-      return errorMessage;
+      return message;
     }
   }
 
@@ -98,7 +106,7 @@ public class LoginMode extends Mode2D {
     }
 
     @Override public void onClick() {
-      sendLogin();
+      submit();
     }
   }
 

@@ -16,7 +16,7 @@ public class FixedVSpace extends Widget {
   }
 
   @Override public boolean stretchHorizontally() {
-    return true;
+    return false;
   }
 
   @Override public boolean stretchVertically() {

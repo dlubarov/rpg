@@ -3,7 +3,7 @@ package rpg.server;
 import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Map;
-import rpg.msg.Message;
+import rpg.net.ToClientMessageSink;
 
 import static java.util.Collections.synchronizedMap;
 
@@ -11,15 +11,13 @@ public final class ActivePlayer {
   private final PlayerCharacter character;
   private final Map<PlayerCharacter, MotionSnapshot> peerSnapshots;
   private final InetAddress address;
+  public final ToClientMessageSink messageSink;
 
   public ActivePlayer(PlayerCharacter character, InetAddress address) {
     this.character = character;
     this.peerSnapshots = synchronizedMap(new HashMap<PlayerCharacter, MotionSnapshot>());
     this.address = address;
-  }
-
-  public void send(Message msg) {
-    // FIXME: Send message to player.
+    messageSink = new ToClientMessageSink(address);
   }
 
   public boolean inView(PlayerCharacter peer) {

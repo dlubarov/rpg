@@ -33,6 +33,9 @@ public class MessageDispatcher implements Runnable {
   }
 
   @Override public void run() {
+    // FIXME: Remove fake lag.
+    try { Thread.sleep(400); } catch (InterruptedException e) {}
+
     long uuid = LongSerializer.singleton.deserialize(source);
     if (uuid != 0) {
       UUIDCache.addUUID(uuid);

@@ -19,8 +19,8 @@ import rpg.net.ToServerMessageSink;
 
 public class RegistrationMode extends Mode2D {
   private final Widget content;
-  private String errorMessage = "";
   private final TextBox emailBox, passwordBox, confirmBox;
+  private String message = "";
 
   public RegistrationMode() {
     emailBox = new TextBox();
@@ -30,8 +30,9 @@ public class RegistrationMode extends Mode2D {
     setContentBounds();
   }
 
-  public void setErrorReason(RegistrationErrorMessage.Reason reason) {
-    errorMessage = reason.message;
+  public void receiveError(RegistrationErrorMessage.Reason reason) {
+    message = reason.message;
+    content.setFrozen(false);
   }
 
   @Override public Widget getContent() {
@@ -41,30 +42,33 @@ public class RegistrationMode extends Mode2D {
   @Override public void onKeyDown(int key) {
     switch (key) {
       case Keyboard.KEY_TAB:
-        if (emailBox.isFocused())
-          passwordBox.makeFocused();
-        else if (passwordBox.isFocused())
-          confirmBox.makeFocused();
-        else if (confirmBox.isFocused())
-          emailBox.makeFocused();
+        Widget[] fields = new Widget[] {emailBox, passwordBox, confirmBox};
+        for (int i = 0; i < fields.length; ++i)
+          if (fields[i].isFocused()) {
+            boolean shift = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)
+                         || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
+            int next = (i + (shift ? -1 : 1) + fields.length) % fields.length;
+            fields[next].makeFocused();
+            return;
+          }
         break;
       case Keyboard.KEY_RETURN:
-        sendRegistration();
+        submit();
         break;
     }
   }
 
-  private void sendRegistration() {
+  private void submit() {
     String email = emailBox.getContent(),
         password = passwordBox.getContent(),
         confirm = confirmBox.getContent();
     // TODO: Do as much client-side verification as possible.
     if (confirm.isEmpty()) {
-      setErrorReason(RegistrationErrorMessage.Reason.CONFIRMATION_MISSING);
+      receiveError(RegistrationErrorMessage.Reason.CONFIRMATION_MISSING);
       return;
     }
     if (!password.equals(confirm)) {
-      setErrorReason(RegistrationErrorMessage.Reason.BAD_CONFIRMATION);
+      receiveError(RegistrationErrorMessage.Reason.BAD_CONFIRMATION);
       return;
     }
 
@@ -72,6 +76,8 @@ public class RegistrationMode extends Mode2D {
     ToServerMessageSink.singleton.sendWithConfirmation(msg, 3);
 
     // TODO: Show a "connecting" message and prevent the user from sending more requests. Also timeout.
+    message = "Connecting...";
+    content.setFrozen(true);
   }
 
   private Widget createContent() {
@@ -96,7 +102,8 @@ public class RegistrationMode extends Mode2D {
         new VBox(
             new ConstantLabel("Already have an account?", Alignment.CENTER_ALIGNED),
             new FixedVSpace(8),
-            new SignInButton().padSidesFlexible())
+            new SignInButton().padSidesFlexible()
+        )
     ).padFlexible();
   }
 
@@ -106,7 +113,7 @@ public class RegistrationMode extends Mode2D {
     }
 
     @Override protected String getContent() {
-      return errorMessage;
+      return message;
     }
   }
 
@@ -116,7 +123,7 @@ public class RegistrationMode extends Mode2D {
     }
 
     @Override public void onClick() {
-      sendRegistration();
+      submit();
     }
   }
 

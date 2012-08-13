@@ -7,6 +7,12 @@ public abstract class Container extends Widget {
     this.children = children;
   }
 
+  @Override public void setFrozen(boolean frozen) {
+    super.setFrozen(frozen);
+    for (Widget child : children)
+      child.setFrozen(frozen);
+  }
+
   @Override public final void onClick(int x, int y) {
     for (Widget child : children)
       if (child.bounds.contains(x, y))

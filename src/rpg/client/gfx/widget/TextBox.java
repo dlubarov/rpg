@@ -59,7 +59,10 @@ public class TextBox extends FocusableWidget {
 
   @Override public void render() {
     glDisable(GL_TEXTURE_2D);
-    glColor3f(1, 1, 1);
+    if (isFrozen())
+      glColor3f(.8f, .8f, .8f);
+    else
+      glColor3f(1, 1, 1);
     glBegin(GL_QUADS);
     glVertex2i(bounds.x1(), bounds.y1());
     glVertex2i(bounds.x1(), bounds.y2());
@@ -67,7 +70,7 @@ public class TextBox extends FocusableWidget {
     glVertex2i(bounds.x2(), bounds.y1());
     glEnd();
 
-    if (isFocused())
+    if (isFocused() && !isFrozen())
       glColor3d(0, 1, 0);
     else
       glColor3d(.5, .5, .5);
@@ -80,7 +83,7 @@ public class TextBox extends FocusableWidget {
     glEnable(GL_TEXTURE_2D);
 
     String text = getContentToDraw();
-    if (isFocused() && cursorTime())
+    if (isFocused() && cursorTime() && !isFrozen())
       text += '|';
     fontRenderer.draw(text, Color.BLACK,
         bounds.x1() + PAD_SIDE,
@@ -93,6 +96,9 @@ public class TextBox extends FocusableWidget {
   }
 
   @Override public void onKeyDown(int key) {
+    if (isFrozen())
+      return;
+
     switch (key) {
       case Keyboard.KEY_BACK:
         if (content.length() > 0)

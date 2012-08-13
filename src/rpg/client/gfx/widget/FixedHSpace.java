@@ -20,7 +20,7 @@ public class FixedHSpace extends Widget {
   }
 
   @Override public boolean stretchVertically() {
-    return true;
+    return false;
   }
 
   @Override public void render() {}

@@ -48,7 +48,7 @@ public final class TextureLoader {
         image.getWidth(), image.getHeight());
     glBindTexture(GL_TEXTURE_2D, textureId);
     int sourcePixelFormat = image.getColorModel().hasAlpha() ? GL_RGBA : GL_RGB;
-    ByteBuffer textureBuffer = convertImageData(image, texture); // FIXME
+    ByteBuffer textureBuffer = convertImageData(image, texture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture.width, texture.height,
@@ -81,9 +81,8 @@ public final class TextureLoader {
   // TODO: optimize
   private static int getPowerOf2(int n) {
     int result = 2;
-    while (result < n) {
+    while (result < n)
       result <<= 1;
-    }
     return result;
   }
 }

@@ -19,6 +19,6 @@ public class LoginErrorHandler extends Handler<LoginErrorMessage> {
     }
 
     LoginMode loginMode = (LoginMode) currentMode;
-    loginMode.setErrorReason(msg.reason);
+    loginMode.receiveError(msg.reason);
   }
 }

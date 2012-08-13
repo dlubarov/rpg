@@ -19,6 +19,6 @@ public class RegistrationErrorHandler extends Handler<RegistrationErrorMessage> 
     }
 
     RegistrationMode registrationMode = (RegistrationMode) currentMode;
-    registrationMode.setErrorReason(msg.reason);
+    registrationMode.receiveError(msg.reason);
   }
 }

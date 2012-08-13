@@ -47,12 +47,16 @@ public abstract class Button extends Widget {
   }
 
   @Override public void onClick(int x, int y) {
-    onClick();
+    if (!isFrozen())
+      onClick();
   }
 
   @Override public void render() {
     glDisable(GL_TEXTURE_2D);
-    glColor3f(1, 1, 1);
+    if (isFrozen())
+      glColor3f(.8f, .8f, .8f);
+    else
+      glColor3f(1, 1, 1);
     glBegin(GL_QUADS);
     glVertex2i(bounds.x1(), bounds.y1());
     glVertex2i(bounds.x1(), bounds.y2());

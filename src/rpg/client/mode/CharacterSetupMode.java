@@ -1,12 +1,16 @@
 package rpg.client.mode;
 
+import java.awt.Color;
 import java.util.List;
+import org.lwjgl.input.Keyboard;
+import rpg.client.gfx.font.Alignment;
 import rpg.client.gfx.widget.Button;
 import rpg.client.gfx.widget.ConstantLabel;
 import rpg.client.gfx.widget.FixedHSpace;
 import rpg.client.gfx.widget.FixedVSpace;
 import rpg.client.gfx.widget.FlexibleSpace;
 import rpg.client.gfx.widget.HBox;
+import rpg.client.gfx.widget.Label;
 import rpg.client.gfx.widget.OptionList;
 import rpg.client.gfx.widget.TextBox;
 import rpg.client.gfx.widget.VBox;
@@ -23,6 +27,7 @@ public class CharacterSetupMode extends Mode2D {
   private final Widget content;
   private TextBox characterName;
   private OptionList<CombatClass> combatClasses;
+  private String message = "";
 
   public CharacterSetupMode(List<CharacterSummary> existingCharacters) {
     this.existingCharacters = existingCharacters;
@@ -36,17 +41,48 @@ public class CharacterSetupMode extends Mode2D {
   }
 
   public void receivedError(NewCharacterErrorMessage.Reason reason) {
-    // FIXME: handle
+    message = reason.message;
+    content.setFrozen(false);
   }
 
   @Override public Widget getContent() {
     return content;
   }
 
+  @Override public void onKeyDown(int key) {
+    switch (key) {
+      case Keyboard.KEY_RETURN:
+        submit();
+        break;
+    }
+  }
+
+  private void submit() {
+    if (characterName.getContent().isEmpty()) {
+      message = "Please enter a character name.";
+      return;
+    }
+    if (combatClasses.getSelected() == null) {
+      message = "Please select a combat class.";
+      return;
+    }
+
+    NewCharacterMessage msg = new NewCharacterMessage(characterName.getContent(),
+        combatClasses.getSelected());
+    ToServerMessageSink.singleton.sendWithConfirmation(msg, 3);
+
+    // TODO: Timeout.
+    message = "Communicating with server...";
+    content.setFrozen(true);
+  }
+
   private Widget createContent() {
     return new VBox(
+        new ErrorLabel(),
+        new FixedVSpace(60),
         new HBox(
           new VBox(
+              new FixedHSpace(160),
               new ConstantLabel("Character Name"),
               new FixedVSpace(2),
               characterName = new TextBox(),
@@ -54,6 +90,7 @@ public class CharacterSetupMode extends Mode2D {
           ),
           new FixedHSpace(50),
           new VBox(
+              new FixedHSpace(160),
               new ConstantLabel("Combat Class"),
               new FixedVSpace(2),
               combatClasses = new OptionList<CombatClass>(CombatClass.values()),
@@ -62,9 +99,19 @@ public class CharacterSetupMode extends Mode2D {
         ),
         new FixedVSpace(50),
         new CreateCharacterButton().padSidesFlexible(),
-        new FixedVSpace(50),
+        new FixedVSpace(30),
         new BackToCharacterSelectButton().padSidesFlexible()
     ).padFlexible();
+  }
+
+  private class ErrorLabel extends Label {
+    public ErrorLabel() {
+      super(Alignment.CENTER_ALIGNED, Color.RED);
+    }
+
+    @Override protected String getContent() {
+      return message;
+    }
   }
 
   private class CreateCharacterButton extends Button {
@@ -73,23 +120,7 @@ public class CharacterSetupMode extends Mode2D {
     }
 
     @Override protected void onClick() {
-      // TODO: show actual errors instead of logging
-
-      if (characterName.getContent().isEmpty()) {
-        Logger.info("Name must be some characters!");
-        return;
-      }
-      if (combatClasses.getSelected() == null) {
-        Logger.info("Must select a character class!");
-        return;
-      }
-
-      // make a new character on the server
-      NewCharacterMessage msg = new NewCharacterMessage(characterName.getContent(),
-          combatClasses.getSelected());
-      ToServerMessageSink.singleton.sendWithConfirmation(msg, 3);
-
-      // TODO: Show waiting message and don't let the user send another request
+      submit();
     }
   }
 

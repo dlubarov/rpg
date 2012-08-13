@@ -57,12 +57,12 @@ public final class Texture {
     glTexCoord2d(endU(), endV());
   }
 
-  // FIXME: make private
+  // TODO: make private
   public double endU() {
     return sourceImageWidth / (double) width;
   }
 
-  // FIXME: make private
+  // TODO: make private
   public double endV() {
     return sourceImageHeight / (double) height;
   }

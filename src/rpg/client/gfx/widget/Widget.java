@@ -2,19 +2,19 @@ package rpg.client.gfx.widget;
 
 import rpg.client.gfx.widget.winow.WindowManager;
 
-import static org.lwjgl.opengl.GL11.GL_LINE_LOOP;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.glBegin;
-import static org.lwjgl.opengl.GL11.glColor3d;
-import static org.lwjgl.opengl.GL11.glDisable;
-import static org.lwjgl.opengl.GL11.glEnable;
-import static org.lwjgl.opengl.GL11.glEnd;
-import static org.lwjgl.opengl.GL11.glVertex2d;
-
 public abstract class Widget {
   protected Bounds bounds;
+  private boolean frozen = false;
 
-  public Bounds getBounds() {
+  public final boolean isFrozen() {
+    return frozen;
+  }
+
+  public void setFrozen(boolean frozen) {
+    this.frozen = frozen;
+  }
+
+  public final Bounds getBounds() {
     return bounds;
   }
 
@@ -71,17 +71,5 @@ public abstract class Widget {
 
   public void makeFocused() {
     WindowManager.makeFocused(this);
-  }
-
-  public void renderBounds() {
-    glDisable(GL_TEXTURE_2D);
-    glColor3d(0, 1, 0);
-    glBegin(GL_LINE_LOOP);
-    glVertex2d(bounds.x1() + .5, bounds.y1() + .5);
-    glVertex2d(bounds.x1() + .5, bounds.y2() - .5);
-    glVertex2d(bounds.x2() - .5, bounds.y2() - .5);
-    glVertex2d(bounds.x2() - .5, bounds.y1() + .5);
-    glEnd();
-    glEnable(GL_TEXTURE_2D);
   }
 }
