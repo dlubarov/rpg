@@ -2,36 +2,40 @@ package rpg.server;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import rpg.game.CharacterSummary;
+import rpg.util.Logger;
 import rpg.util.StringUtil;
 import rpg.util.ToStringBuilder;
 
 public class Account {
   private static final AtomicInteger idCounter = new AtomicInteger();
 
-  static {
-    // TODO: Remove hardcoded account.
-    new Account("d@l.com", "abcdef");
-  }
-
   public final int id;
   public final String email, password;
-  private final Map<String, PlayerCharacter> characters;
+  private final Set<PlayerCharacter> characters;
 
   public Account(String email, String password) {
     this.id = idCounter.getAndIncrement();
     this.email = email;
     this.password = password;
-    characters = new HashMap<String, PlayerCharacter>();
+    characters = new HashSet<PlayerCharacter>();
+
     AccountManager.register(this);
+    Logger.info("Created new account: %s.", this);
+  }
+
+  void addCharacter(PlayerCharacter character) {
+    characters.add(character);
   }
 
   public List<CharacterSummary> getCharacterSummaries() {
     List<CharacterSummary> summaries = new ArrayList<CharacterSummary>(characters.size());
-    for (PlayerCharacter character : characters.values())
+    for (PlayerCharacter character : characters)
       summaries.add(new CharacterSummary(character));
     return summaries;
   }

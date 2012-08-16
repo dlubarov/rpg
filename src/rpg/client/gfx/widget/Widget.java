@@ -57,6 +57,10 @@ public abstract class Widget {
     return new FixedPadding(this, amount);
   }
 
+  public Widget pad(int left, int right, int top, int bottom) {
+    return new FixedPadding(this, left, right, top, bottom);
+  }
+
   public Widget padFlexible() {
     return new FlexiblePadding(this);
   }

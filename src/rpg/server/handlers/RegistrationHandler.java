@@ -37,7 +37,6 @@ public class RegistrationHandler extends Handler<RegistrationMessage> {
 
       RegistrationAcceptanceMessage acceptanceMessage = new RegistrationAcceptanceMessage();
       new ToClientMessageSink(sender).sendWithConfirmation(acceptanceMessage, 3);
-      Logger.info("New account registered: %s", account);
     } else {
       RegistrationErrorMessage rejectionMsg = new RegistrationErrorMessage(failureReason);
       new ToClientMessageSink(sender).sendWithConfirmation(rejectionMsg, 3);

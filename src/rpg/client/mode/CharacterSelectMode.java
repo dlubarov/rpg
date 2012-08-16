@@ -26,7 +26,7 @@ public class CharacterSelectMode extends Mode2D {
   }
 
   private Widget createContent() {
-    Widget[] parts = new VBox[options.size()];
+    Widget[] parts = new Widget[options.size()];
     for (int i = 0; i < parts.length; ++i)
       parts[i] = createBoxFor(options.get(i));
     HBox characters = new HBox(parts);
@@ -39,10 +39,12 @@ public class CharacterSelectMode extends Mode2D {
 
   private Widget createBoxFor(CharacterSummary character) {
     return new VBox(
-          new ConstantLabel(character.name),
-          new ConstantLabel(character.combatClass.name()),
-          new CharacterSelectionButton(character)
-    );
+        new ConstantLabel(character.name).padSidesFlexible(),
+        new FixedVSpace(10),
+        new ConstantLabel(character.combatClass.toString()).padSidesFlexible(),
+        new FixedVSpace(10),
+        new CharacterSelectionButton(character).padSidesFlexible()
+    ).pad(15, 15, 0, 0);
   }
 
   private class NewCharacterButton extends Button {

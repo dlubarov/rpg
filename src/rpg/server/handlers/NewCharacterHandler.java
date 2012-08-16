@@ -26,7 +26,6 @@ public class NewCharacterHandler extends Handler<NewCharacterMessage> {
 
     Account account = AccountManager.getAccountByLastAddress(sender);
     PlayerCharacter character = new PlayerCharacter(msg.characterName, account, msg.combatClass);
-    AccountManager.register(character);
 
     CharacterSummary characterSummary = new CharacterSummary(character);
     NewCharacterSuccessMessage response = new NewCharacterSuccessMessage(characterSummary);

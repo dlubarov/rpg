@@ -23,7 +23,7 @@ public final class MotionState {
     double xz = Math.cos(pitch),
            y = Math.sin(pitch),
            x = xz * Math.cos(yaw),
-           z = xz * Math.signum(yaw);
+           z = xz * -Math.sin(yaw);
     return new Vector3(x, y, z);
   }
 

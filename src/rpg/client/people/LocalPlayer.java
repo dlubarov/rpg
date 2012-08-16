@@ -3,10 +3,11 @@ package rpg.client.people;
 import org.lwjgl.input.Keyboard;
 import rpg.game.CombatClass;
 import rpg.game.MotionState;
+import rpg.util.Logger;
 import rpg.util.math.Vector3;
 
 public final class LocalPlayer extends Player {
-  private static final double FORWARD_SPEED = 1, STRAFE_SPEED = 1;
+  private static final double FRICTION = 0.01;
 
   private MotionState motionState;
 
@@ -23,16 +24,36 @@ public final class LocalPlayer extends Player {
     // FIXME: logic() methods should take time deltas.
     double forward = 0, left = 0;
     if (Keyboard.isKeyDown(Keyboard.KEY_W))
-      forward += FORWARD_SPEED;
+      forward += getForwardAcceleration();
     if (Keyboard.isKeyDown(Keyboard.KEY_S))
-      forward -= FORWARD_SPEED;
+      forward -= getForwardAcceleration();
     if (Keyboard.isKeyDown(Keyboard.KEY_A))
-      left += STRAFE_SPEED;
+      left += getStrafeAcceleration();
     if (Keyboard.isKeyDown(Keyboard.KEY_D))
-      left -= STRAFE_SPEED;
-    Vector3 acceleration = dirForward().scaled(forward).plus(dirLeft().scaled(left));
-    motionState = motionState.withVelocity(motionState.velocity.plus(acceleration));
-    motionState = motionState.withPosition(motionState.position.plus(motionState.velocity));
+      left -= getStrafeAcceleration();
+
+    Vector3 friction = motionState.velocity.neg().limitNorm(FRICTION);
+    Vector3 acceleration = dirForward().scaled(forward).plus(dirLeft().scaled(left)).plus(friction);
+    updateMotion(acceleration);
+  }
+
+  private void updateMotion(Vector3 acceleration) {
+    Logger.info(dirLeft().toString());
+    Vector3 newVelocity = motionState.velocity.plus(acceleration).limitNorm(getMaxVelocity());
+    Vector3 newPosition = motionState.position.plus(newVelocity);
+    motionState = motionState.withVelocity(newVelocity).withPosition(newPosition);
+  }
+
+  private double getForwardAcceleration() {
+    return 0.1;
+  }
+
+  private double getStrafeAcceleration() {
+    return 0.1;
+  }
+
+  private double getMaxVelocity() {
+    return 1;
   }
 
   private Vector3 dirForward() {

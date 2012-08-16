@@ -47,6 +47,9 @@ public class PlayerCharacter {
     realm = STARTING_REALM;
     motionState = new MotionState(STARTING_POS, Vector3.ZERO, 0, 0);
     outfit = new Outfit();
+
+    AccountManager.register(this);
+    owner.addCharacter(this);
   }
 
   public int getLevel() {

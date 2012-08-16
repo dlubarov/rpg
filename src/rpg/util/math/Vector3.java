@@ -90,6 +90,12 @@ public final class Vector3 {
     return Math.min(x, Math.min(y, z));
   }
 
+  public Vector3 limitNorm(double maxNorm) {
+    if (norm() > maxNorm)
+      return scaled(maxNorm / norm());
+    return this;
+  }
+
   @Override public boolean equals(Object o) {
     if (!(o instanceof Vector3))
       return false;

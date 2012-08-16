@@ -81,7 +81,7 @@ public abstract class Window {
   }
 
   protected void renderBackground() {
-    double sat = .1, val = 1;
+    double sat = .05, val = 1;
     glDisable(GL_TEXTURE_2D);
     glBegin(GL_QUADS);
     ColorUtil.bindColor(ColorUtil.phaseColor(sat, val, 0.00));
@@ -124,7 +124,7 @@ public abstract class Window {
   protected void renderCaption() {
     glColor3f(0, 0, 0);
     fontRenderer.draw(getCaption(), Color.WHITE,
-        x1(), y1() + 1,
+        x1(), y1() + 2,
         contentW(), Alignment.CENTER_ALIGNED);
   }
 

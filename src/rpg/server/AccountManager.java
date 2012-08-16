@@ -26,6 +26,9 @@ public final class AccountManager {
     charactersByName = Collections.synchronizedMap(new HashMap<String, PlayerCharacter>());
     playersById = Collections.synchronizedMap(new HashMap<Integer, ActivePlayer>());
     playersByAddr = Collections.synchronizedMap(new HashMap<InetAddress, ActivePlayer>());
+
+    // TODO: Remove hardcoded account.
+    new Account("d@l.com", "abcdef");
   }
 
   public static void noteLastAddress(Account account, InetAddress address) {
