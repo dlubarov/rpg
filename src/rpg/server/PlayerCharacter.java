@@ -3,9 +3,12 @@ package rpg.server;
 import java.util.concurrent.atomic.AtomicInteger;
 import rpg.core.CombatClass;
 import rpg.core.Levels;
+import rpg.core.MotionState;
 import rpg.core.Outfit;
 import rpg.core.PlayerSkills;
 import rpg.core.PlayerStats;
+import rpg.core.item.Coin;
+import rpg.core.item.Inventory;
 import rpg.math.Vector3;
 import rpg.realm.Realm;
 import rpg.realm.RealmManager;
@@ -24,9 +27,10 @@ public class PlayerCharacter {
   public final int experience;
   public final PlayerStats stats;
   public final PlayerSkills skills;
+  public final Inventory bag, bank;
 
   private Realm realm;
-  private Vector3 position, velocity, direction;
+  private MotionState motionState;
   public final Outfit outfit;
 
   public PlayerCharacter(String name, Account owner, CombatClass combatClass) {
@@ -37,10 +41,11 @@ public class PlayerCharacter {
     experience = 0;
     stats = new PlayerStats();
     skills = new PlayerSkills();
+    bag = new Inventory();
+    bag.setQuantity(Coin.singleton, 5);
+    bank = new Inventory();
     realm = STARTING_REALM;
-    position = STARTING_POS;
-    velocity = Vector3.ZERO;
-    direction = Vector3.UNIT_X;
+    motionState = new MotionState(STARTING_POS, Vector3.ZERO, Vector3.UNIT_X);
     outfit = new Outfit();
   }
 
@@ -52,16 +57,8 @@ public class PlayerCharacter {
     return realm;
   }
 
-  public Vector3 getPos() {
-    return position;
-  }
-
-  public Vector3 getVel() {
-    return velocity;
-  }
-
-  public Vector3 getDir() {
-    return direction;
+  public MotionState getMotionState() {
+    return motionState;
   }
 
   @Override public String toString() {
@@ -70,9 +67,7 @@ public class PlayerCharacter {
         .append("owner", owner.email)
         .append("combatClass", combatClass)
         .append("realm", realm)
-        .append("position", position)
-        .append("velocity", velocity)
-        .append("direction", direction)
+        .append("motionState", motionState)
         .toString();
   }
 }

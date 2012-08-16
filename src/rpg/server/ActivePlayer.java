@@ -3,19 +3,20 @@ package rpg.server;
 import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Map;
+import rpg.core.MotionState;
 import rpg.net.ToClientMessageSink;
 
 import static java.util.Collections.synchronizedMap;
 
 public final class ActivePlayer {
   private final PlayerCharacter character;
-  private final Map<PlayerCharacter, MotionSnapshot> peerSnapshots;
+  private final Map<PlayerCharacter, MotionState> peerSnapshots;
   private final InetAddress address;
   public final ToClientMessageSink messageSink;
 
   public ActivePlayer(PlayerCharacter character, InetAddress address) {
     this.character = character;
-    this.peerSnapshots = synchronizedMap(new HashMap<PlayerCharacter, MotionSnapshot>());
+    this.peerSnapshots = synchronizedMap(new HashMap<PlayerCharacter, MotionState>());
     this.address = address;
     messageSink = new ToClientMessageSink(address);
   }
@@ -25,11 +26,11 @@ public final class ActivePlayer {
   }
 
   public double errorInViewOf(PlayerCharacter character) {
-    MotionSnapshot view = peerSnapshots.get(character);
+    MotionState view = peerSnapshots.get(character);
     return errorFor(
-        view.position.euclideanDistanceTo(character.getPos()),
-        view.velocity.euclideanDistanceTo(character.getVel()),
-        view.direction.euclideanDistanceTo(character.getDir()));
+        view.position.euclideanDistanceTo(character.getMotionState().position),
+        view.velocity.euclideanDistanceTo(character.getMotionState().velocity),
+        view.direction.euclideanDistanceTo(character.getMotionState().direction));
   }
 
   private static double errorFor(double posErr, double velErr, double dirErr) {

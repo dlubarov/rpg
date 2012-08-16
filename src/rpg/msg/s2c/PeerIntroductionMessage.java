@@ -1,7 +1,7 @@
 package rpg.msg.s2c;
 
 import java.util.List;
-import rpg.math.Vector3;
+import rpg.core.MotionState;
 import rpg.msg.Message;
 import rpg.msg.MessageType;
 import rpg.serialization.ByteSink;
@@ -10,7 +10,6 @@ import rpg.serialization.IntegerSerializer;
 import rpg.serialization.ListSerializer;
 import rpg.serialization.Serializer;
 import rpg.serialization.StringSerializer;
-import rpg.serialization.Vector3Serializer;
 import rpg.util.ToStringBuilder;
 
 /**
@@ -49,41 +48,33 @@ public class PeerIntroductionMessage extends Message {
     @Override public void serialize(Part part, ByteSink sink) {
       IntegerSerializer.singleton.serialize(part.id, sink);
       StringSerializer.singleton.serialize(part.username, sink);
-      Vector3Serializer.singleton.serialize(part.position, sink);
-      Vector3Serializer.singleton.serialize(part.velocity, sink);
-      Vector3Serializer.singleton.serialize(part.direction, sink);
+      MotionState.serializer.serialize(part.motionState, sink);
     }
 
     @Override public Part deserialize(ByteSource source) {
       return new Part(
           IntegerSerializer.singleton.deserialize(source),
           StringSerializer.singleton.deserialize(source),
-          Vector3Serializer.singleton.deserialize(source),
-          Vector3Serializer.singleton.deserialize(source),
-          Vector3Serializer.singleton.deserialize(source));
+          MotionState.serializer.deserialize(source));
     }
   };
 
   public static class Part {
     public final Integer id;
     public final String username;
-    public final Vector3 position, velocity, direction;
+    public final MotionState motionState;
 
-    public Part(int id, String username, Vector3 position, Vector3 velocity, Vector3 direction) {
+    public Part(int id, String username, MotionState motionState) {
       this.id = id;
       this.username = username;
-      this.position = position;
-      this.velocity = velocity;
-      this.direction = direction;
+      this.motionState = motionState;
     }
 
     @Override public String toString() {
       return new ToStringBuilder(this)
           .append("id", id)
           .append("username", username)
-          .append("position", position)
-          .append("velocity", velocity)
-          .append("direction", direction)
+          .append("motionState", motionState)
           .toString();
     }
   }

@@ -1,16 +1,16 @@
 package rpg.client.people;
 
 import rpg.core.CombatClass;
-import rpg.math.Vector3;
+import rpg.core.MotionState;
 
 public class LocalPlayer extends Player {
-  private Vector3 position, velocity, direction;
+  private MotionState motionState;
 
   protected LocalPlayer(CombatClass combatClass) {
     super(combatClass);
   }
 
-  @Override public Vector3 getPos() {
-    return position;
+  @Override public MotionState getMotionState() {
+    return motionState;
   }
 }

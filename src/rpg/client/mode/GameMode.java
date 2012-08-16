@@ -3,6 +3,7 @@ package rpg.client.mode;
 import rpg.client.gfx.GraphicsMode;
 import rpg.math.AAB;
 import rpg.math.Vector3;
+import rpg.msg.s2c.WelcomeMessage;
 import rpg.phys.BodyOctree;
 import rpg.realm.Realm;
 
@@ -16,8 +17,8 @@ public class GameMode extends Mode {
   private Realm realm;
   private BodyOctree octree;
 
-  public GameMode(Realm realm) {
-    setRealm(realm);
+  public GameMode(WelcomeMessage welcome) {
+    setRealm(welcome.realm);
   }
 
   public Realm getRealm() {

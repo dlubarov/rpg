@@ -12,7 +12,7 @@ import rpg.msg.c2s.CharacterSelectedMessage;
 import rpg.net.ToServerMessageSink;
 
 public class CharacterSelectMode extends Mode2D {
-  List<CharacterSummary> options;
+  private final List<CharacterSummary> options;
   private final Widget content;
 
   public CharacterSelectMode(List<CharacterSummary> options) {
@@ -26,18 +26,23 @@ public class CharacterSelectMode extends Mode2D {
   }
 
   private Widget createContent() {
-    VBox[] parts = new VBox[options.size()];
+    Widget[] parts = new VBox[options.size()];
     for (int i = 0; i < parts.length; ++i)
-      parts[i] = new VBox(
-          new ConstantLabel(options.get(i).name),
-          new ConstantLabel(options.get(i).combatClass.name()),
-          new CharacterSelectionButton(options.get(i)));
+      parts[i] = createBoxFor(options.get(i));
     HBox characters = new HBox(parts);
     return new VBox(
         characters.padSidesFlexible(),
         new FixedVSpace(50),
         new NewCharacterButton().padSidesFlexible()
     ).padFlexible();
+  }
+
+  private Widget createBoxFor(CharacterSummary character) {
+    return new VBox(
+          new ConstantLabel(character.name),
+          new ConstantLabel(character.combatClass.name()),
+          new CharacterSelectionButton(character)
+    );
   }
 
   private class NewCharacterButton extends Button {

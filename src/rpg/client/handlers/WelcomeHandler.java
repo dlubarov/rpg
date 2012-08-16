@@ -19,6 +19,6 @@ public class WelcomeHandler extends Handler<WelcomeMessage> {
       return;
     }
 
-    ModeManager.switchTo(new GameMode(msg.realm));
+    ModeManager.switchTo(new GameMode(msg));
   }
 }

@@ -1,6 +1,7 @@
 package rpg.client.mode;
 
 import java.awt.Color;
+import java.util.List;
 import org.lwjgl.input.Keyboard;
 import rpg.client.gfx.font.Alignment;
 import rpg.client.gfx.widget.Button;
@@ -12,6 +13,7 @@ import rpg.client.gfx.widget.PasswordBox;
 import rpg.client.gfx.widget.TextBox;
 import rpg.client.gfx.widget.VBox;
 import rpg.client.gfx.widget.Widget;
+import rpg.core.CharacterSummary;
 import rpg.core.Info;
 import rpg.msg.c2s.LoginMessage;
 import rpg.msg.s2c.LoginErrorMessage;
@@ -66,6 +68,10 @@ public class LoginMode extends Mode2D {
     // TODO: Timeout.
     message = "Connecting to server...";
     content.setFrozen(true);
+  }
+
+  public void receiveSuccess(List<CharacterSummary> summaries) {
+    ModeManager.switchTo(new CharacterSelectMode(summaries));
   }
 
   private Widget createContent() {

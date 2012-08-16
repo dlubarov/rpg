@@ -20,7 +20,6 @@ import rpg.core.CombatClass;
 import rpg.msg.c2s.NewCharacterMessage;
 import rpg.msg.s2c.NewCharacterErrorMessage;
 import rpg.net.ToServerMessageSink;
-import rpg.util.Logger;
 
 public class CharacterSetupMode extends Mode2D {
   private final List<CharacterSummary> existingCharacters;
