@@ -11,23 +11,23 @@ import rpg.client.handlers.PeerUpdateHandler;
 import rpg.client.handlers.RegistrationAcceptanceHandler;
 import rpg.client.handlers.RegistrationErrorHandler;
 import rpg.client.handlers.WelcomeHandler;
-import rpg.msg.ConfirmationMessage;
-import rpg.msg.MessageType;
-import rpg.msg.s2c.CharacterInfoMessage;
-import rpg.msg.s2c.LoginErrorMessage;
-import rpg.msg.s2c.NewCharacterErrorMessage;
-import rpg.msg.s2c.NewCharacterSuccessMessage;
-import rpg.msg.s2c.PeerGoodbyeMessage;
-import rpg.msg.s2c.PeerIntroductionMessage;
-import rpg.msg.s2c.PeerUpdateMessage;
-import rpg.msg.s2c.RegistrationAcceptanceMessage;
-import rpg.msg.s2c.RegistrationErrorMessage;
-import rpg.msg.s2c.WelcomeMessage;
 import rpg.net.ToServerMessageSink;
 import rpg.net.UUIDCache;
-import rpg.serialization.ByteSource;
-import rpg.serialization.LongSerializer;
+import rpg.net.msg.ConfirmationMessage;
+import rpg.net.msg.MessageType;
+import rpg.net.msg.s2c.CharacterInfoMessage;
+import rpg.net.msg.s2c.LoginErrorMessage;
+import rpg.net.msg.s2c.NewCharacterErrorMessage;
+import rpg.net.msg.s2c.NewCharacterSuccessMessage;
+import rpg.net.msg.s2c.PeerGoodbyeMessage;
+import rpg.net.msg.s2c.PeerIntroductionMessage;
+import rpg.net.msg.s2c.PeerUpdateMessage;
+import rpg.net.msg.s2c.RegistrationAcceptanceMessage;
+import rpg.net.msg.s2c.RegistrationErrorMessage;
+import rpg.net.msg.s2c.WelcomeMessage;
 import rpg.util.Logger;
+import rpg.util.serialization.ByteSource;
+import rpg.util.serialization.LongSerializer;
 
 /**
  * Dispatches messages send from the server to the client.

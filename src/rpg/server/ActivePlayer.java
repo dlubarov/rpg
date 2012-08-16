@@ -3,7 +3,7 @@ package rpg.server;
 import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Map;
-import rpg.core.MotionState;
+import rpg.game.MotionState;
 import rpg.net.ToClientMessageSink;
 
 import static java.util.Collections.synchronizedMap;

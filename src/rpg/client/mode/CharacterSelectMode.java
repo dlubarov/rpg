@@ -7,9 +7,9 @@ import rpg.client.gfx.widget.FixedVSpace;
 import rpg.client.gfx.widget.HBox;
 import rpg.client.gfx.widget.VBox;
 import rpg.client.gfx.widget.Widget;
-import rpg.core.CharacterSummary;
-import rpg.msg.c2s.CharacterSelectedMessage;
+import rpg.game.CharacterSummary;
 import rpg.net.ToServerMessageSink;
+import rpg.net.msg.c2s.CharacterSelectedMessage;
 
 public class CharacterSelectMode extends Mode2D {
   private final List<CharacterSummary> options;

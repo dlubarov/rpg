@@ -16,8 +16,8 @@ import rpg.client.gfx.widget.winow.RootWindow;
 import rpg.client.gfx.widget.winow.WindowManager;
 import rpg.client.mode.Mode;
 import rpg.client.mode.ModeManager;
-import rpg.core.Info;
-import rpg.core.Levels;
+import rpg.game.Info;
+import rpg.game.Levels;
 import rpg.net.NetConfig;
 import rpg.util.Logger;
 

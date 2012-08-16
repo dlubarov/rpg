@@ -1,7 +1,7 @@
 package rpg.client.people;
 
-import rpg.core.CombatClass;
-import rpg.core.MotionState;
+import rpg.game.CombatClass;
+import rpg.game.MotionState;
 
 public class LocalPlayer extends Player {
   private MotionState motionState;

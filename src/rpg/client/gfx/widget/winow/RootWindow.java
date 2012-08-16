@@ -3,7 +3,7 @@ package rpg.client.gfx.widget.winow;
 import org.lwjgl.opengl.Display;
 import rpg.client.FPSManager;
 import rpg.client.mode.ModeManager;
-import rpg.core.Info;
+import rpg.game.Info;
 
 public final class RootWindow extends Window {
   public static final RootWindow singleton = new RootWindow();

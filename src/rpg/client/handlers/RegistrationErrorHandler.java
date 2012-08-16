@@ -3,7 +3,7 @@ package rpg.client.handlers;
 import rpg.client.mode.Mode;
 import rpg.client.mode.ModeManager;
 import rpg.client.mode.RegistrationMode;
-import rpg.msg.s2c.RegistrationErrorMessage;
+import rpg.net.msg.s2c.RegistrationErrorMessage;
 import rpg.util.Logger;
 
 public class RegistrationErrorHandler extends Handler<RegistrationErrorMessage> {

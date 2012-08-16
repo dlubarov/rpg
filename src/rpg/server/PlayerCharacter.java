@@ -1,18 +1,18 @@
 package rpg.server;
 
 import java.util.concurrent.atomic.AtomicInteger;
-import rpg.core.CombatClass;
-import rpg.core.Levels;
-import rpg.core.MotionState;
-import rpg.core.Outfit;
-import rpg.core.PlayerSkills;
-import rpg.core.PlayerStats;
-import rpg.core.item.Coin;
-import rpg.core.item.Inventory;
-import rpg.math.Vector3;
-import rpg.realm.Realm;
-import rpg.realm.RealmManager;
+import rpg.game.CombatClass;
+import rpg.game.Levels;
+import rpg.game.MotionState;
+import rpg.game.Outfit;
+import rpg.game.PlayerSkills;
+import rpg.game.PlayerStats;
+import rpg.game.item.Coin;
+import rpg.game.item.Inventory;
+import rpg.game.realm.Realm;
+import rpg.game.realm.RealmManager;
 import rpg.util.ToStringBuilder;
+import rpg.util.math.Vector3;
 
 public class PlayerCharacter {
   private static final Realm STARTING_REALM = RealmManager.getRealmById(0);

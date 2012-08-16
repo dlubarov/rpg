@@ -1,11 +1,11 @@
 package rpg.client.mode;
 
 import rpg.client.gfx.GraphicsMode;
-import rpg.math.AAB;
-import rpg.math.Vector3;
-import rpg.msg.s2c.WelcomeMessage;
-import rpg.phys.BodyOctree;
-import rpg.realm.Realm;
+import rpg.game.realm.Realm;
+import rpg.net.msg.s2c.WelcomeMessage;
+import rpg.util.math.AAB;
+import rpg.util.math.Vector3;
+import rpg.util.phys.BodyOctree;
 
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
 import static org.lwjgl.opengl.GL11.glBegin;
@@ -50,5 +50,6 @@ public class GameMode extends Mode {
   }
 
   private void drawHUD() {
+    // TODO: Draw HUD.
   }
 }

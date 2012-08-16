@@ -1,12 +1,12 @@
 package rpg.server.handlers;
 
 import java.net.InetAddress;
-import rpg.core.CharacterSummary;
-import rpg.msg.c2s.NewCharacterMessage;
-import rpg.msg.s2c.NewCharacterErrorMessage;
-import rpg.msg.s2c.NewCharacterSuccessMessage;
+import rpg.game.CharacterSummary;
 import rpg.net.NetConfig;
 import rpg.net.ToClientMessageSink;
+import rpg.net.msg.c2s.NewCharacterMessage;
+import rpg.net.msg.s2c.NewCharacterErrorMessage;
+import rpg.net.msg.s2c.NewCharacterSuccessMessage;
 import rpg.server.Account;
 import rpg.server.AccountManager;
 import rpg.server.PlayerCharacter;

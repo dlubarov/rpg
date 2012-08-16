@@ -5,8 +5,8 @@ import rpg.client.mode.CharacterSelectMode;
 import rpg.client.mode.Mode;
 import rpg.client.mode.ModeManager;
 import rpg.client.mode.RegistrationMode;
-import rpg.core.CharacterSummary;
-import rpg.msg.s2c.RegistrationAcceptanceMessage;
+import rpg.game.CharacterSummary;
+import rpg.net.msg.s2c.RegistrationAcceptanceMessage;
 import rpg.util.Logger;
 
 public class RegistrationAcceptanceHandler extends Handler<RegistrationAcceptanceMessage> {

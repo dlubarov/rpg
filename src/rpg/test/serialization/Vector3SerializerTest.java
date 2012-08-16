@@ -1,8 +1,8 @@
 package rpg.test.serialization;
 
-import rpg.math.Vector3;
-import rpg.serialization.Vector3Serializer;
 import rpg.test.Test;
+import rpg.util.math.Vector3;
+import rpg.util.serialization.Vector3Serializer;
 
 public class Vector3SerializerTest extends Test {
   private static final int TEST_SIZE = 10;

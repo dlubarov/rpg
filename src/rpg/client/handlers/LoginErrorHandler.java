@@ -3,7 +3,7 @@ package rpg.client.handlers;
 import rpg.client.mode.LoginMode;
 import rpg.client.mode.Mode;
 import rpg.client.mode.ModeManager;
-import rpg.msg.s2c.LoginErrorMessage;
+import rpg.net.msg.s2c.LoginErrorMessage;
 import rpg.util.Logger;
 
 public class LoginErrorHandler extends Handler<LoginErrorMessage> {

@@ -12,10 +12,10 @@ import rpg.client.gfx.widget.PasswordBox;
 import rpg.client.gfx.widget.TextBox;
 import rpg.client.gfx.widget.VBox;
 import rpg.client.gfx.widget.Widget;
-import rpg.core.Info;
-import rpg.msg.c2s.RegistrationMessage;
-import rpg.msg.s2c.RegistrationErrorMessage;
+import rpg.game.Info;
 import rpg.net.ToServerMessageSink;
+import rpg.net.msg.c2s.RegistrationMessage;
+import rpg.net.msg.s2c.RegistrationErrorMessage;
 
 public class RegistrationMode extends Mode2D {
   private final Widget content;

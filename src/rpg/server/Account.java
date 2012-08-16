@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-import rpg.core.CharacterSummary;
+import rpg.game.CharacterSummary;
 import rpg.util.StringUtil;
 import rpg.util.ToStringBuilder;
 

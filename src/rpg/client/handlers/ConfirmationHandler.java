@@ -1,7 +1,7 @@
 package rpg.client.handlers;
 
-import rpg.msg.ConfirmationMessage;
 import rpg.net.RetryQueue;
+import rpg.net.msg.ConfirmationMessage;
 
 public class ConfirmationHandler extends Handler<ConfirmationMessage> {
   public static final ConfirmationHandler singleton = new ConfirmationHandler();

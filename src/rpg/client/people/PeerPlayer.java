@@ -1,7 +1,7 @@
 package rpg.client.people;
 
-import rpg.core.CombatClass;
-import rpg.math.Vector3;
+import rpg.game.CombatClass;
+import rpg.game.MotionState;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class PeerPlayer extends Player {
@@ -9,8 +9,8 @@ public class PeerPlayer extends Player {
     super(combatClass);
   }
 
-  @Override public Vector3 getPos() {
-    // FIXME: impl
+  @Override public MotionState getMotionState() {
+    // FIXME: Implement this.
     throw new NotImplementedException();
   }
 }

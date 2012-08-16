@@ -1,6 +1,6 @@
 package rpg.client.handlers;
 
-import rpg.msg.s2c.PeerGoodbyeMessage;
+import rpg.net.msg.s2c.PeerGoodbyeMessage;
 
 public class PeerGoodbyeHandler extends Handler<PeerGoodbyeMessage> {
   public static final PeerGoodbyeHandler singleton = new PeerGoodbyeHandler();

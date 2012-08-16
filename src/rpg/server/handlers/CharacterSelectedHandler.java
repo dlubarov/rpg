@@ -1,9 +1,9 @@
 package rpg.server.handlers;
 
 import java.net.InetAddress;
-import rpg.msg.c2s.CharacterSelectedMessage;
-import rpg.msg.s2c.WelcomeMessage;
 import rpg.net.ToClientMessageSink;
+import rpg.net.msg.c2s.CharacterSelectedMessage;
+import rpg.net.msg.s2c.WelcomeMessage;
 import rpg.server.AccountManager;
 import rpg.server.PlayerCharacter;
 

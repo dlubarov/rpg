@@ -15,11 +15,11 @@ import rpg.client.gfx.widget.OptionList;
 import rpg.client.gfx.widget.TextBox;
 import rpg.client.gfx.widget.VBox;
 import rpg.client.gfx.widget.Widget;
-import rpg.core.CharacterSummary;
-import rpg.core.CombatClass;
-import rpg.msg.c2s.NewCharacterMessage;
-import rpg.msg.s2c.NewCharacterErrorMessage;
+import rpg.game.CharacterSummary;
+import rpg.game.CombatClass;
 import rpg.net.ToServerMessageSink;
+import rpg.net.msg.c2s.NewCharacterMessage;
+import rpg.net.msg.s2c.NewCharacterErrorMessage;
 
 public class CharacterSetupMode extends Mode2D {
   private final List<CharacterSummary> existingCharacters;

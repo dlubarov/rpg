@@ -1,9 +1,9 @@
 package rpg.client.people;
 
-import rpg.math.Cylinder;
-import rpg.math.Shape3D;
-import rpg.phys.Body;
-import rpg.phys.Positioned;
+import rpg.util.math.Cylinder;
+import rpg.util.math.Shape3D;
+import rpg.util.phys.Body;
+import rpg.util.phys.Positioned;
 
 public abstract class Person implements Positioned, Body {
   protected abstract double getHeight();

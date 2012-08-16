@@ -1,17 +1,15 @@
 package rpg.server;
 
 import java.net.InetAddress;
-import rpg.msg.ConfirmationMessage;
-import rpg.msg.MessageType;
-import rpg.msg.c2s.CharacterSelectedMessage;
-import rpg.msg.c2s.HereIAmMessage;
-import rpg.msg.c2s.LoginMessage;
-import rpg.msg.c2s.NewCharacterMessage;
-import rpg.msg.c2s.RegistrationMessage;
 import rpg.net.ToClientMessageSink;
 import rpg.net.UUIDCache;
-import rpg.serialization.ByteSource;
-import rpg.serialization.LongSerializer;
+import rpg.net.msg.ConfirmationMessage;
+import rpg.net.msg.MessageType;
+import rpg.net.msg.c2s.CharacterSelectedMessage;
+import rpg.net.msg.c2s.HereIAmMessage;
+import rpg.net.msg.c2s.LoginMessage;
+import rpg.net.msg.c2s.NewCharacterMessage;
+import rpg.net.msg.c2s.RegistrationMessage;
 import rpg.server.handlers.CharacterSelectedHandler;
 import rpg.server.handlers.ConfirmationHandler;
 import rpg.server.handlers.HereIAmHandler;
@@ -19,6 +17,8 @@ import rpg.server.handlers.LoginHandler;
 import rpg.server.handlers.NewCharacterHandler;
 import rpg.server.handlers.RegistrationHandler;
 import rpg.util.Logger;
+import rpg.util.serialization.ByteSource;
+import rpg.util.serialization.LongSerializer;
 
 /**
  * Dispatches a message sent from a client to the server.

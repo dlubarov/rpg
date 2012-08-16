@@ -3,7 +3,7 @@ package rpg.client.handlers;
 import rpg.client.mode.CharacterSetupMode;
 import rpg.client.mode.Mode;
 import rpg.client.mode.ModeManager;
-import rpg.msg.s2c.NewCharacterSuccessMessage;
+import rpg.net.msg.s2c.NewCharacterSuccessMessage;
 import rpg.util.Logger;
 
 public class NewCharacterSuccessHandler extends Handler<NewCharacterSuccessMessage> {

@@ -1,7 +1,7 @@
 package rpg.test.serialization;
 
-import rpg.serialization.StringSerializer;
 import rpg.test.Test;
+import rpg.util.serialization.StringSerializer;
 
 public class StringSerializerTest extends Test {
   private static final int TEST_SIZE = 10;

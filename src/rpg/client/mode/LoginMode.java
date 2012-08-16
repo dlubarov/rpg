@@ -13,11 +13,11 @@ import rpg.client.gfx.widget.PasswordBox;
 import rpg.client.gfx.widget.TextBox;
 import rpg.client.gfx.widget.VBox;
 import rpg.client.gfx.widget.Widget;
-import rpg.core.CharacterSummary;
-import rpg.core.Info;
-import rpg.msg.c2s.LoginMessage;
-import rpg.msg.s2c.LoginErrorMessage;
+import rpg.game.CharacterSummary;
+import rpg.game.Info;
 import rpg.net.ToServerMessageSink;
+import rpg.net.msg.c2s.LoginMessage;
+import rpg.net.msg.s2c.LoginErrorMessage;
 
 public class LoginMode extends Mode2D {
   private final Widget content;

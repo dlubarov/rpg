@@ -1,6 +1,6 @@
 package rpg.server;
 
-import rpg.realm.Realm;
+import rpg.game.realm.Realm;
 import rpg.util.ToStringBuilder;
 
 public class RealmAdmin {

@@ -1,6 +1,6 @@
 package rpg.client.handlers;
 
-import rpg.msg.s2c.PeerIntroductionMessage;
+import rpg.net.msg.s2c.PeerIntroductionMessage;
 
 public class PeerIntroductionHandler extends Handler<PeerIntroductionMessage> {
   public static final PeerIntroductionHandler singleton = new PeerIntroductionHandler();

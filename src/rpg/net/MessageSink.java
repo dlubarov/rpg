@@ -1,10 +1,10 @@
 package rpg.net;
 
 import java.util.Arrays;
-import rpg.msg.Message;
-import rpg.serialization.ByteSink;
-import rpg.serialization.LongSerializer;
+import rpg.net.msg.Message;
 import rpg.util.Logger;
+import rpg.util.serialization.ByteSink;
+import rpg.util.serialization.LongSerializer;
 
 public abstract class MessageSink {
   // TODO: Be smart about this; use empirical latency.

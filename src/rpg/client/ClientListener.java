@@ -5,8 +5,8 @@ import java.net.DatagramPacket;
 import java.util.Arrays;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import rpg.serialization.ByteSource;
 import rpg.util.Logger;
+import rpg.util.serialization.ByteSource;
 
 public class ClientListener extends Thread {
   public static final ClientListener singleton = new ClientListener();

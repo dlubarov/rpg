@@ -1,8 +1,8 @@
 package rpg.client.people;
 
-import rpg.core.CombatClass;
-import rpg.core.MotionState;
-import rpg.math.Vector3;
+import rpg.game.CombatClass;
+import rpg.game.MotionState;
+import rpg.util.math.Vector3;
 
 public abstract class Player extends Person {
   public final CombatClass combatClass;

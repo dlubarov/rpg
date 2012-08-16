@@ -1,6 +1,6 @@
 package rpg.server.handlers;
 
-import rpg.msg.c2s.HereIAmMessage;
+import rpg.net.msg.c2s.HereIAmMessage;
 import rpg.server.ActivePlayer;
 
 public class HereIAmHandler extends NormalHandler<HereIAmMessage> {
