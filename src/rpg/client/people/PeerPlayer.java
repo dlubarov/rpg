@@ -4,9 +4,9 @@ import rpg.game.CombatClass;
 import rpg.game.MotionState;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-public class PeerPlayer extends Player {
-  protected PeerPlayer(CombatClass combatClass) {
-    super(combatClass);
+public final class PeerPlayer extends Player {
+  protected PeerPlayer(int id, CombatClass combatClass) {
+    super(id, combatClass);
   }
 
   @Override public MotionState getMotionState() {

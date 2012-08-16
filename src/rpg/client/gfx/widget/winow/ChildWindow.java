@@ -50,19 +50,19 @@ public final class ChildWindow extends Window {
     return this == WindowManager.getFocusedWindow();
   }
 
-  @Override protected int x1() {
+  @Override public int x1() {
     return x1;
   }
 
-  @Override protected int y1() {
+  @Override public int y1() {
     return y1;
   }
 
-  @Override protected int contentW() {
+  @Override public int contentW() {
     return content.getMinWidth();
   }
 
-  @Override protected int contentH() {
+  @Override public int contentH() {
     return content.getMinHeight();
   }
 

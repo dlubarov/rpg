@@ -5,9 +5,11 @@ import rpg.game.MotionState;
 import rpg.util.math.Vector3;
 
 public abstract class Player extends Person {
+  public final int id;
   public final CombatClass combatClass;
 
-  protected Player(CombatClass combatClass) {
+  protected Player(int id, CombatClass combatClass) {
+    this.id = id;
     this.combatClass = combatClass;
   }
 

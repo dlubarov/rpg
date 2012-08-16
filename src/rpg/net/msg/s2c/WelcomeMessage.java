@@ -1,5 +1,6 @@
 package rpg.net.msg.s2c;
 
+import rpg.game.CombatClass;
 import rpg.game.MotionState;
 import rpg.game.realm.Realm;
 import rpg.game.realm.RealmManager;
@@ -16,12 +17,15 @@ import rpg.util.serialization.Serializer;
  */
 public class WelcomeMessage extends Message {
   public final Integer characterID;
+  public final CombatClass combatClass;
   public final Realm realm;
   public final MotionState motionState;
 
-  public WelcomeMessage(Integer characterID, Realm realm, MotionState motionState) {
+  public WelcomeMessage(Integer characterID, CombatClass combatClass, Realm realm,
+      MotionState motionState) {
     super(MessageType.WELCOME, serializer);
     this.characterID = characterID;
+    this.combatClass = combatClass;
     this.realm = realm;
     this.motionState = motionState;
   }
@@ -29,6 +33,7 @@ public class WelcomeMessage extends Message {
   @Override public String toString() {
     return new ToStringBuilder(this)
         .append("characterID", characterID)
+        .append("combatClass", combatClass)
         .append("realm", realm)
         .append("motionState", motionState)
         .toString();
@@ -37,6 +42,7 @@ public class WelcomeMessage extends Message {
   public static final Serializer<WelcomeMessage> serializer = new Serializer<WelcomeMessage>() {
     @Override public void serialize(WelcomeMessage msg, ByteSink sink) {
       IntegerSerializer.singleton.serialize(msg.characterID, sink);
+      IntegerSerializer.singleton.serialize(msg.combatClass.ordinal(), sink);
       IntegerSerializer.singleton.serialize(msg.realm.id, sink);
       MotionState.serializer.serialize(msg.motionState, sink);
     }
@@ -44,6 +50,7 @@ public class WelcomeMessage extends Message {
     @Override public WelcomeMessage deserialize(ByteSource source) {
       return new WelcomeMessage(
           IntegerSerializer.singleton.deserialize(source),
+          CombatClass.values()[IntegerSerializer.singleton.deserialize(source)],
           RealmManager.getRealmById(IntegerSerializer.singleton.deserialize(source)),
           MotionState.serializer.deserialize(source));
     }

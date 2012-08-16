@@ -45,7 +45,7 @@ public class PlayerCharacter {
     bag.setQuantity(Coin.singleton, 5);
     bank = new Inventory();
     realm = STARTING_REALM;
-    motionState = new MotionState(STARTING_POS, Vector3.ZERO, Vector3.UNIT_X);
+    motionState = new MotionState(STARTING_POS, Vector3.ZERO, 0, 0);
     outfit = new Outfit();
   }
 

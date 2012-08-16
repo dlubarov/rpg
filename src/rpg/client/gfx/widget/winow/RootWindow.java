@@ -21,19 +21,19 @@ public final class RootWindow extends Window {
     return Display.isActive();
   }
 
-  @Override protected int x1() {
+  @Override public int x1() {
     return 0;
   }
 
-  @Override protected int y1() {
+  @Override public int y1() {
     return 0;
   }
 
-  @Override protected int contentW() {
+  @Override public int contentW() {
     return Display.getWidth();
   }
 
-  @Override protected int contentH() {
+  @Override public int contentH() {
     return Display.getHeight() - BAR_HEIGHT;
   }
 

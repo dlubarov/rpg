@@ -30,7 +30,8 @@ public final class ActivePlayer {
     return errorFor(
         view.position.euclideanDistanceTo(character.getMotionState().position),
         view.velocity.euclideanDistanceTo(character.getMotionState().velocity),
-        view.direction.euclideanDistanceTo(character.getMotionState().direction));
+        view.getDirectionVector().euclideanDistanceTo(
+            character.getMotionState().getDirectionVector()));
   }
 
   private static double errorFor(double posErr, double velErr, double dirErr) {

@@ -34,24 +34,24 @@ public abstract class Window {
 
   public abstract boolean isFocused();
 
-  protected abstract int x1();
-  protected abstract int y1();
-  protected abstract int contentW();
-  protected abstract int contentH();
+  public abstract int x1();
+  public abstract int y1();
+  public abstract int contentW();
+  public abstract int contentH();
 
-  protected final int x2() {
+  public final int x2() {
     return x1() + contentW();
   }
 
-  protected final int y2() {
+  public final int y2() {
     return y1() + BAR_HEIGHT;
   }
 
-  protected final int y3() {
+  public final int y3() {
     return y1() + BAR_HEIGHT + contentH();
   }
 
-  protected final int totalH() {
+  public final int totalH() {
     return BAR_HEIGHT + contentH();
   }
 
