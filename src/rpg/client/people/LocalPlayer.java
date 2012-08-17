@@ -3,17 +3,22 @@ package rpg.client.people;
 import org.lwjgl.input.Keyboard;
 import rpg.game.CombatClass;
 import rpg.game.MotionState;
-import rpg.util.Logger;
+import rpg.net.ToServerMessageSink;
+import rpg.net.msg.c2s.HereIAmMessage;
 import rpg.util.math.Vector3;
 
 public final class LocalPlayer extends Player {
+  private static final double MAX_UPDATES_PER_SEC = 3;
+  private static final double MAX_SERVER_VIEW_ERROR = 2;
   private static final double FRICTION = 0.01;
 
   private MotionState motionState;
+  private MotionState serverView;
+  private double serverUpdatedAt = 0;
 
   public LocalPlayer(int id, CombatClass combatClass, MotionState motionState) {
     super(id, combatClass);
-    this.motionState = motionState;
+    serverView = this.motionState = motionState;
   }
 
   @Override public MotionState getMotionState() {
@@ -35,10 +40,23 @@ public final class LocalPlayer extends Player {
     Vector3 friction = motionState.velocity.neg().limitNorm(FRICTION);
     Vector3 acceleration = dirForward().scaled(forward).plus(dirLeft().scaled(left)).plus(friction);
     updateMotion(acceleration);
+
+    notifyServerOfMotion();
+  }
+
+  private void notifyServerOfMotion() {
+    double t = System.currentTimeMillis() * 1e-3;
+    boolean bigError = serverView.errorComparedTo(motionState) > MAX_SERVER_VIEW_ERROR;
+    boolean tooManyUpdates = t - serverUpdatedAt < 1 / MAX_UPDATES_PER_SEC;
+    if (bigError && !tooManyUpdates) {
+      HereIAmMessage msg = new HereIAmMessage(motionState);
+      ToServerMessageSink.singleton.sendWithoutConfirmation(msg);
+      serverView = motionState;
+      serverUpdatedAt = t;
+    }
   }
 
   private void updateMotion(Vector3 acceleration) {
-    Logger.info(dirLeft().toString());
     Vector3 newVelocity = motionState.velocity.plus(acceleration).limitNorm(getMaxVelocity());
     Vector3 newPosition = motionState.position.plus(newVelocity);
     motionState = motionState.withVelocity(newVelocity).withPosition(newPosition);

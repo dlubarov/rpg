@@ -43,6 +43,18 @@ public final class MotionState {
     return new MotionState(position, velocity, yaw, pitch);
   }
 
+  public double errorComparedTo(MotionState that) {
+    return errorFor(
+        position.euclideanDistanceTo(that.position),
+        velocity.euclideanDistanceTo(that.velocity),
+        getDirectionVector().euclideanDistanceTo(that.getDirectionVector()));
+  }
+
+  private static double errorFor(double posErr, double velErr, double dirErr) {
+    // TODO: Optimize error function.
+    return posErr + velErr + dirErr;
+  }
+
   @Override public String toString() {
     return new ToStringBuilder(this)
         .append("position", position)

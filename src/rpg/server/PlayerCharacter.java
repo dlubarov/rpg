@@ -64,6 +64,10 @@ public class PlayerCharacter {
     return motionState;
   }
 
+  public void setMotionState(MotionState motionState) {
+    this.motionState = motionState;
+  }
+
   @Override public String toString() {
     return new ToStringBuilder(this)
         .append("name", name)

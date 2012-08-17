@@ -72,4 +72,14 @@ public final class AccountManager {
     charactersByID.put(character.id, character);
     charactersByName.put(character.name, character);
   }
+
+  public static void login(ActivePlayer player) {
+    playersById.put(player.character.id, player);
+    playersByAddr.put(player.address, player);
+  }
+
+  public static void logout(ActivePlayer player) {
+    playersById.remove(player.character.id);
+    playersByAddr.remove(player.address);
+  }
 }
