@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import rpg.game.CombatClass;
 
 public final class AccountManager {
   private AccountManager() {}
@@ -27,8 +28,9 @@ public final class AccountManager {
     playersById = Collections.synchronizedMap(new HashMap<Integer, ActivePlayer>());
     playersByAddr = Collections.synchronizedMap(new HashMap<InetAddress, ActivePlayer>());
 
-    // TODO: Remove hardcoded account.
-    new Account("d@l.com", "abcdef");
+    // TODO: Remove hardcoded account, useful for testing.
+    Account daniel = new Account("d@l.com", "abcdef");
+    new PlayerCharacter("Maggie", daniel, CombatClass.MAGE);
   }
 
   public static void noteLastAddress(Account account, InetAddress address) {

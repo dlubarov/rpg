@@ -1,16 +1,20 @@
 package rpg.client.people;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import rpg.game.CombatClass;
 import rpg.game.MotionState;
 import rpg.net.ToServerMessageSink;
 import rpg.net.msg.c2s.HereIAmMessage;
+import rpg.util.math.MathUtil;
 import rpg.util.math.Vector3;
 
 public final class LocalPlayer extends Player {
   private static final double MAX_UPDATES_PER_SEC = 3;
   private static final double MAX_SERVER_VIEW_ERROR = 2;
-  private static final double FRICTION = 0.01;
+
+  private static final double MOUSE_SPEED = 0.01;
+  private static final double FRICTION = 6;
 
   private MotionState motionState;
   private MotionState serverView;
@@ -25,23 +29,36 @@ public final class LocalPlayer extends Player {
     return motionState;
   }
 
-  public void logic() {
-    // FIXME: logic() methods should take time deltas.
+  public void logic(double dt) {
+    rotate();
+
     double forward = 0, left = 0;
-    if (Keyboard.isKeyDown(Keyboard.KEY_W))
+    if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
       forward += getForwardAcceleration();
-    if (Keyboard.isKeyDown(Keyboard.KEY_S))
+    }
+    if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
       forward -= getForwardAcceleration();
-    if (Keyboard.isKeyDown(Keyboard.KEY_A))
+    }
+    if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
       left += getStrafeAcceleration();
-    if (Keyboard.isKeyDown(Keyboard.KEY_D))
+    }
+    if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
       left -= getStrafeAcceleration();
+    }
 
-    Vector3 friction = motionState.velocity.neg().limitNorm(FRICTION);
+    Vector3 friction = motionState.velocity.neg().scaled(1 / dt).limitNorm(FRICTION);
     Vector3 acceleration = dirForward().scaled(forward).plus(dirLeft().scaled(left)).plus(friction);
-    updateMotion(acceleration);
-
+    updateMotion(dt, acceleration);
     notifyServerOfMotion();
+  }
+
+  private void rotate() {
+    double dx = Mouse.getDX() * MOUSE_SPEED,
+           dy = Mouse.getDY() * MOUSE_SPEED;
+    double newYaw = motionState.yaw - dx,
+           newPitch = motionState.pitch + dy;
+    newPitch = MathUtil.clamp(newPitch, -Math.PI / 2, Math.PI / 2);
+    motionState = motionState.withYaw(newYaw).withPitch(newPitch);
   }
 
   private void notifyServerOfMotion() {
@@ -56,22 +73,27 @@ public final class LocalPlayer extends Player {
     }
   }
 
-  private void updateMotion(Vector3 acceleration) {
-    Vector3 newVelocity = motionState.velocity.plus(acceleration).limitNorm(getMaxVelocity());
-    Vector3 newPosition = motionState.position.plus(newVelocity);
-    motionState = motionState.withVelocity(newVelocity).withPosition(newPosition);
+  private void updateMotion(double dt, Vector3 acceleration) {
+    Vector3 newVelocity = motionState.velocity
+        .plus(acceleration.scaled(dt))
+        .limitNorm(getMaxVelocity());
+    Vector3 newPosition = motionState.position
+        .plus(newVelocity.scaled(dt));
+    motionState = motionState
+        .withVelocity(newVelocity)
+        .withPosition(newPosition);
   }
 
   private double getForwardAcceleration() {
-    return 0.1;
+    return 50;
   }
 
   private double getStrafeAcceleration() {
-    return 0.1;
+    return 50;
   }
 
   private double getMaxVelocity() {
-    return 1;
+    return 4;
   }
 
   private Vector3 dirForward() {
@@ -80,5 +102,9 @@ public final class LocalPlayer extends Player {
 
   private Vector3 dirLeft() {
     return motionState.withPitch(0).withYaw(motionState.yaw + Math.PI / 2).getDirectionVector();
+  }
+
+  public Vector3 dirUp() {
+    return motionState.withPitch(motionState.pitch + Math.PI / 2).getDirectionVector();
   }
 }

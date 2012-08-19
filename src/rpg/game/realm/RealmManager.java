@@ -7,7 +7,7 @@ public final class RealmManager {
 
   private static final AtomicInteger idCounter = new AtomicInteger();
 
-  private static final Realm[] realms = new Realm[] {
+  public static final Realm[] allRealms = new Realm[] {
       new BareRealm(),
       new BareRealm(),
       new BareRealm(),
@@ -18,6 +18,6 @@ public final class RealmManager {
   }
 
   public static Realm getRealmById(int id) {
-    return realms[id];
+    return allRealms[id];
   }
 }

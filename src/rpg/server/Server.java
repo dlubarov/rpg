@@ -5,6 +5,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import rpg.game.realm.Realm;
+import rpg.game.realm.RealmManager;
 import rpg.net.NetConfig;
 import rpg.util.Logger;
 
@@ -28,6 +30,7 @@ public final class Server {
   }
 
   public static void main(String[] args) {
+    RealmAdmin.init();
     new ServerListener(socket).start();
     Logger.info("Server started, listening for messages...");
   }

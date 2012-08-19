@@ -13,11 +13,13 @@ public final class FPSManager {
     return (int) Math.round(averageFPS);
   }
 
-  public static void newFrame() {
+  // Returns the time elapsed since the last frame, in seconds.
+  public static double newFrame() {
     long time = System.nanoTime();
     double currentFPS = 1e9 / (time - lastTime);
     averageFPS = averageFPS * (intervalSize - 1) / intervalSize
                + currentFPS / intervalSize;
     lastTime = time;
+    return 1 / currentFPS;
   }
 }

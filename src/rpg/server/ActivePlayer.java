@@ -5,10 +5,12 @@ import java.util.HashMap;
 import java.util.Map;
 import rpg.game.MotionState;
 import rpg.net.ToClientMessageSink;
+import rpg.util.math.Vector3;
+import rpg.util.phys.Positioned;
 
 import static java.util.Collections.synchronizedMap;
 
-public final class ActivePlayer {
+public final class ActivePlayer implements Positioned {
   public final PlayerCharacter character;
   private final Map<PlayerCharacter, MotionState> peerSnapshots;
   public final InetAddress address;
@@ -34,5 +36,9 @@ public final class ActivePlayer {
 
   public void logout() {
     AccountManager.logout(this);
+  }
+
+  @Override public Vector3 getPos() {
+    return character.getMotionState().position;
   }
 }

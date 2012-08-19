@@ -79,8 +79,8 @@ public final class Client {
 
   private static void mainLoop() {
     while (!Display.isCloseRequested()) {
-      FPSManager.newFrame();
-      logic();
+      double dt = FPSManager.newFrame();
+      logic(dt);
       render();
       Display.update();
       TextureReleaser.releaseDeadTextures();
@@ -88,10 +88,10 @@ public final class Client {
     }
   }
 
-  private static void logic() {
+  private static void logic(double dt) {
     keyboardLogic();
     mouseLogic();
-    ModeManager.getCurrentMode().logic();
+    ModeManager.getCurrentMode().logic(dt);
   }
 
   private static void keyboardLogic() {

@@ -2,6 +2,7 @@ package rpg.util.phys;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import rpg.util.ToStringBuilder;
 import rpg.util.math.Vector3;
 
 public final class PointOctree<T extends Positioned> {
@@ -108,5 +109,14 @@ public final class PointOctree<T extends Positioned> {
       for (T b : bodies)
         if (b != source && pos.euclideanDistanceTo(b.getPos()) <= dist)
           result.add(b);
+  }
+
+  @Override public String toString() {
+    return new ToStringBuilder(this)
+        .append("center", center)
+        .append("radius", radius)
+        .append("size", size)
+        .append("hasSplit", hasSplit())
+        .toString();
   }
 }

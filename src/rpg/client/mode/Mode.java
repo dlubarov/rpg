@@ -6,7 +6,8 @@ import rpg.client.gfx.widget.Widget;
 public abstract class Mode {
   public void onEnter() {}
   public void onExit() {}
-  public void logic() {}
+
+  public void logic(double dt) {}
 
   public void onKeyDown(int key) {}
   public void onLeftMouse(int x, int y) {}
