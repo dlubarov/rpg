@@ -77,7 +77,7 @@ public class LoginMode extends Mode2D {
   private Widget createContent() {
     return new VBox(
         new FixedHSpace(160),
-        new ErrorLabel(),
+        new MessageLabel(),
         new FixedVSpace(60),
         new ConstantLabel("Email"),
         new FixedVSpace(2),
@@ -96,8 +96,8 @@ public class LoginMode extends Mode2D {
     ).padFlexible();
   }
 
-  private class ErrorLabel extends Label {
-    public ErrorLabel() {
+  private class MessageLabel extends Label {
+    public MessageLabel() {
       super(Alignment.CENTER_ALIGNED, Color.RED);
     }
 

@@ -17,6 +17,7 @@ import rpg.server.handlers.HereIAmHandler;
 import rpg.server.handlers.LoginHandler;
 import rpg.server.handlers.NewCharacterHandler;
 import rpg.server.handlers.RegistrationHandler;
+import rpg.server.handlers.SessionCreationHandler;
 import rpg.util.Logger;
 import rpg.util.serialization.ByteSource;
 import rpg.util.serialization.LongSerializer;
@@ -78,6 +79,9 @@ public class MessageDispatcher implements Runnable {
 
   private void dispatch(MessageType msgType, Session clientSession) throws Exception {
     switch (msgType) {
+      case SESSION_CREATION:
+        SessionCreationHandler.singleton.handle(SessionCreationMessage.serializer.deserialize(source), clientSession);
+        break;
       case CONFIRMATION:
         ConfirmationHandler.singleton.handle(ConfirmationMessage.serializer.deserialize(source), clientSession);
         break;

@@ -5,9 +5,7 @@ import rpg.client.handlers.ConfirmationHandler;
 import rpg.client.handlers.LoginErrorHandler;
 import rpg.client.handlers.NewCharacterErrorHandler;
 import rpg.client.handlers.NewCharacterSuccessHandler;
-import rpg.client.handlers.PeerGoodbyeHandler;
-import rpg.client.handlers.PeerIntroductionHandler;
-import rpg.client.handlers.PeerUpdateHandler;
+import rpg.client.handlers.PeerDataHandler;
 import rpg.client.handlers.RegistrationAcceptanceHandler;
 import rpg.client.handlers.RegistrationErrorHandler;
 import rpg.client.handlers.WelcomeHandler;
@@ -19,9 +17,10 @@ import rpg.net.msg.s2c.CharacterInfoMessage;
 import rpg.net.msg.s2c.LoginErrorMessage;
 import rpg.net.msg.s2c.NewCharacterErrorMessage;
 import rpg.net.msg.s2c.NewCharacterSuccessMessage;
-import rpg.net.msg.s2c.PeerGoodbyeMessage;
-import rpg.net.msg.s2c.PeerIntroductionMessage;
-import rpg.net.msg.s2c.PeerUpdateMessage;
+import rpg.net.msg.s2c.peer.PeerDataMessage;
+import rpg.net.msg.s2c.peer.PeerGoodbye;
+import rpg.net.msg.s2c.peer.PeerIntroduction;
+import rpg.net.msg.s2c.peer.PeerUpdate;
 import rpg.net.msg.s2c.RegistrationAcceptanceMessage;
 import rpg.net.msg.s2c.RegistrationErrorMessage;
 import rpg.net.msg.s2c.WelcomeMessage;
@@ -92,14 +91,8 @@ public class MessageDispatcher implements Runnable {
       case WELCOME:
         WelcomeHandler.singleton.handle(WelcomeMessage.serializer.deserialize(source));
         break;
-      case PEER_INTRODUCTION:
-        PeerIntroductionHandler.singleton.handle(PeerIntroductionMessage.serializer.deserialize(source));
-        break;
-      case PEER_UPDATE:
-        PeerUpdateHandler.singleton.handle(PeerUpdateMessage.serializer.deserialize(source));
-        break;
-      case PEER_GOODBYE:
-        PeerGoodbyeHandler.singleton.handle(PeerGoodbyeMessage.serializer.deserialize(source));
+      case PEER_DATA:
+        PeerDataHandler.singleton.handle(PeerDataMessage.serializer.deserialize(source));
         break;
       default:
         Logger.warning("Received a message of type %s, which is not handled.", msgType);

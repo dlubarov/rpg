@@ -10,7 +10,7 @@ import rpg.util.serialization.Serializer;
 public class SessionCreationMessage extends ClientToServerMessage {
   public final int clientPort;
 
-  protected SessionCreationMessage(int clientPort) {
+  public SessionCreationMessage(int clientPort) {
     super(MessageType.SESSION_CREATION, serializer);
     this.clientPort = clientPort;
   }

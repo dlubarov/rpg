@@ -9,7 +9,7 @@ public final class ModeManager {
   private static Mode currentMode;
 
   static {
-    currentMode = new LoginMode();
+    currentMode = new ConnectingMode();
     currentMode.onEnter();
   }
 

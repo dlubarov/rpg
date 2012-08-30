@@ -38,7 +38,13 @@ public abstract class MessageSink {
     sendOnce(msg, 0);
   }
 
+  public void sendWithConfirmation(Message msg, int retries,
+      Runnable onConfirmation, Runnable onTimeout) {
+    RetryQueue.startRetrying(this, msg, retries, RETRY_AFTER_MILLIS,
+        onConfirmation, onTimeout);
+  }
+
   public void sendWithConfirmation(Message msg, int retries) {
-    RetryQueue.startRetrying(this, msg, retries, RETRY_AFTER_MILLIS);
+    sendWithConfirmation(msg, retries, null, null);
   }
 }
