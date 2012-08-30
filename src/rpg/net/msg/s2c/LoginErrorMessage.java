@@ -1,6 +1,5 @@
 package rpg.net.msg.s2c;
 
-import rpg.net.msg.Message;
 import rpg.net.msg.MessageType;
 import rpg.util.ToStringBuilder;
 import rpg.util.serialization.ByteSink;
@@ -11,7 +10,7 @@ import rpg.util.serialization.Serializer;
 /**
  * A {@link rpg.net.msg.Message} informing the client that their login was declined.
  */
-public class LoginErrorMessage extends Message {
+public class LoginErrorMessage extends ServerToClientMessage {
   public final Reason reason;
 
   public LoginErrorMessage(Reason reason) {

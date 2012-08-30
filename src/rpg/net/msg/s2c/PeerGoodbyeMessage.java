@@ -14,7 +14,7 @@ import rpg.util.serialization.Serializer;
  * considers neighbors of the client. The server will stop sending motion updates for these
  * peers, so the client should stop rendering them.
  */
-public class PeerGoodbyeMessage extends Message {
+public class PeerGoodbyeMessage extends ServerToClientMessage {
   public final List<Integer> ids;
 
   public PeerGoodbyeMessage(List<Integer> ids) {

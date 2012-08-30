@@ -1,6 +1,5 @@
 package rpg.server.handlers;
 
-import java.net.InetAddress;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -13,7 +12,7 @@ import rpg.net.msg.s2c.RegistrationAcceptanceMessage;
 import rpg.net.msg.s2c.RegistrationErrorMessage;
 import rpg.server.Account;
 import rpg.server.AccountManager;
-import rpg.util.Logger;
+import rpg.server.Session;
 
 public class RegistrationHandler extends Handler<RegistrationMessage> {
   public static final RegistrationHandler singleton = new RegistrationHandler();
@@ -28,18 +27,17 @@ public class RegistrationHandler extends Handler<RegistrationMessage> {
 
   private RegistrationHandler() {}
 
-  @Override public void handle(RegistrationMessage msg, InetAddress sender) {
+  @Override public void handle(RegistrationMessage msg, Session clientSession) {
     RegistrationErrorMessage.Reason failureReason = getFailureReason(msg);
     if (failureReason == null) {
       Account account = new Account(msg.email, msg.password);
       AccountManager.register(account);
-      AccountManager.noteLastAddress(account, sender);
-
+      clientSession.account = account;
       RegistrationAcceptanceMessage acceptanceMessage = new RegistrationAcceptanceMessage();
-      new ToClientMessageSink(sender).sendWithConfirmation(acceptanceMessage, 3);
+      new ToClientMessageSink(clientSession).sendWithConfirmation(acceptanceMessage, 3);
     } else {
       RegistrationErrorMessage rejectionMsg = new RegistrationErrorMessage(failureReason);
-      new ToClientMessageSink(sender).sendWithConfirmation(rejectionMsg, 3);
+      new ToClientMessageSink(clientSession).sendWithConfirmation(rejectionMsg, 3);
     }
   }
 

@@ -4,6 +4,7 @@ public enum MessageType {
   CONFIRMATION,
 
   // Client to server.
+  SESSION_CREATION,
   REGISTRATION_REQUEST,
   LOGIN_REQUEST,
   NEW_CHARACTER,
@@ -21,4 +22,13 @@ public enum MessageType {
   PEER_INTRODUCTION,
   PEER_UPDATE,
   PEER_GOODBYE,
+  ;
+
+  public static MessageType fromOrdinal(int messageTypeOrd) {
+    try {
+      return MessageType.values()[messageTypeOrd];
+    } catch (ArrayIndexOutOfBoundsException e) {
+      throw new IllegalArgumentException("Bad message ID: " + messageTypeOrd);
+    }
+  }
 }

@@ -4,7 +4,6 @@ import rpg.game.CombatClass;
 import rpg.game.MotionState;
 import rpg.game.realm.Realm;
 import rpg.game.realm.RealmManager;
-import rpg.net.msg.Message;
 import rpg.net.msg.MessageType;
 import rpg.util.ToStringBuilder;
 import rpg.util.serialization.ByteSink;
@@ -15,7 +14,7 @@ import rpg.util.serialization.Serializer;
 /**
  * Welcomes a client who just signed in. Informs the client of his current realm and position.
  */
-public class WelcomeMessage extends Message {
+public class WelcomeMessage extends ServerToClientMessage {
   public final Integer characterID;
   public final CombatClass combatClass;
   public final Realm realm;
@@ -51,7 +50,7 @@ public class WelcomeMessage extends Message {
       return new WelcomeMessage(
           IntegerSerializer.singleton.deserialize(source),
           CombatClass.values()[IntegerSerializer.singleton.deserialize(source)],
-          RealmManager.getRealmById(IntegerSerializer.singleton.deserialize(source)),
+          RealmManager.getRealmByID(IntegerSerializer.singleton.deserialize(source)),
           MotionState.serializer.deserialize(source));
     }
   };

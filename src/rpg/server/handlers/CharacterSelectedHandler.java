@@ -1,21 +1,23 @@
 package rpg.server.handlers;
 
-import java.net.InetAddress;
 import rpg.net.ToClientMessageSink;
 import rpg.net.msg.c2s.CharacterSelectedMessage;
 import rpg.net.msg.s2c.WelcomeMessage;
 import rpg.server.AccountManager;
+import rpg.server.ActivePlayer;
 import rpg.server.PlayerCharacter;
+import rpg.server.Session;
 
 public class CharacterSelectedHandler extends Handler<CharacterSelectedMessage> {
   public static final CharacterSelectedHandler singleton = new CharacterSelectedHandler();
 
   private CharacterSelectedHandler() {}
 
-  @Override public void handle(CharacterSelectedMessage msg, InetAddress sender) {
-    PlayerCharacter character = AccountManager.getCharacterById(msg.id);
+  @Override public void handle(CharacterSelectedMessage msg, Session clientSession) {
+    PlayerCharacter character = AccountManager.getCharacterByID(msg.id);
     WelcomeMessage response = new WelcomeMessage(msg.id, character.combatClass,
         character.getRealm(), character.getMotionState());
-    new ToClientMessageSink(sender).sendWithConfirmation(response, 3);
+    clientSession.player = new ActivePlayer(clientSession, character);
+    new ToClientMessageSink(clientSession).sendWithConfirmation(response, 3);
   }
 }

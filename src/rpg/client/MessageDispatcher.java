@@ -40,21 +40,25 @@ public class MessageDispatcher implements Runnable {
   }
 
   @Override public void run() {
+    try {
+      tryRun();
+    } catch (Exception e) {
+      Logger.error(e, "Error during message dispatch.");
+    }
+  }
+
+  public void tryRun() {
     long uuid = LongSerializer.singleton.deserialize(source);
+    byte messageTypeOrd = source.take();
+
+    MessageType msgType = MessageType.fromOrdinal(messageTypeOrd);
+    Logger.debug("Received message of type %s.", msgType);
+
     if (uuid != 0) {
       UUIDCache.addUUID(uuid);
       ToServerMessageSink.singleton.sendWithoutConfirmation(new ConfirmationMessage(uuid));
     }
-    byte msgId = source.take();
-    MessageType msgType;
-    try {
-      msgType = MessageType.values()[msgId];
-    } catch (ArrayIndexOutOfBoundsException e) {
-      Logger.warning("Bad message ID: %d.", msgId);
-      return;
-    }
 
-    Logger.debug("Received message of type %s.", msgType);
     try {
       dispatch(msgType);
     } catch (Exception e) {

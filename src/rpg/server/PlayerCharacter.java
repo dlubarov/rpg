@@ -15,7 +15,7 @@ import rpg.util.ToStringBuilder;
 import rpg.util.math.Vector3;
 
 public class PlayerCharacter {
-  private static final Realm STARTING_REALM = RealmManager.getRealmById(0);
+  private static final Realm STARTING_REALM = RealmManager.getRealmByID(0);
   private static final Vector3 STARTING_POS = Vector3.ZERO;
 
   private static final AtomicInteger idCounter = new AtomicInteger();

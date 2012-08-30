@@ -1,35 +1,37 @@
 package rpg.server.handlers;
 
-import java.net.InetAddress;
 import rpg.game.CharacterSummary;
 import rpg.net.NetConfig;
 import rpg.net.ToClientMessageSink;
 import rpg.net.msg.c2s.NewCharacterMessage;
 import rpg.net.msg.s2c.NewCharacterErrorMessage;
 import rpg.net.msg.s2c.NewCharacterSuccessMessage;
-import rpg.server.Account;
 import rpg.server.AccountManager;
 import rpg.server.PlayerCharacter;
+import rpg.server.Session;
 
 public class NewCharacterHandler extends Handler<NewCharacterMessage> {
   public static final NewCharacterHandler singleton = new NewCharacterHandler();
 
   private NewCharacterHandler() {}
 
-  @Override public void handle(NewCharacterMessage msg, InetAddress sender) {
+  @Override public void handle(NewCharacterMessage msg, Session clientSession) {
     NewCharacterErrorMessage.Reason errorReason = getErrorReason(msg.characterName);
     if (errorReason != null) {
       NewCharacterErrorMessage response = new NewCharacterErrorMessage(errorReason);
-      new ToClientMessageSink(sender).sendWithConfirmation(response, 3);
+      new ToClientMessageSink(clientSession).sendWithConfirmation(response, 3);
       return;
     }
 
-    Account account = AccountManager.getAccountByLastAddress(sender);
-    PlayerCharacter character = new PlayerCharacter(msg.characterName, account, msg.combatClass);
+    if (clientSession.account == null)
+      throw new IllegalStateException("Client not signed in.");
+
+    PlayerCharacter character = new PlayerCharacter(msg.characterName,
+        clientSession.account, msg.combatClass);
 
     CharacterSummary characterSummary = new CharacterSummary(character);
     NewCharacterSuccessMessage response = new NewCharacterSuccessMessage(characterSummary);
-    new ToClientMessageSink(sender).sendWithConfirmation(response, 3);
+    new ToClientMessageSink(clientSession).sendWithConfirmation(response, 3);
   }
 
   private static NewCharacterErrorMessage.Reason getErrorReason(String name) {

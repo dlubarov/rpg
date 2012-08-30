@@ -1,5 +1,6 @@
 package rpg.client;
 
+import java.net.BindException;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 import org.lwjgl.LWJGLException;
@@ -17,9 +18,7 @@ import rpg.client.gfx.widget.winow.WindowManager;
 import rpg.client.mode.Mode;
 import rpg.client.mode.ModeManager;
 import rpg.game.Info;
-import rpg.game.Levels;
 import rpg.net.NetConfig;
-import rpg.util.Logger;
 
 import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.GL_COLOR_MATERIAL;
@@ -39,23 +38,24 @@ import static org.lwjgl.opengl.GL11.glMatrixMode;
 public final class Client {
   private Client() {}
 
-  public static final DatagramSocket socket;
-
-  static {
-    try {
-      Levels.experienceToLevel(50);
-      socket = new DatagramSocket(NetConfig.PORT_S2C, NetConfig.serverAddr);
-    } catch (SocketException e) {
-      Logger.fatal(e, "Failed to establish socket to server.");
-      throw new RuntimeException(e);
-    }
-  }
+  public static final DatagramSocket socket = getSocket();
 
   public static void main(String[] args) throws LWJGLException {
     ClientListener.singleton.start();
     lwjglSetup();
     glSetup();
     mainLoop();
+  }
+
+  private static DatagramSocket getSocket() {
+    for (int port = NetConfig.PORT_S2C_MIN; port <= NetConfig.PORT_S2C_MAX; ++port)
+      try {
+        return new DatagramSocket(port, NetConfig.serverAddr);
+      } catch (BindException e) {
+      } catch (SocketException e) {
+        throw new RuntimeException("Failed to bind socket.", e);
+      }
+    throw new RuntimeException("No ports available.");
   }
 
   private static void lwjglSetup() throws LWJGLException {

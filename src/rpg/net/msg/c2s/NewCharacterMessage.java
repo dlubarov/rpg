@@ -1,7 +1,6 @@
 package rpg.net.msg.c2s;
 
 import rpg.game.CombatClass;
-import rpg.net.msg.Message;
 import rpg.net.msg.MessageType;
 import rpg.util.ToStringBuilder;
 import rpg.util.serialization.ByteSink;
@@ -10,7 +9,7 @@ import rpg.util.serialization.IntegerSerializer;
 import rpg.util.serialization.Serializer;
 import rpg.util.serialization.StringSerializer;
 
-public class NewCharacterMessage extends Message {
+public class NewCharacterMessage extends ClientToServerMessage {
   public final String characterName;
   public final CombatClass combatClass;
 

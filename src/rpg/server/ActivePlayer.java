@@ -1,26 +1,23 @@
 package rpg.server;
 
-import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Map;
 import rpg.game.MotionState;
-import rpg.net.ToClientMessageSink;
+import rpg.util.ToStringBuilder;
 import rpg.util.math.Vector3;
 import rpg.util.phys.Positioned;
 
 import static java.util.Collections.synchronizedMap;
 
 public final class ActivePlayer implements Positioned {
+  public final Session session;
   public final PlayerCharacter character;
   private final Map<PlayerCharacter, MotionState> peerSnapshots;
-  public final InetAddress address;
-  public final ToClientMessageSink messageSink;
 
-  public ActivePlayer(PlayerCharacter character, InetAddress address) {
+  public ActivePlayer(Session session, PlayerCharacter character) {
+    this.session = session;
     this.character = character;
     this.peerSnapshots = synchronizedMap(new HashMap<PlayerCharacter, MotionState>());
-    this.address = address;
-    messageSink = new ToClientMessageSink(address);
 
     AccountManager.login(this);
   }
@@ -40,5 +37,12 @@ public final class ActivePlayer implements Positioned {
 
   @Override public Vector3 getPos() {
     return character.getMotionState().position;
+  }
+
+  @Override public String toString() {
+    return new ToStringBuilder(this)
+        .append("character", character)
+        .append("peerSnapshots", peerSnapshots)
+        .toString();
   }
 }

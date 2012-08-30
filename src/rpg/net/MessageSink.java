@@ -12,12 +12,19 @@ public abstract class MessageSink {
 
   protected abstract void sendRaw(byte[] data);
 
+  protected Long getSessionID() {
+    return null;
+  }
+
   @SuppressWarnings("unchecked")
   void sendOnce(Message msg, long uuid) {
     Logger.debug("Sending message: %s (uuid=%d)", msg, uuid);
     ByteSink sink = new ByteSink();
     LongSerializer.singleton.serialize(uuid, sink);
+    if (getSessionID() != null)
+      LongSerializer.singleton.serialize(getSessionID(), sink);
     msg.serializeWithTypeTo(sink);
+
     // TODO: Could use thread-local arrays rather than allocating new ones with getData.
     // This would involve adding offset & length parameters to sendRaw.
     byte[] data = sink.getData();
@@ -32,6 +39,6 @@ public abstract class MessageSink {
   }
 
   public void sendWithConfirmation(Message msg, int retries) {
-    RetryQueue.startRetrying(this, msg, UUIDGenerator.generate(), retries, RETRY_AFTER_MILLIS);
+    RetryQueue.startRetrying(this, msg, retries, RETRY_AFTER_MILLIS);
   }
 }

@@ -1,6 +1,5 @@
 package rpg.net.msg.c2s;
 
-import rpg.net.msg.Message;
 import rpg.net.msg.MessageType;
 import rpg.util.ToStringBuilder;
 import rpg.util.serialization.ByteSink;
@@ -8,7 +7,7 @@ import rpg.util.serialization.ByteSource;
 import rpg.util.serialization.IntegerSerializer;
 import rpg.util.serialization.Serializer;
 
-public class CharacterSelectedMessage extends Message {
+public class CharacterSelectedMessage extends ClientToServerMessage {
   public final int id;
 
   public CharacterSelectedMessage(int id) {

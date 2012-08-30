@@ -1,7 +1,6 @@
 package rpg.net.msg.c2s;
 
 import java.util.List;
-import rpg.net.msg.Message;
 import rpg.net.msg.MessageType;
 import rpg.util.ToStringBuilder;
 import rpg.util.serialization.ByteSink;
@@ -13,7 +12,7 @@ import rpg.util.serialization.StringSerializer;
 /**
  * Requests a login.
  */
-public class LoginMessage extends Message {
+public class LoginMessage extends ClientToServerMessage {
   public final String email, password;
   public final List<Byte> version;
 

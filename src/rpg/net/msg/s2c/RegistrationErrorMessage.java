@@ -12,7 +12,7 @@ import rpg.util.serialization.Serializer;
 /**
  * A {@link Message} informing the client that their request for registration was declined.
  */
-public class RegistrationErrorMessage extends Message {
+public class RegistrationErrorMessage extends ServerToClientMessage {
   public final Reason reason;
 
   public RegistrationErrorMessage(Reason reason) {

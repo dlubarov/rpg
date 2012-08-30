@@ -2,7 +2,6 @@ package rpg.net.msg.s2c;
 
 import java.util.List;
 import rpg.game.MotionState;
-import rpg.net.msg.Message;
 import rpg.net.msg.MessageType;
 import rpg.util.ToStringBuilder;
 import rpg.util.serialization.ByteSink;
@@ -15,7 +14,7 @@ import rpg.util.serialization.Serializer;
  * A {@link rpg.net.msg.Message} informing the client of one or more nearby peers which the client was not
  * previously aware of.
  */
-public class PeerUpdateMessage extends Message {
+public class PeerUpdateMessage extends ServerToClientMessage {
   public final List<Part> parts;
 
   public PeerUpdateMessage(List<Part> parts) {

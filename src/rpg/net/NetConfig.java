@@ -10,7 +10,7 @@ public final class NetConfig {
   private NetConfig() {}
 
   public static final int
-      PORT_C2S = 1337, PORT_S2C = 1338,
+      PORT_C2S = 1337, PORT_S2C_MIN = 1338, PORT_S2C_MAX = 1350,
       EMAIL_MAX_LEN = 256,
       PASSWORD_MIN_LEN = 6, PASSWORD_MAX_LEN = 256,
       NAME_MIN_LEN = 3, NAME_MAX_LEN = 32;

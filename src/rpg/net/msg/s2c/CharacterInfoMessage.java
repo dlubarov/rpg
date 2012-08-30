@@ -2,7 +2,6 @@ package rpg.net.msg.s2c;
 
 import java.util.List;
 import rpg.game.CharacterSummary;
-import rpg.net.msg.Message;
 import rpg.net.msg.MessageType;
 import rpg.util.ToStringBuilder;
 import rpg.util.serialization.ByteSink;
@@ -10,7 +9,7 @@ import rpg.util.serialization.ByteSource;
 import rpg.util.serialization.ListSerializer;
 import rpg.util.serialization.Serializer;
 
-public class CharacterInfoMessage extends Message {
+public class CharacterInfoMessage extends ServerToClientMessage {
   public final List<CharacterSummary> parts;
 
   public CharacterInfoMessage(List<CharacterSummary> parts) {

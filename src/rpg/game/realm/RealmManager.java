@@ -13,11 +13,11 @@ public final class RealmManager {
       new BareRealm(),
   };
 
-  public static int getNextId() {
+  public static int getNextID() {
     return idCounter.getAndIncrement();
   }
 
-  public static Realm getRealmById(int id) {
+  public static Realm getRealmByID(int id) {
     return allRealms[id];
   }
 }

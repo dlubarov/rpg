@@ -16,7 +16,7 @@ import rpg.util.serialization.StringSerializer;
  * A {@link Message} informing the client of one or more nearby peers which the client was not
  * previously aware of.
  */
-public class PeerIntroductionMessage extends Message {
+public class PeerIntroductionMessage extends ServerToClientMessage {
   public final List<Part> parts;
 
   public PeerIntroductionMessage(List<Part> parts) {

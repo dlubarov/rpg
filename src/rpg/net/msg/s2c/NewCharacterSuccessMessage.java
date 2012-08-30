@@ -1,14 +1,13 @@
 package rpg.net.msg.s2c;
 
 import rpg.game.CharacterSummary;
-import rpg.net.msg.Message;
 import rpg.net.msg.MessageType;
 import rpg.util.ToStringBuilder;
 import rpg.util.serialization.ByteSink;
 import rpg.util.serialization.ByteSource;
 import rpg.util.serialization.Serializer;
 
-public class NewCharacterSuccessMessage extends Message {
+public class NewCharacterSuccessMessage extends ServerToClientMessage {
   public final CharacterSummary characterSummary;
 
   public NewCharacterSuccessMessage(CharacterSummary characterSummary) {

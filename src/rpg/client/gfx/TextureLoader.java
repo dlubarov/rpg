@@ -42,11 +42,11 @@ public final class TextureLoader {
       ComponentColorModel.TRANSLUCENT, DataBuffer.TYPE_BYTE);
 
   public static Texture load(BufferedImage image) {
-    int textureId = glGenTextures();
-    Texture texture = new Texture(textureId,
+    int textureID = glGenTextures();
+    Texture texture = new Texture(textureID,
         getPowerOf2(image.getWidth()), getPowerOf2(image.getHeight()),
         image.getWidth(), image.getHeight());
-    glBindTexture(GL_TEXTURE_2D, textureId);
+    glBindTexture(GL_TEXTURE_2D, textureID);
     int sourcePixelFormat = image.getColorModel().hasAlpha() ? GL_RGBA : GL_RGB;
     ByteBuffer textureBuffer = convertImageData(image, texture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

@@ -15,10 +15,8 @@ public class RetryQueue {
   private static final Set<Long> activeMessageUUIDs =
       Collections.synchronizedSet(new HashSet<Long>());
 
-  public static void startRetrying(MessageSink sink, Message msg,
-      long uuid, int retries, long delayMillis) {
-    activeMessageUUIDs.add(uuid);
-    RetryJob retryJob = new RetryJob(sink, msg, uuid, delayMillis, retries);
+  public static void startRetrying(MessageSink sink, Message msg, int retries, long delayMillis) {
+    RetryJob retryJob = new RetryJob(sink, msg, delayMillis, retries);
     scheduler.schedule(retryJob, 0, TimeUnit.MILLISECONDS);
   }
 
@@ -34,12 +32,13 @@ public class RetryQueue {
     private final long delayMillis;
     private int retriesLeft;
 
-    private RetryJob(MessageSink sink, Message msg, long uuid, long delayMillis, int retries) {
+    private RetryJob(MessageSink sink, Message msg, long delayMillis, int retries) {
       this.sink = sink;
       this.msg = msg;
-      this.uuid = uuid;
+      this.uuid = UUIDGenerator.generate();
       this.delayMillis = delayMillis;
       this.retriesLeft = retries;
+      activeMessageUUIDs.add(uuid);
     }
 
     @Override public void run() {

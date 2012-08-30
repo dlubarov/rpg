@@ -1,7 +1,6 @@
 package rpg.net.msg.s2c;
 
 import rpg.net.NetConfig;
-import rpg.net.msg.Message;
 import rpg.net.msg.MessageType;
 import rpg.util.ToStringBuilder;
 import rpg.util.serialization.ByteSink;
@@ -9,7 +8,7 @@ import rpg.util.serialization.ByteSource;
 import rpg.util.serialization.IntegerSerializer;
 import rpg.util.serialization.Serializer;
 
-public class NewCharacterErrorMessage extends Message {
+public class NewCharacterErrorMessage extends ServerToClientMessage {
   public final Reason reason;
 
   public NewCharacterErrorMessage(Reason reason) {

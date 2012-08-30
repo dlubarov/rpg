@@ -10,6 +10,7 @@ import rpg.net.msg.c2s.HereIAmMessage;
 import rpg.net.msg.c2s.LoginMessage;
 import rpg.net.msg.c2s.NewCharacterMessage;
 import rpg.net.msg.c2s.RegistrationMessage;
+import rpg.net.msg.c2s.SessionCreationMessage;
 import rpg.server.handlers.CharacterSelectedHandler;
 import rpg.server.handlers.ConfirmationHandler;
 import rpg.server.handlers.HereIAmHandler;
@@ -25,58 +26,75 @@ import rpg.util.serialization.LongSerializer;
  */
 public class MessageDispatcher implements Runnable {
   private final ByteSource source;
-  private final InetAddress sender;
+  private final InetAddress clientAddr;
 
-  public MessageDispatcher(ByteSource source, InetAddress sender) {
+  public MessageDispatcher(ByteSource source, InetAddress clientAddr) {
     this.source = source;
-    this.sender = sender;
+    this.clientAddr = clientAddr;
   }
 
   @Override public void run() {
+    try {
+      tryRun();
+    } catch (Exception e) {
+      Logger.error(e, "Error during message dispatch.");
+    }
+  }
+
+  public void tryRun() {
     // FIXME: Remove fake lag.
     try { Thread.sleep(400); } catch (InterruptedException e) {}
 
+    long sessionID = LongSerializer.singleton.deserialize(source);
     long uuid = LongSerializer.singleton.deserialize(source);
-    if (uuid != 0) {
-      UUIDCache.addUUID(uuid);
-      new ToClientMessageSink(sender).sendWithoutConfirmation(new ConfirmationMessage(uuid));
-    }
-    byte msgId = source.take();
-    MessageType msgType;
-    try {
-      msgType = MessageType.values()[msgId];
-    } catch (ArrayIndexOutOfBoundsException e) {
-      Logger.warning("Bad message ID: %d.", msgId);
-      return;
+    byte messageTypeOrd = source.take();
+
+    MessageType msgType = MessageType.fromOrdinal(messageTypeOrd);
+    Logger.debug("Received message of type %s.", msgType);
+
+    Session clientSession;
+    if (msgType == MessageType.SESSION_CREATION) {
+      SessionCreationMessage msg = SessionCreationMessage.serializer.deserialize(source);
+      clientSession = new Session(sessionID, clientAddr, msg.clientPort);
+    } else {
+      clientSession = SessionManager.getByID(sessionID);
+      if (clientSession == null) {
+        Logger.warning("Bad session ID: %d.", sessionID);
+        return;
+      }
     }
 
-    Logger.debug("Received message of type %s.", msgType);
+    if (uuid != 0) {
+      UUIDCache.addUUID(uuid);
+      new ToClientMessageSink(clientSession).sendWithoutConfirmation(new ConfirmationMessage(uuid));
+    }
+
     try {
-      dispatch(msgType);
+      dispatch(msgType, clientSession);
     } catch (Exception e) {
       Logger.error(e, "Exception in handling of %s.", msgType);
     }
   }
 
-  private void dispatch(MessageType msgType) throws Exception {
+  private void dispatch(MessageType msgType, Session clientSession) throws Exception {
     switch (msgType) {
       case CONFIRMATION:
-        ConfirmationHandler.singleton.handle(ConfirmationMessage.serializer.deserialize(source));
+        ConfirmationHandler.singleton.handle(ConfirmationMessage.serializer.deserialize(source), clientSession);
         break;
       case REGISTRATION_REQUEST:
-        RegistrationHandler.singleton.handle(RegistrationMessage.serializer.deserialize(source), sender);
+        RegistrationHandler.singleton.handle(RegistrationMessage.serializer.deserialize(source), clientSession);
         break;
       case LOGIN_REQUEST:
-        LoginHandler.singleton.handle(LoginMessage.serializer.deserialize(source), sender);
+        LoginHandler.singleton.handle(LoginMessage.serializer.deserialize(source), clientSession);
         break;
       case NEW_CHARACTER:
-        NewCharacterHandler.singleton.handle(NewCharacterMessage.serializer.deserialize(source), sender);
+        NewCharacterHandler.singleton.handle(NewCharacterMessage.serializer.deserialize(source), clientSession);
         break;
       case CHARACTER_SELECTED:
-        CharacterSelectedHandler.singleton.handle(CharacterSelectedMessage.serializer.deserialize(source), sender);
+        CharacterSelectedHandler.singleton.handle(CharacterSelectedMessage.serializer.deserialize(source), clientSession);
         break;
       case HERE_I_AM:
-        HereIAmHandler.singleton.handle(HereIAmMessage.serializer.deserialize(source), sender);
+        HereIAmHandler.singleton.handle(HereIAmMessage.serializer.deserialize(source), clientSession);
         break;
       default:
         Logger.warning("Received a message of type %s, which is not handled.", msgType);

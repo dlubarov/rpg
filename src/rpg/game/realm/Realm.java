@@ -5,7 +5,7 @@ public class Realm {
   public final double radius;
 
   public Realm(double radius) {
-    this.id = RealmManager.getNextId();
+    this.id = RealmManager.getNextID();
     this.radius = radius;
   }
 }

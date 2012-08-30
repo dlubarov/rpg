@@ -9,20 +9,20 @@ import java.util.Map;
 public final class TextureReleaser {
   private TextureReleaser() {}
 
-  private static final Map<PhantomReference<Texture>, Integer> textureIds =
+  private static final Map<PhantomReference<Texture>, Integer> textureIDs =
       new HashMap<PhantomReference<Texture>, Integer>();
 
   private static final ReferenceQueue<Texture> queue = new ReferenceQueue<Texture>();
 
   public static void add(Texture texture) {
     PhantomReference<Texture> reference = new PhantomReference<Texture>(texture, queue);
-    textureIds.put(reference, texture.id);
+    textureIDs.put(reference, texture.id);
   }
 
   public static void releaseDeadTextures() {
     Reference<? extends Texture> refTexture;
     while ((refTexture = queue.poll()) != null) {
-      Integer textureID = textureIds.get(refTexture);
+      Integer textureID = textureIDs.get(refTexture);
       assert textureID != null;
       Texture.release(textureID);
     }
