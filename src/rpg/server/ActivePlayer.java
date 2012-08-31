@@ -1,5 +1,6 @@
 package rpg.server;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import rpg.game.MotionState;
@@ -12,22 +13,26 @@ import static java.util.Collections.synchronizedMap;
 public final class ActivePlayer implements Positioned {
   public final Session session;
   public final PlayerCharacter character;
-  private final Map<PlayerCharacter, MotionState> peerSnapshots;
+  private final Map<ActivePlayer, MotionState> peerSnapshots;
 
   public ActivePlayer(Session session, PlayerCharacter character) {
     this.session = session;
     this.character = character;
-    this.peerSnapshots = synchronizedMap(new HashMap<PlayerCharacter, MotionState>());
+    this.peerSnapshots = synchronizedMap(new HashMap<ActivePlayer, MotionState>());
 
     AccountManager.login(this);
   }
 
-  public boolean inView(PlayerCharacter peer) {
+  public Collection<ActivePlayer> getSavedNeighbors() {
+    return peerSnapshots.keySet();
+  }
+
+  public boolean inView(ActivePlayer peer) {
     return peerSnapshots.containsKey(peer);
   }
 
-  public double errorInViewOf(PlayerCharacter character) {
-    MotionState view = peerSnapshots.get(character);
+  public double errorInViewOf(ActivePlayer player) {
+    MotionState view = peerSnapshots.get(player);
     return view.errorComparedTo(character.getMotionState());
   }
 

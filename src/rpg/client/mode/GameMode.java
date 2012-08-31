@@ -8,6 +8,10 @@ import rpg.client.people.LocalPlayer;
 import rpg.client.people.PeerPlayer;
 import rpg.game.realm.Realm;
 import rpg.net.msg.s2c.WelcomeMessage;
+import rpg.net.msg.s2c.peer.PeerGoodbye;
+import rpg.net.msg.s2c.peer.PeerIntroduction;
+import rpg.net.msg.s2c.peer.PeerUpdate;
+import rpg.util.Logger;
 import rpg.util.math.Vector3;
 import rpg.util.phys.BodyOctree;
 
@@ -34,6 +38,25 @@ public class GameMode extends Mode {
         welcome.combatClass, welcome.motionState);
     peersById = new HashMap<Integer, PeerPlayer>();
     setRealm(welcome.realm);
+  }
+
+  public void handleIntroduction(PeerIntroduction introduction) {
+    PeerPlayer peer = new PeerPlayer(introduction);
+    peersById.put(peer.id, peer);
+  }
+
+  public void handleGoodbye(PeerGoodbye goodbye) {
+    PeerPlayer deadPeer = peersById.remove(goodbye.id);
+    if (deadPeer == null)
+      Logger.warning("Received goodbye with unknown player ID: %d.", goodbye.id);
+  }
+
+  public void handleUpdate(PeerUpdate update) {
+    PeerPlayer peer = peersById.get(update.id);
+    if (peer == null)
+      Logger.warning("Received update with unknown player ID: %d.", update.id);
+    else
+      peer.setMotionSnapshot(update.motionState);
   }
 
   public Realm getRealm() {

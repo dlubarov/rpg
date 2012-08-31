@@ -1,5 +1,6 @@
 package rpg.net.msg.s2c.peer;
 
+import rpg.game.CombatClass;
 import rpg.game.MotionState;
 import rpg.net.msg.Message;
 import rpg.util.ToStringBuilder;
@@ -16,11 +17,14 @@ import rpg.util.serialization.StringSerializer;
 public class PeerIntroduction {
   public final Integer id;
   public final String characterName;
+  public final CombatClass combatClass;
   public final MotionState motionState;
 
-  public PeerIntroduction(int id, String characterName, MotionState motionState) {
+  public PeerIntroduction(int id, String characterName,
+      CombatClass combatClass, MotionState motionState) {
     this.id = id;
     this.characterName = characterName;
+    this.combatClass = combatClass;
     this.motionState = motionState;
   }
 
@@ -29,6 +33,7 @@ public class PeerIntroduction {
         @Override public void serialize(PeerIntroduction intro, ByteSink sink) {
           IntegerSerializer.singleton.serialize(intro.id, sink);
           StringSerializer.singleton.serialize(intro.characterName, sink);
+          IntegerSerializer.singleton.serialize(intro.combatClass.ordinal(), sink);
           MotionState.serializer.serialize(intro.motionState, sink);
         }
 
@@ -36,6 +41,7 @@ public class PeerIntroduction {
           return new PeerIntroduction(
               IntegerSerializer.singleton.deserialize(source),
               StringSerializer.singleton.deserialize(source),
+              CombatClass.values()[IntegerSerializer.singleton.deserialize(source)],
               MotionState.serializer.deserialize(source));
         }
       };
