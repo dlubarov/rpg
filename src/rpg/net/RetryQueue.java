@@ -5,12 +5,18 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import rpg.net.msg.Message;
 import rpg.util.Logger;
 
 public class RetryQueue {
-  private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+  private static final ScheduledExecutorService scheduler =
+      Executors.newScheduledThreadPool(1, new ThreadFactory() {
+        @Override public Thread newThread(Runnable runnable) {
+          return new Thread(runnable, "Message Retryer");
+        }
+      });
 
   private static final Set<Long> activeMessageUUIDs =
       Collections.synchronizedSet(new HashSet<Long>());
@@ -55,12 +61,12 @@ public class RetryQueue {
         if (--retriesLeft > 0)
           scheduleAnotherRun();
         else {
-          if (onTimeout != null)
-            onTimeout.run();
+          runCallback(onTimeout);
           giveUp();
         }
-      } else if (onConfirmation != null)
-        onConfirmation.run();
+      } else {
+        runCallback(onConfirmation);
+      }
     }
 
     private void scheduleAnotherRun() {
@@ -69,6 +75,15 @@ public class RetryQueue {
 
     private void giveUp() {
       activeMessageUUIDs.remove(uuid);
+    }
+
+    private void runCallback(Runnable callback) {
+      if (callback != null)
+        try {
+          callback.run();
+        } catch (Exception e) {
+          Logger.error(e, "Exception during callback.");
+        }
     }
   }
 }

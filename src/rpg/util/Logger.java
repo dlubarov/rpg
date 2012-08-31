@@ -7,6 +7,10 @@ public final class Logger {
 
   private static final PrintStream ps = System.err;
 
+  private static Severity getDesiredSeverity() {
+    return Severity.INFO;
+  }
+
   public static void fatal(Exception e, String format, Object... args) {
     log(format, args, Severity.FATAL);
     e.printStackTrace(ps);
@@ -42,10 +46,6 @@ public final class Logger {
 
   private static boolean isVisible(Severity severity) {
     return severity.ordinal() >= getDesiredSeverity().ordinal();
-  }
-
-  private static Severity getDesiredSeverity() {
-    return Severity.INFO;
   }
 
   private static enum Severity {

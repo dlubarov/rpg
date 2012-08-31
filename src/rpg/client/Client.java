@@ -19,6 +19,7 @@ import rpg.client.mode.Mode;
 import rpg.client.mode.ModeManager;
 import rpg.game.Info;
 import rpg.net.NetConfig;
+import rpg.util.Logger;
 
 import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.GL_COLOR_MATERIAL;
@@ -42,6 +43,8 @@ public final class Client {
 
   public static void main(String[] args) throws LWJGLException {
     ClientListener.singleton.start();
+    Logger.info("Client listening on port %d.", socket.getLocalPort());
+
     lwjglSetup();
     glSetup();
     mainLoop();
@@ -97,8 +100,9 @@ public final class Client {
   private static void keyboardLogic() {
     while (Keyboard.next()) {
       boolean down = Keyboard.getEventKeyState();
-      if (!down)
+      if (!down) {
         continue;
+      }
 
       int key = Keyboard.getEventKey();
       switch (key) {
@@ -106,13 +110,15 @@ public final class Client {
           System.exit(0);
           break;
         case Keyboard.KEY_F4:
-          if (Keyboard.isKeyDown(Keyboard.KEY_LMETA) || Keyboard.isKeyDown(Keyboard.KEY_RMETA))
+          if (Keyboard.isKeyDown(Keyboard.KEY_LMETA) || Keyboard.isKeyDown(Keyboard.KEY_RMETA)) {
             System.exit(0);
+          }
           break;
       }
       Widget focusedWidget = WindowManager.getFocusedWidget();
-      if (focusedWidget != null)
+      if (focusedWidget != null) {
         focusedWidget.onKeyDown(key);
+      }
       ModeManager.getCurrentMode().onKeyDown(key);
     }
   }
@@ -123,11 +129,13 @@ public final class Client {
       int button = Mouse.getEventButton();
       int x = Mouse.getEventX(),
           y = Display.getHeight() - Mouse.getEventY();
-      if (button == 0)
-        if (down)
+      if (button == 0) {
+        if (down) {
           WindowManager.onLeftMouseDown(x, y);
-        else
+        } else {
           WindowManager.onLeftMouseUp(x, y);
+        }
+      }
       if (down) {
         Mode mode = ModeManager.getCurrentMode();
         switch (button) {

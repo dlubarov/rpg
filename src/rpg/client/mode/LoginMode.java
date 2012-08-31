@@ -52,6 +52,7 @@ public class LoginMode extends Mode2D {
             fields[next].makeFocused();
             return;
           }
+        fields[0].makeFocused();
         break;
       case Keyboard.KEY_RETURN:
         submit();

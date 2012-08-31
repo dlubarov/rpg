@@ -24,7 +24,7 @@ public class Account {
     characters = new HashSet<PlayerCharacter>();
 
     AccountManager.register(this);
-    Logger.info("Created new account: %s.", this);
+    Logger.info("New account created: %s.", this);
   }
 
   void addCharacter(PlayerCharacter character) {

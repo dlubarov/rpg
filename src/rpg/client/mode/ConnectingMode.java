@@ -8,9 +8,12 @@ import rpg.client.gfx.widget.Widget;
 import rpg.net.ToServerMessageSink;
 import rpg.net.msg.c2s.SessionCreationMessage;
 
+// TODO: Show a "retry" button if we fail to connect.
+
 public class ConnectingMode extends Mode2D {
   private final Widget content;
   private String message = "";
+  private boolean proceed;
 
   public ConnectingMode() {
     content = createContent();
@@ -20,10 +23,11 @@ public class ConnectingMode extends Mode2D {
   @Override public void onEnter() {
     message = "Connecting...";
     SessionCreationMessage msg = new SessionCreationMessage(Client.socket.getLocalPort());
-    ToServerMessageSink.singleton.sendWithConfirmation(msg, 3,
+    ToServerMessageSink.singleton.sendWithConfirmation(
+        msg, 3,
         new Runnable() {
           @Override public void run() {
-            ModeManager.switchTo(new LoginMode());
+            proceed = true;
           }
         },
         new Runnable() {
@@ -31,6 +35,11 @@ public class ConnectingMode extends Mode2D {
             message = "Failed to connect.";
           }
         });
+  }
+
+  @Override public void logic(double dt) {
+    if (proceed)
+      ModeManager.switchTo(new LoginMode());
   }
 
   @Override public Widget getContent() {

@@ -44,7 +44,7 @@ public class MessageDispatcher implements Runnable {
 
   public void tryRun() {
     // FIXME: Remove fake lag.
-    try { Thread.sleep(400); } catch (InterruptedException e) {}
+    try { Thread.sleep(50); } catch (InterruptedException e) {}
 
     long sessionID = LongSerializer.singleton.deserialize(source);
     long uuid = LongSerializer.singleton.deserialize(source);
@@ -57,6 +57,7 @@ public class MessageDispatcher implements Runnable {
     if (msgType == MessageType.SESSION_CREATION) {
       SessionCreationMessage msg = SessionCreationMessage.serializer.deserialize(source);
       clientSession = new Session(sessionID, clientAddr, msg.clientPort);
+      SessionCreationHandler.singleton.handle(msg, clientSession);
     } else {
       clientSession = SessionManager.getByID(sessionID);
       if (clientSession == null) {
@@ -80,7 +81,7 @@ public class MessageDispatcher implements Runnable {
   private void dispatch(MessageType msgType, Session clientSession) throws Exception {
     switch (msgType) {
       case SESSION_CREATION:
-        SessionCreationHandler.singleton.handle(SessionCreationMessage.serializer.deserialize(source), clientSession);
+        // Already handled specially.
         break;
       case CONFIRMATION:
         ConfirmationHandler.singleton.handle(ConfirmationMessage.serializer.deserialize(source), clientSession);

@@ -23,7 +23,11 @@ public final class ByteSource {
     return result;
   }
 
+  public int bytesRemaining() {
+    return data.length - pos;
+  }
+
   public boolean isEmpty() {
-    return pos == data.length;
+    return bytesRemaining() == 0;
   }
 }

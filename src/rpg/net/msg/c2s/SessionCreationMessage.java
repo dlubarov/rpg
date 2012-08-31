@@ -28,6 +28,7 @@ public class SessionCreationMessage extends ClientToServerMessage {
 
   @Override public String toString() {
     return new ToStringBuilder(this)
+        .append("clientPort", clientPort)
         .toString();
   }
 }

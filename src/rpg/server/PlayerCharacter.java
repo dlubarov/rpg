@@ -11,6 +11,7 @@ import rpg.game.item.Coin;
 import rpg.game.item.Inventory;
 import rpg.game.realm.Realm;
 import rpg.game.realm.RealmManager;
+import rpg.util.Logger;
 import rpg.util.ToStringBuilder;
 import rpg.util.math.Vector3;
 
@@ -50,6 +51,7 @@ public class PlayerCharacter {
 
     AccountManager.register(this);
     owner.addCharacter(this);
+    Logger.info("New character created: %s.", this);
   }
 
   public int getLevel() {

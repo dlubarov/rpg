@@ -25,6 +25,7 @@ public final class AccountManager {
 
     // TODO: Remove hardcoded account, useful for testing.
     Account daniel = new Account("d@l.com", "abcdef");
+    new PlayerCharacter("Wally", daniel, CombatClass.WARRIOR);
     new PlayerCharacter("Maggie", daniel, CombatClass.MAGE);
   }
 

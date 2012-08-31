@@ -20,9 +20,9 @@ public abstract class MessageSink {
   void sendOnce(Message msg, long uuid) {
     Logger.debug("Sending message: %s (uuid=%d)", msg, uuid);
     ByteSink sink = new ByteSink();
-    LongSerializer.singleton.serialize(uuid, sink);
     if (getSessionID() != null)
       LongSerializer.singleton.serialize(getSessionID(), sink);
+    LongSerializer.singleton.serialize(uuid, sink);
     msg.serializeWithTypeTo(sink);
 
     // TODO: Could use thread-local arrays rather than allocating new ones with getData.
