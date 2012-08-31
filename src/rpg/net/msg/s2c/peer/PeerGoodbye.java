@@ -27,8 +27,8 @@ public class PeerGoodbye {
 
   public static final Serializer<PeerGoodbye> serializer =
       new Serializer<PeerGoodbye>() {
-        @Override public void serialize(PeerGoodbye msg, ByteSink sink) {
-          ListSerializer.integerListSerializer.serialize(msg.ids, sink);
+        @Override public void serialize(PeerGoodbye goodbye, ByteSink sink) {
+          ListSerializer.integerListSerializer.serialize(goodbye.ids, sink);
         }
 
         @Override public PeerGoodbye deserialize(ByteSource source) {

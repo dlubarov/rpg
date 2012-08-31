@@ -15,8 +15,8 @@ public class CharacterSelectedHandler extends Handler<CharacterSelectedMessage> 
 
   @Override public void handle(CharacterSelectedMessage msg, Session clientSession) {
     PlayerCharacter character = AccountManager.getCharacterByID(msg.id);
-    WelcomeMessage response = new WelcomeMessage(msg.id, character.combatClass,
-        character.getRealm(), character.getMotionState());
+    WelcomeMessage response = new WelcomeMessage(msg.id, character.name,
+        character.combatClass, character.getRealm(), character.getMotionState());
     clientSession.player = new ActivePlayer(clientSession, character);
     new ToClientMessageSink(clientSession).sendWithConfirmation(response, 3);
   }

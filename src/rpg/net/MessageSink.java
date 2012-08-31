@@ -17,7 +17,7 @@ public abstract class MessageSink {
   }
 
   @SuppressWarnings("unchecked")
-  void sendOnce(Message msg, long uuid) {
+  final void sendOnce(Message msg, long uuid) {
     Logger.debug("Sending message: %s (uuid=%d)", msg, uuid);
     ByteSink sink = new ByteSink();
     if (getSessionID() != null)
@@ -34,17 +34,17 @@ public abstract class MessageSink {
     sendRaw(data);
   }
 
-  public void sendWithoutConfirmation(Message msg) {
+  public final void sendWithoutConfirmation(Message msg) {
     sendOnce(msg, 0);
   }
 
-  public void sendWithConfirmation(Message msg, int retries,
+  public final void sendWithConfirmation(Message msg, int retries,
       Runnable onConfirmation, Runnable onTimeout) {
     RetryQueue.startRetrying(this, msg, retries, RETRY_AFTER_MILLIS,
         onConfirmation, onTimeout);
   }
 
-  public void sendWithConfirmation(Message msg, int retries) {
+  public final void sendWithConfirmation(Message msg, int retries) {
     sendWithConfirmation(msg, retries, null, null);
   }
 }

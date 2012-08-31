@@ -6,6 +6,7 @@ import rpg.game.CombatClass;
 import rpg.game.MotionState;
 import rpg.net.ToServerMessageSink;
 import rpg.net.msg.c2s.HereIAmMessage;
+import rpg.util.Timing;
 import rpg.util.math.MathUtil;
 import rpg.util.math.Vector3;
 
@@ -18,10 +19,11 @@ public final class LocalPlayer extends Player {
 
   private MotionState motionState;
   private MotionState serverView;
-  private double serverUpdatedAt = 0;
+  private double serverUpdatedAt = Timing.currentTime();
 
-  public LocalPlayer(int id, CombatClass combatClass, MotionState motionState) {
-    super(id, combatClass);
+  public LocalPlayer(int id, String characterName,
+      CombatClass combatClass, MotionState motionState) {
+    super(id, characterName, combatClass);
     serverView = this.motionState = motionState;
   }
 
@@ -62,7 +64,7 @@ public final class LocalPlayer extends Player {
   }
 
   private void notifyServerOfMotion() {
-    double t = System.currentTimeMillis() * 1e-3;
+    double t = Timing.currentTime();
     boolean bigError = serverView.errorComparedTo(motionState) > MAX_SERVER_VIEW_ERROR;
     boolean tooManyUpdates = t - serverUpdatedAt < 1 / MAX_UPDATES_PER_SEC;
     if (bigError && !tooManyUpdates) {

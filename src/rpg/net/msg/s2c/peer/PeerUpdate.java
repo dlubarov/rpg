@@ -22,9 +22,9 @@ public class PeerUpdate {
 
   public static final Serializer<PeerUpdate> serializer =
       new Serializer<PeerUpdate>() {
-        @Override public void serialize(PeerUpdate part, ByteSink sink) {
-          IntegerSerializer.singleton.serialize(part.id, sink);
-          MotionState.serializer.serialize(part.motionState, sink);
+        @Override public void serialize(PeerUpdate update, ByteSink sink) {
+          IntegerSerializer.singleton.serialize(update.id, sink);
+          MotionState.serializer.serialize(update.motionState, sink);
         }
 
         @Override public PeerUpdate deserialize(ByteSource source) {

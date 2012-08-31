@@ -1,8 +1,11 @@
 package rpg.client.mode;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.lwjgl.util.glu.GLU;
 import rpg.client.gfx.GraphicsMode;
 import rpg.client.people.LocalPlayer;
+import rpg.client.people.PeerPlayer;
 import rpg.game.realm.Realm;
 import rpg.net.msg.s2c.WelcomeMessage;
 import rpg.util.math.Vector3;
@@ -22,11 +25,14 @@ public class GameMode extends Mode {
   private static final double EYE_HEIGHT = 8;
 
   private final LocalPlayer localPlayer;
+  private final Map<Integer, PeerPlayer> peersById;
   private Realm realm;
   private BodyOctree octree;
 
   public GameMode(WelcomeMessage welcome) {
-    localPlayer = new LocalPlayer(welcome.characterID, welcome.combatClass, welcome.motionState);
+    localPlayer = new LocalPlayer(welcome.characterID, welcome.characterName,
+        welcome.combatClass, welcome.motionState);
+    peersById = new HashMap<Integer, PeerPlayer>();
     setRealm(welcome.realm);
   }
 
@@ -34,7 +40,7 @@ public class GameMode extends Mode {
     return realm;
   }
 
-  public void setRealm(Realm realm) {
+  public synchronized void setRealm(Realm realm) {
     this.realm = realm;
     octree = new BodyOctree(Vector3.ZERO, realm.radius);
   }

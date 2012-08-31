@@ -54,6 +54,10 @@ public class MessageDispatcher implements Runnable {
     Logger.debug("Received message of type %s.", msgType);
 
     if (uuid != 0) {
+      if (UUIDCache.recentlySawUUID(uuid)) {
+        Logger.info("Recently saw message with UUID=%d; assuming it's a duplicate.", uuid);
+        return;
+      }
       UUIDCache.addUUID(uuid);
       ToServerMessageSink.singleton.sendWithoutConfirmation(new ConfirmationMessage(uuid));
     }

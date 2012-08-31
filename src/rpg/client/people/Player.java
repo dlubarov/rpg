@@ -6,10 +6,12 @@ import rpg.util.math.Vector3;
 
 public abstract class Player extends Person {
   public final int id;
+  public final String characterName;
   public final CombatClass combatClass;
 
-  protected Player(int id, CombatClass combatClass) {
+  protected Player(int id, String characterName, CombatClass combatClass) {
     this.id = id;
+    this.characterName = characterName;
     this.combatClass = combatClass;
   }
 

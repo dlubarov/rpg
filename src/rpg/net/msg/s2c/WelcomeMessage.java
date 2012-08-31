@@ -10,20 +10,23 @@ import rpg.util.serialization.ByteSink;
 import rpg.util.serialization.ByteSource;
 import rpg.util.serialization.IntegerSerializer;
 import rpg.util.serialization.Serializer;
+import rpg.util.serialization.StringSerializer;
 
 /**
  * Welcomes a client who just signed in. Informs the client of his current realm and position.
  */
 public class WelcomeMessage extends ServerToClientMessage {
   public final Integer characterID;
+  public final String characterName;
   public final CombatClass combatClass;
   public final Realm realm;
   public final MotionState motionState;
 
-  public WelcomeMessage(Integer characterID, CombatClass combatClass, Realm realm,
-      MotionState motionState) {
+  public WelcomeMessage(Integer characterID, String characterName,
+      CombatClass combatClass, Realm realm, MotionState motionState) {
     super(MessageType.WELCOME, serializer);
     this.characterID = characterID;
+    this.characterName = characterName;
     this.combatClass = combatClass;
     this.realm = realm;
     this.motionState = motionState;
@@ -32,6 +35,7 @@ public class WelcomeMessage extends ServerToClientMessage {
   @Override public String toString() {
     return new ToStringBuilder(this)
         .append("characterID", characterID)
+        .append("characterName", characterName)
         .append("combatClass", combatClass)
         .append("realm", realm)
         .append("motionState", motionState)
@@ -41,6 +45,7 @@ public class WelcomeMessage extends ServerToClientMessage {
   public static final Serializer<WelcomeMessage> serializer = new Serializer<WelcomeMessage>() {
     @Override public void serialize(WelcomeMessage msg, ByteSink sink) {
       IntegerSerializer.singleton.serialize(msg.characterID, sink);
+      StringSerializer.singleton.serialize(msg.characterName, sink);
       IntegerSerializer.singleton.serialize(msg.combatClass.ordinal(), sink);
       IntegerSerializer.singleton.serialize(msg.realm.id, sink);
       MotionState.serializer.serialize(msg.motionState, sink);
@@ -49,6 +54,7 @@ public class WelcomeMessage extends ServerToClientMessage {
     @Override public WelcomeMessage deserialize(ByteSource source) {
       return new WelcomeMessage(
           IntegerSerializer.singleton.deserialize(source),
+          StringSerializer.singleton.deserialize(source),
           CombatClass.values()[IntegerSerializer.singleton.deserialize(source)],
           RealmManager.getRealmByID(IntegerSerializer.singleton.deserialize(source)),
           MotionState.serializer.deserialize(source));

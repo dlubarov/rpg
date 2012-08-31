@@ -9,5 +9,6 @@ public class PeerDataHandler extends Handler<PeerDataMessage> {
 
   @Override public void handle(PeerDataMessage msg) {
     // FIXME handle
+    ;
   }
 }

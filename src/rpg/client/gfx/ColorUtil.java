@@ -1,6 +1,7 @@
 package rpg.client.gfx;
 
 import java.awt.Color;
+import rpg.util.Timing;
 
 import static org.lwjgl.opengl.GL11.glColor3f;
 
@@ -13,7 +14,7 @@ public final class ColorUtil {
   }
 
   public static double phase() {
-    return System.currentTimeMillis() * .05e-3 % 1;
+    return Timing.currentTime() * .05 % 1;
   }
 
   public static double phase(double offset) {

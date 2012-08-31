@@ -17,8 +17,8 @@ import rpg.server.handlers.HereIAmHandler;
 import rpg.server.handlers.LoginHandler;
 import rpg.server.handlers.NewCharacterHandler;
 import rpg.server.handlers.RegistrationHandler;
-import rpg.server.handlers.SessionCreationHandler;
 import rpg.util.Logger;
+import rpg.util.NiftyException;
 import rpg.util.serialization.ByteSource;
 import rpg.util.serialization.LongSerializer;
 
@@ -57,16 +57,17 @@ public class MessageDispatcher implements Runnable {
     if (msgType == MessageType.SESSION_CREATION) {
       SessionCreationMessage msg = SessionCreationMessage.serializer.deserialize(source);
       clientSession = new Session(sessionID, clientAddr, msg.clientPort);
-      SessionCreationHandler.singleton.handle(msg, clientSession);
     } else {
       clientSession = SessionManager.getByID(sessionID);
-      if (clientSession == null) {
-        Logger.warning("Bad session ID: %d.", sessionID);
-        return;
-      }
+      if (clientSession == null)
+        throw new NiftyException("Bad session ID: %d.", sessionID);
     }
 
     if (uuid != 0) {
+      if (UUIDCache.recentlySawUUID(uuid)) {
+        Logger.info("Recently saw message with UUID=%d; assuming it's a duplicate.", uuid);
+        return;
+      }
       UUIDCache.addUUID(uuid);
       new ToClientMessageSink(clientSession).sendWithoutConfirmation(new ConfirmationMessage(uuid));
     }
@@ -74,7 +75,7 @@ public class MessageDispatcher implements Runnable {
     try {
       dispatch(msgType, clientSession);
     } catch (Exception e) {
-      Logger.error(e, "Exception in handling of %s.", msgType);
+      throw new NiftyException(e, "Exception in handling of %s.", msgType);
     }
   }
 

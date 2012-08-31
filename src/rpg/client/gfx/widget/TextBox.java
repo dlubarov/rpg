@@ -4,6 +4,7 @@ import java.awt.Color;
 import org.lwjgl.input.Keyboard;
 import rpg.client.gfx.font.FontRenderer;
 import rpg.client.gfx.font.FontRendererCache;
+import rpg.util.Timing;
 
 import static org.lwjgl.opengl.GL11.GL_LINE_LOOP;
 import static org.lwjgl.opengl.GL11.GL_QUADS;
@@ -91,8 +92,7 @@ public class TextBox extends FocusableWidget {
   }
 
   private boolean cursorTime() {
-    double t = System.currentTimeMillis() * 1e-3;
-    return t % BLINK_PHASE < BLINK_PHASE * VISIBLE_FRACTION;
+    return Timing.currentTime() % BLINK_PHASE < BLINK_PHASE * VISIBLE_FRACTION;
   }
 
   @Override public void onKeyDown(int key) {

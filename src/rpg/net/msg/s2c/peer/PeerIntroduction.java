@@ -15,21 +15,21 @@ import rpg.util.serialization.StringSerializer;
  */
 public class PeerIntroduction {
   public final Integer id;
-  public final String username;
+  public final String characterName;
   public final MotionState motionState;
 
-  public PeerIntroduction(int id, String username, MotionState motionState) {
+  public PeerIntroduction(int id, String characterName, MotionState motionState) {
     this.id = id;
-    this.username = username;
+    this.characterName = characterName;
     this.motionState = motionState;
   }
 
   public static final Serializer<PeerIntroduction> serializer =
       new Serializer<PeerIntroduction>() {
-        @Override public void serialize(PeerIntroduction part, ByteSink sink) {
-          IntegerSerializer.singleton.serialize(part.id, sink);
-          StringSerializer.singleton.serialize(part.username, sink);
-          MotionState.serializer.serialize(part.motionState, sink);
+        @Override public void serialize(PeerIntroduction intro, ByteSink sink) {
+          IntegerSerializer.singleton.serialize(intro.id, sink);
+          StringSerializer.singleton.serialize(intro.characterName, sink);
+          MotionState.serializer.serialize(intro.motionState, sink);
         }
 
         @Override public PeerIntroduction deserialize(ByteSource source) {
@@ -43,7 +43,7 @@ public class PeerIntroduction {
   @Override public String toString() {
     return new ToStringBuilder(this)
         .append("id", id)
-        .append("username", username)
+        .append("characterName", characterName)
         .append("motionState", motionState)
         .toString();
   }
