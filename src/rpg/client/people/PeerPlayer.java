@@ -2,9 +2,8 @@ package rpg.client.people;
 
 import rpg.game.CombatClass;
 import rpg.game.MotionState;
-import rpg.net.msg.s2c.peer.PeerIntroduction;
+import rpg.net.msg.s2c.PeerIntroductionMessage;
 import rpg.util.Timing;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public final class PeerPlayer extends Player {
   private MotionState motionSnapshot;
@@ -16,7 +15,7 @@ public final class PeerPlayer extends Player {
     setMotionSnapshot(motionState);
   }
 
-  public PeerPlayer(PeerIntroduction introduction) {
+  public PeerPlayer(PeerIntroductionMessage.Part introduction) {
     this(introduction.id, introduction.characterName,
         introduction.combatClass, introduction.motionState);
   }

@@ -7,10 +7,10 @@ import rpg.client.gfx.GraphicsMode;
 import rpg.client.people.LocalPlayer;
 import rpg.client.people.PeerPlayer;
 import rpg.game.realm.Realm;
+import rpg.net.msg.s2c.PeerGoodbyeMessage;
+import rpg.net.msg.s2c.PeerIntroductionMessage;
+import rpg.net.msg.s2c.PeerUpdateMessage;
 import rpg.net.msg.s2c.WelcomeMessage;
-import rpg.net.msg.s2c.peer.PeerGoodbye;
-import rpg.net.msg.s2c.peer.PeerIntroduction;
-import rpg.net.msg.s2c.peer.PeerUpdate;
 import rpg.util.Logger;
 import rpg.util.math.Vector3;
 import rpg.util.phys.BodyOctree;
@@ -40,18 +40,18 @@ public class GameMode extends Mode {
     setRealm(welcome.realm);
   }
 
-  public void handleIntroduction(PeerIntroduction introduction) {
+  public void handleIntroduction(PeerIntroductionMessage.Part introduction) {
     PeerPlayer peer = new PeerPlayer(introduction);
     peersById.put(peer.id, peer);
   }
 
-  public void handleGoodbye(PeerGoodbye goodbye) {
-    PeerPlayer deadPeer = peersById.remove(goodbye.id);
+  public void handleGoodbye(int id) {
+    PeerPlayer deadPeer = peersById.remove(id);
     if (deadPeer == null)
-      Logger.warning("Received goodbye with unknown player ID: %d.", goodbye.id);
+      Logger.warning("Received goodbye with unknown player ID: %d.", id);
   }
 
-  public void handleUpdate(PeerUpdate update) {
+  public void handleUpdate(PeerUpdateMessage.Part update) {
     PeerPlayer peer = peersById.get(update.id);
     if (peer == null)
       Logger.warning("Received update with unknown player ID: %d.", update.id);

@@ -19,7 +19,9 @@ public enum MessageType {
   NEW_CHARACTER_ERROR,
   CHARACTER_INFO,
   WELCOME,
-  PEER_DATA,
+  PEER_INTRODUCTION,
+  PEER_UPDATE,
+  PEER_GOODBYE,
   ;
 
   public static MessageType fromOrdinal(int messageTypeOrd) {
