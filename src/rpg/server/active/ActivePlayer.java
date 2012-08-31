@@ -1,9 +1,12 @@
-package rpg.server;
+package rpg.server.active;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import rpg.game.MotionState;
+import rpg.server.account.AccountManager;
+import rpg.server.account.PlayerCharacter;
+import rpg.util.Timing;
 import rpg.util.ToStringBuilder;
 import rpg.util.math.Vector3;
 import rpg.util.phys.Positioned;
@@ -14,6 +17,7 @@ public final class ActivePlayer implements Positioned {
   public final Session session;
   public final PlayerCharacter character;
   private final Map<ActivePlayer, MotionState> peerSnapshots;
+  private double lastUpdatedAt = Timing.currentTime();
 
   public ActivePlayer(Session session, PlayerCharacter character) {
     this.session = session;
@@ -21,10 +25,27 @@ public final class ActivePlayer implements Positioned {
     this.peerSnapshots = synchronizedMap(new HashMap<ActivePlayer, MotionState>());
 
     AccountManager.login(this);
+    new UpdatePlayerTask(this);
+  }
+
+  public double getLastUpdatedAt() {
+    return lastUpdatedAt;
+  }
+
+  public void justUpdated() {
+    lastUpdatedAt = Timing.currentTime();
   }
 
   public Collection<ActivePlayer> getSavedNeighbors() {
     return peerSnapshots.keySet();
+  }
+
+  public void addNeighbor(ActivePlayer peer) {
+    peerSnapshots.put(peer, peer.character.getMotionState());
+  }
+
+  public void removeNeighbor(ActivePlayer peer) {
+    peerSnapshots.remove(peer);
   }
 
   public boolean inView(ActivePlayer peer) {
@@ -36,6 +57,8 @@ public final class ActivePlayer implements Positioned {
     return view.errorComparedTo(character.getMotionState());
   }
 
+  // Logs out this player. This is not the same as terminating the session, as the user
+  // could select a different character and continue playing.
   public void logout() {
     AccountManager.logout(this);
   }

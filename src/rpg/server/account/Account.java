@@ -1,4 +1,4 @@
-package rpg.server;
+package rpg.server.account;
 
 import java.util.ArrayList;
 import java.util.HashSet;

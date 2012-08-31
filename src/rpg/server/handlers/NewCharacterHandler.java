@@ -6,9 +6,9 @@ import rpg.net.ToClientMessageSink;
 import rpg.net.msg.c2s.NewCharacterMessage;
 import rpg.net.msg.s2c.NewCharacterErrorMessage;
 import rpg.net.msg.s2c.NewCharacterSuccessMessage;
-import rpg.server.AccountManager;
-import rpg.server.PlayerCharacter;
-import rpg.server.Session;
+import rpg.server.account.AccountManager;
+import rpg.server.account.PlayerCharacter;
+import rpg.server.active.Session;
 
 public class NewCharacterHandler extends Handler<NewCharacterMessage> {
   public static final NewCharacterHandler singleton = new NewCharacterHandler();

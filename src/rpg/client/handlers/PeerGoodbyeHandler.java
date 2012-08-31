@@ -4,7 +4,6 @@ import rpg.client.mode.GameMode;
 import rpg.client.mode.Mode;
 import rpg.client.mode.ModeManager;
 import rpg.net.msg.s2c.PeerGoodbyeMessage;
-import rpg.net.msg.s2c.PeerIntroductionMessage;
 import rpg.util.Logger;
 
 public class PeerGoodbyeHandler extends Handler<PeerGoodbyeMessage> {

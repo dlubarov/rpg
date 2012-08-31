@@ -1,4 +1,4 @@
-package rpg.server;
+package rpg.server.active;
 
 import java.util.Collections;
 import java.util.HashMap;

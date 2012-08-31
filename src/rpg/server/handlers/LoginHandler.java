@@ -5,9 +5,9 @@ import rpg.net.ToClientMessageSink;
 import rpg.net.msg.c2s.LoginMessage;
 import rpg.net.msg.s2c.CharacterInfoMessage;
 import rpg.net.msg.s2c.LoginErrorMessage;
-import rpg.server.Account;
-import rpg.server.AccountManager;
-import rpg.server.Session;
+import rpg.server.account.Account;
+import rpg.server.account.AccountManager;
+import rpg.server.active.Session;
 
 public class LoginHandler extends Handler<LoginMessage> {
   public static final LoginHandler singleton = new LoginHandler();

@@ -1,4 +1,4 @@
-package rpg.server;
+package rpg.server.account;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import rpg.game.CombatClass;

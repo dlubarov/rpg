@@ -1,4 +1,4 @@
-package rpg.server;
+package rpg.server.core;
 
 import java.io.IOException;
 import java.net.DatagramPacket;

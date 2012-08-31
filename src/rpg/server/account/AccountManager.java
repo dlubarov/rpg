@@ -1,9 +1,10 @@
-package rpg.server;
+package rpg.server.account;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import rpg.game.CombatClass;
+import rpg.server.active.ActivePlayer;
 
 public final class AccountManager {
   private AccountManager() {}

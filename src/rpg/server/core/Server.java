@@ -1,8 +1,9 @@
-package rpg.server;
+package rpg.server.core;
 
 import java.net.DatagramSocket;
 import java.net.SocketException;
 import rpg.net.NetConfig;
+import rpg.server.active.RealmAdmin;
 import rpg.util.Logger;
 
 public final class Server {

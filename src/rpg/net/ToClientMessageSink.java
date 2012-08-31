@@ -2,8 +2,8 @@ package rpg.net;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
-import rpg.server.Server;
-import rpg.server.Session;
+import rpg.server.active.Session;
+import rpg.server.core.Server;
 import rpg.util.Logger;
 
 public class ToClientMessageSink extends MessageSink {
@@ -14,6 +14,11 @@ public class ToClientMessageSink extends MessageSink {
   }
 
   @Override protected void sendRaw(byte[] data) {
+    if (!clientSession.isAlive()) {
+      Logger.warning("Attempted to send data to dead session: %s.", clientSession);
+      return;
+    }
+
     try {
       Server.socket.send(new DatagramPacket(data, data.length,
           clientSession.address, clientSession.port));

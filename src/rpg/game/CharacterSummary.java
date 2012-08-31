@@ -1,6 +1,6 @@
 package rpg.game;
 
-import rpg.server.PlayerCharacter;
+import rpg.server.account.PlayerCharacter;
 import rpg.util.ToStringBuilder;
 import rpg.util.serialization.ByteSink;
 import rpg.util.serialization.ByteSource;

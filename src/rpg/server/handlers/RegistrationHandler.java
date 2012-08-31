@@ -10,9 +10,9 @@ import rpg.net.ToClientMessageSink;
 import rpg.net.msg.c2s.RegistrationMessage;
 import rpg.net.msg.s2c.RegistrationAcceptanceMessage;
 import rpg.net.msg.s2c.RegistrationErrorMessage;
-import rpg.server.Account;
-import rpg.server.AccountManager;
-import rpg.server.Session;
+import rpg.server.account.Account;
+import rpg.server.account.AccountManager;
+import rpg.server.active.Session;
 
 public class RegistrationHandler extends Handler<RegistrationMessage> {
   public static final RegistrationHandler singleton = new RegistrationHandler();

@@ -3,10 +3,10 @@ package rpg.server.handlers;
 import rpg.net.ToClientMessageSink;
 import rpg.net.msg.c2s.CharacterSelectedMessage;
 import rpg.net.msg.s2c.WelcomeMessage;
-import rpg.server.AccountManager;
-import rpg.server.ActivePlayer;
-import rpg.server.PlayerCharacter;
-import rpg.server.Session;
+import rpg.server.account.AccountManager;
+import rpg.server.account.PlayerCharacter;
+import rpg.server.active.ActivePlayer;
+import rpg.server.active.Session;
 
 public class CharacterSelectedHandler extends Handler<CharacterSelectedMessage> {
   public static final CharacterSelectedHandler singleton = new CharacterSelectedHandler();

@@ -7,7 +7,6 @@ import rpg.client.gfx.GraphicsMode;
 import rpg.client.people.LocalPlayer;
 import rpg.client.people.PeerPlayer;
 import rpg.game.realm.Realm;
-import rpg.net.msg.s2c.PeerGoodbyeMessage;
 import rpg.net.msg.s2c.PeerIntroductionMessage;
 import rpg.net.msg.s2c.PeerUpdateMessage;
 import rpg.net.msg.s2c.WelcomeMessage;

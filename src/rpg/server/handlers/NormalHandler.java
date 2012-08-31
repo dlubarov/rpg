@@ -1,8 +1,8 @@
 package rpg.server.handlers;
 
 import rpg.net.msg.Message;
-import rpg.server.ActivePlayer;
-import rpg.server.Session;
+import rpg.server.active.ActivePlayer;
+import rpg.server.active.Session;
 import rpg.util.Logger;
 
 public abstract class NormalHandler<T extends Message> extends Handler<T> {

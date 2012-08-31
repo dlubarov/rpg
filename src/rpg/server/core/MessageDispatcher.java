@@ -1,4 +1,4 @@
-package rpg.server;
+package rpg.server.core;
 
 import java.net.InetAddress;
 import rpg.net.ToClientMessageSink;
@@ -11,6 +11,8 @@ import rpg.net.msg.c2s.LoginMessage;
 import rpg.net.msg.c2s.NewCharacterMessage;
 import rpg.net.msg.c2s.RegistrationMessage;
 import rpg.net.msg.c2s.SessionCreationMessage;
+import rpg.server.active.Session;
+import rpg.server.active.SessionManager;
 import rpg.server.handlers.CharacterSelectedHandler;
 import rpg.server.handlers.ConfirmationHandler;
 import rpg.server.handlers.HereIAmHandler;
