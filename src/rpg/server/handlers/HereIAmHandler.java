@@ -9,6 +9,6 @@ public class HereIAmHandler extends NormalHandler<HereIAmMessage> {
   private HereIAmHandler() {}
 
   @Override public void handle(HereIAmMessage msg, ActivePlayer sender) {
-    sender.character.setMotionState(msg.motionState);
+    sender.moveTo(msg.motionState);
   }
 }

@@ -13,8 +13,9 @@ import rpg.net.msg.s2c.PeerGoodbyeMessage;
 import rpg.net.msg.s2c.PeerIntroductionMessage;
 import rpg.net.msg.s2c.PeerUpdateMessage;
 import rpg.server.account.PlayerCharacter;
+import rpg.util.Logger;
 
-class UpdatePlayerTask implements Runnable {
+public class UpdatePlayerTask implements Runnable {
   // Updates per second.
   private static final double PERIOD = 0.5;
 
@@ -37,6 +38,16 @@ class UpdatePlayerTask implements Runnable {
   }
 
   @Override public void run() {
+    try {
+      tryRun();
+    } catch (Exception e) {
+      Logger.error(e, "Exception in update player task.");
+    } catch (Throwable t) {
+      Logger.fatal(t, "Fatal error in update player task.");
+    }
+  }
+
+  private void tryRun() throws Exception {
     RealmAdmin realmAdmin = RealmAdmin.getAdminFor(player.character.getRealm());
     Collection<ActivePlayer> savedNeighbors = player.getSavedNeighbors();
     Collection<ActivePlayer> closeNeighbors = realmAdmin.getNeighbors(player, INNER_RADIUS);
@@ -54,8 +65,9 @@ class UpdatePlayerTask implements Runnable {
   }
 
   private void sendIntroductions(Collection<ActivePlayer> newNeighbors) {
-    if (newNeighbors.isEmpty())
+    if (newNeighbors.isEmpty()) {
       return;
+    }
 
     List<PeerIntroductionMessage.Part> parts =
         new ArrayList<PeerIntroductionMessage.Part>(newNeighbors.size());
@@ -68,12 +80,13 @@ class UpdatePlayerTask implements Runnable {
     }
 
     PeerIntroductionMessage msg = new PeerIntroductionMessage(parts);
-    new ToClientMessageSink(player.session).sendWithoutConfirmation(msg);
+    new ToClientMessageSink(player.session).sendWithConfirmation(msg, 3);
   }
 
   private void sendGoodbyes(Collection<ActivePlayer> deadNeighbors) {
-    if (deadNeighbors.isEmpty())
+    if (deadNeighbors.isEmpty()) {
       return;
+    }
 
     List<Integer> ids = new ArrayList<Integer>(deadNeighbors.size());
     for (ActivePlayer peer : deadNeighbors) {
@@ -82,10 +95,13 @@ class UpdatePlayerTask implements Runnable {
     }
 
     PeerGoodbyeMessage msg = new PeerGoodbyeMessage(ids);
-    new ToClientMessageSink(player.session).sendWithoutConfirmation(msg);
+    new ToClientMessageSink(player.session).sendWithConfirmation(msg, 2);
   }
 
   private void sendUpdates() {
+    // FIXME: This is very naive and not scalable.
+    // Should sort peers by snapshot error magnitudes.
+
     List<PeerUpdateMessage.Part> parts = new ArrayList<PeerUpdateMessage.Part>();
     for (ActivePlayer peer : player.getSavedNeighbors()) {
       PeerUpdateMessage.Part part = new PeerUpdateMessage.Part(
@@ -93,7 +109,9 @@ class UpdatePlayerTask implements Runnable {
       parts.add(part);
     }
 
-    PeerUpdateMessage msg = new PeerUpdateMessage(parts);
-    new ToClientMessageSink(player.session).sendWithoutConfirmation(msg);
+    if (!parts.isEmpty()) {
+      PeerUpdateMessage msg = new PeerUpdateMessage(parts);
+      new ToClientMessageSink(player.session).sendWithoutConfirmation(msg);
+    }
   }
 }

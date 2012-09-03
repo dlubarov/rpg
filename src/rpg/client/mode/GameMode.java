@@ -40,17 +40,20 @@ public class GameMode extends Mode {
   }
 
   public void handleIntroduction(PeerIntroductionMessage.Part introduction) {
+    Logger.info("Peer introduction: %s.", introduction);
     PeerPlayer peer = new PeerPlayer(introduction);
     peersById.put(peer.id, peer);
   }
 
   public void handleGoodbye(int id) {
+    Logger.info("Peer goodbye: %d.", id);
     PeerPlayer deadPeer = peersById.remove(id);
     if (deadPeer == null)
       Logger.warning("Received goodbye with unknown player ID: %d.", id);
   }
 
   public void handleUpdate(PeerUpdateMessage.Part update) {
+    Logger.debug("Peer update: %s.", update);
     PeerPlayer peer = peersById.get(update.id);
     if (peer == null)
       Logger.warning("Received update with unknown player ID: %d.", update.id);
@@ -73,14 +76,14 @@ public class GameMode extends Mode {
 
   @Override public void render() {
     GraphicsMode.end2D();
-    drawScene();
+    renderScene();
     GraphicsMode.start2D();
-    drawHUD();
+    renderHUD();
   }
 
-  private void drawScene() {
+  private void renderScene() {
     orientCamera();
-    drawAxes();
+    renderAxes();
     glDisable(GL_TEXTURE_2D);
     glColor3f(0, 1, 0);
     glBegin(GL_QUADS);
@@ -90,6 +93,9 @@ public class GameMode extends Mode {
     glVertex3i(0, 0, 50);
     glEnd();
     glEnable(GL_TEXTURE_2D);
+
+    for (PeerPlayer peer : peersById.values())
+      peer.render();
   }
 
   private void orientCamera() {
@@ -102,11 +108,11 @@ public class GameMode extends Mode {
         (float) up.x, (float) up.y, (float) up.z);
   }
 
-  private void drawHUD() {
+  private void renderHUD() {
     // TODO: Draw HUD.
   }
 
-  private void drawAxes() {
+  private void renderAxes() {
     glDisable(GL_TEXTURE_2D);
     glBegin(GL_LINES);
     // x axis in red

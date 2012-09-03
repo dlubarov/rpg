@@ -30,6 +30,14 @@ public class RealmAdmin {
     return admins.get(realm);
   }
 
+  public void playerEntering(ActivePlayer player) {
+    octree.add(player);
+  }
+
+  public void playerExiting(ActivePlayer player) {
+    octree.remove(player);
+  }
+
   public Collection<ActivePlayer> getNeighbors(ActivePlayer player, double radius) {
     return octree.getNeighbors(player, radius);
   }

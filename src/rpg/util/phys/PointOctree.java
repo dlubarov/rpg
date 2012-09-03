@@ -6,6 +6,9 @@ import rpg.util.ToStringBuilder;
 import rpg.util.math.Vector3;
 
 public final class PointOctree<T extends Positioned> {
+  // FIXME: several points on center causes split->add->split->add->...
+  // Fix this and write a test for it.
+
   private static final int MIN_SIZE = 3, MAX_SIZE = 8;
 
   private final Vector3 center;

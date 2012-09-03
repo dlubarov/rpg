@@ -15,10 +15,11 @@ public class PeerGoodbyeHandler extends Handler<PeerGoodbyeMessage> {
     Mode currentMode = ModeManager.getCurrentMode();
     if (!(currentMode instanceof GameMode)) {
       Logger.warning("Received %s while in %s.", msg, currentMode);
+      return;
     }
 
     GameMode gameMode = (GameMode) currentMode;
     for (int id : msg.ids)
-        gameMode.handleGoodbye(id);
+      gameMode.handleGoodbye(id);
   }
 }

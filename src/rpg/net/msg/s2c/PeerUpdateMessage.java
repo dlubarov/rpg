@@ -29,6 +29,19 @@ public class PeerUpdateMessage extends Message {
         .toString();
   }
 
+  private static final Serializer<Part> partSerializer = new Serializer<Part>() {
+    @Override public void serialize(Part part, ByteSink sink) {
+      IntegerSerializer.singleton.serialize(part.id, sink);
+      MotionState.serializer.serialize(part.motionState, sink);
+    }
+
+    @Override public Part deserialize(ByteSource source) {
+      return new Part(
+          IntegerSerializer.singleton.deserialize(source),
+          MotionState.serializer.deserialize(source));
+    }
+  };
+
   public static final Serializer<PeerUpdateMessage> serializer =
       new Serializer<PeerUpdateMessage>() {
         private final Serializer<List<Part>> listSerializer =
@@ -42,19 +55,6 @@ public class PeerUpdateMessage extends Message {
           return new PeerUpdateMessage(listSerializer.deserialize(source));
         }
       };
-
-  private static final Serializer<Part> partSerializer = new Serializer<Part>() {
-    @Override public void serialize(Part part, ByteSink sink) {
-      IntegerSerializer.singleton.serialize(part.id, sink);
-      MotionState.serializer.serialize(part.motionState, sink);
-    }
-
-    @Override public Part deserialize(ByteSource source) {
-      return new Part(
-          IntegerSerializer.singleton.deserialize(source),
-          MotionState.serializer.deserialize(source));
-    }
-  };
 
   public static class Part {
     public final Integer id;

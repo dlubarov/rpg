@@ -15,6 +15,7 @@ public class PeerUpdateHandler extends Handler<PeerUpdateMessage> {
     Mode currentMode = ModeManager.getCurrentMode();
     if (!(currentMode instanceof GameMode)) {
       Logger.warning("Received %s while in %s.", msg, currentMode);
+      return;
     }
 
     GameMode gameMode = (GameMode) currentMode;

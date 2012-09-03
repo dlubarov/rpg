@@ -97,16 +97,4 @@ public final class LocalPlayer extends Player {
   private double getMaxVelocity() {
     return 4;
   }
-
-  private Vector3 dirForward() {
-    return motionState.withPitch(0).getDirectionVector();
-  }
-
-  private Vector3 dirLeft() {
-    return motionState.withPitch(0).withYaw(motionState.yaw + Math.PI / 2).getDirectionVector();
-  }
-
-  public Vector3 dirUp() {
-    return motionState.withPitch(motionState.pitch + Math.PI / 2).getDirectionVector();
-  }
 }

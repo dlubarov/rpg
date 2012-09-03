@@ -11,9 +11,9 @@ public final class Logger {
     return Severity.INFO;
   }
 
-  public static void fatal(Exception e, String format, Object... args) {
+  public static void fatal(Throwable t, String format, Object... args) {
     log(format, args, Severity.FATAL);
-    e.printStackTrace(ps);
+    t.printStackTrace(ps);
     System.exit(1);
   }
 

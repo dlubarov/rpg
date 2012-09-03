@@ -2,6 +2,7 @@ package rpg.server.active;
 
 import java.net.InetAddress;
 import rpg.server.account.Account;
+import rpg.util.Logger;
 import rpg.util.ToStringBuilder;
 
 public final class Session {
@@ -19,6 +20,7 @@ public final class Session {
     this.port = port;
 
     SessionManager.register(this);
+    Logger.info("New session opened: %s.", this);
   }
 
   public boolean isAlive() {

@@ -15,10 +15,11 @@ public class PeerIntroductionHandler extends Handler<PeerIntroductionMessage> {
     Mode currentMode = ModeManager.getCurrentMode();
     if (!(currentMode instanceof GameMode)) {
       Logger.warning("Received %s while in %s.", msg, currentMode);
+      return;
     }
 
     GameMode gameMode = (GameMode) currentMode;
     for (PeerIntroductionMessage.Part introduction : msg.parts)
-        gameMode.handleIntroduction(introduction);
+      gameMode.handleIntroduction(introduction);
   }
 }

@@ -44,6 +44,8 @@ public class MessageDispatcher implements Runnable {
       tryRun();
     } catch (Exception e) {
       Logger.error(e, "Error during message dispatch.");
+    } catch (Throwable t) {
+      Logger.fatal(t, "Fatal error during message dispatch");
     }
   }
 

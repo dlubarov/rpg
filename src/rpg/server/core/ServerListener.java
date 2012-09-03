@@ -42,7 +42,6 @@ public class ServerListener extends Thread {
     InetAddress sender = packet.getAddress();
     byte[] data = new byte[packet.getLength()];
     System.arraycopy(packet.getData(), packet.getOffset(), data, 0, data.length);
-    Logger.debug("Received data: %s.", Arrays.toString(data));
     ByteSource source = new ByteSource(data);
     executor.execute(new MessageDispatcher(source, sender));
   }

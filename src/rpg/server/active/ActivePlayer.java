@@ -25,7 +25,13 @@ public final class ActivePlayer implements Positioned {
     this.peerSnapshots = synchronizedMap(new HashMap<ActivePlayer, MotionState>());
 
     AccountManager.login(this);
-    new UpdatePlayerTask(this);
+    getRealmAdmin().playerEntering(this);
+  }
+
+  public void moveTo(MotionState motionState) {
+    getRealmAdmin().playerExiting(this);
+    character.setMotionState(motionState);
+    getRealmAdmin().playerEntering(this);
   }
 
   public double getLastUpdatedAt() {
@@ -61,16 +67,21 @@ public final class ActivePlayer implements Positioned {
   // could select a different character and continue playing.
   public void logout() {
     AccountManager.logout(this);
+    getRealmAdmin().playerExiting(this);
   }
 
   @Override public Vector3 getPos() {
     return character.getMotionState().position;
   }
 
+  private RealmAdmin getRealmAdmin() {
+    return RealmAdmin.getAdminFor(character.getRealm());
+  }
+
   @Override public String toString() {
     return new ToStringBuilder(this)
         .append("character", character)
-        .append("peerSnapshots", peerSnapshots)
+        .append("lastUpdatedAt", lastUpdatedAt)
         .toString();
   }
 }
