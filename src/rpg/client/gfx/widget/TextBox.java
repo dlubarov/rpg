@@ -72,7 +72,7 @@ public class TextBox extends FocusableWidget {
     glVertex2i(bounds.x2(), bounds.y1());
     glEnd();
 
-    if (isFocused() && !isFrozen())
+    if (isTotallyFocused())
       glColor3d(0, 1, 0);
     else
       glColor3d(.5, .5, .5);
@@ -85,18 +85,14 @@ public class TextBox extends FocusableWidget {
     glEnable(GL_TEXTURE_2D);
 
     String text = getContentToDraw();
-    if (showCursor())
+    if (isTotallyFocused() && cursorTime())
       text += '|';
     fontRenderer.draw(text, Color.BLACK,
         bounds.x1() + PAD_SIDE,
         bounds.y1() + PAD_TOP);
   }
 
-  private boolean showCursor() {
-    return RootWindow.singleton.isFocused() && isFocused() && !isFrozen() && cursorTime();
-  }
-
-  private boolean cursorTime() {
+  private static boolean cursorTime() {
     return Timing.currentTime() % BLINK_PHASE < BLINK_PHASE * VISIBLE_FRACTION;
   }
 

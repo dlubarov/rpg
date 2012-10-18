@@ -45,7 +45,7 @@ public class LoginMode extends Mode2D {
       case Keyboard.KEY_TAB:
         Widget[] fields = new Widget[] {emailBox, passwordBox};
         for (int i = 0; i < fields.length; ++i)
-          if (fields[i].isFocused()) {
+          if (fields[i].isTotallyFocused()) {
             boolean shift = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)
                          || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
             int next = (i + (shift ? -1 : 1) + fields.length) % fields.length;

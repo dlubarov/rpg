@@ -1,5 +1,6 @@
 package rpg.client.gfx.widget;
 
+import rpg.client.gfx.widget.winow.RootWindow;
 import rpg.client.gfx.widget.winow.WindowManager;
 
 public abstract class Widget {
@@ -71,6 +72,10 @@ public abstract class Widget {
 
   public boolean isFocused() {
     return WindowManager.getFocusedWidget() == this;
+  }
+
+  public boolean isTotallyFocused() {
+    return RootWindow.singleton.isFocused() && isFocused() && !isFrozen();
   }
 
   public void makeFocused() {

@@ -5,6 +5,7 @@ import rpg.game.CombatClass;
 import rpg.game.MotionState;
 import rpg.net.msg.s2c.PeerIntroductionMessage;
 import rpg.util.Timing;
+import rpg.util.math.Vector3;
 
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
@@ -35,8 +36,13 @@ public final class PeerPlayer extends Player {
   }
 
   @Override public MotionState getMotionState() {
-    // TODO: dead reckoning
-    return motionSnapshot;
+    // TODO: smooth
+    return motionSnapshot.withPosition(predictCurrentPosition());
+  }
+
+  private Vector3 predictCurrentPosition() {
+    double dt = Timing.currentTime() - motionSnapshotTime;
+    return motionSnapshot.position.plus(motionSnapshot.velocity.scaled(dt));
   }
 
   public void render() {
