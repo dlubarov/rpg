@@ -1,6 +1,5 @@
 package rpg.net;
 
-import java.util.Arrays;
 import rpg.net.msg.Message;
 import rpg.util.Logger;
 import rpg.util.serialization.ByteSink;

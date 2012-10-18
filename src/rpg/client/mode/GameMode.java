@@ -99,7 +99,7 @@ public class GameMode extends Mode {
   }
 
   private void orientCamera() {
-    Vector3 eye = localPlayer.getPos().plus(Vector3.UNIT_Y.scaled(EYE_HEIGHT)),
+    Vector3 eye = localPlayer.getHumanShape().getHeadCenter(),
         center = eye.plus(localPlayer.getMotionState().getDirectionVector()),
         up = localPlayer.dirUp();
     GLU.gluLookAt(

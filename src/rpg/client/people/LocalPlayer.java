@@ -12,6 +12,7 @@ import rpg.util.math.Vector3;
 
 public final class LocalPlayer extends Player {
   private static final double MAX_UPDATES_PER_SEC = 3;
+  private static final double MAX_TIME_BETWEEN_UPDATES = 2; // 2 seconds
   private static final double MAX_SERVER_VIEW_ERROR = 2;
 
   private static final double MOUSE_SPEED = 0.01;
@@ -64,10 +65,11 @@ public final class LocalPlayer extends Player {
   }
 
   private void notifyServerOfMotion() {
-    double t = Timing.currentTime();
+    double t = Timing.currentTime(), timeSinceUpdate = t - serverUpdatedAt;
     boolean bigError = serverView.errorComparedTo(motionState) > MAX_SERVER_VIEW_ERROR;
-    boolean tooManyUpdates = t - serverUpdatedAt < 1 / MAX_UPDATES_PER_SEC;
-    if (bigError && !tooManyUpdates) {
+    boolean tooManyUpdates = timeSinceUpdate < 1 / MAX_UPDATES_PER_SEC;
+    boolean tooFewUpdates = timeSinceUpdate > MAX_TIME_BETWEEN_UPDATES;
+    if (bigError && !tooManyUpdates || tooFewUpdates) {
       HereIAmMessage msg = new HereIAmMessage(motionState);
       ToServerMessageSink.singleton.sendWithoutConfirmation(msg);
       serverView = motionState;

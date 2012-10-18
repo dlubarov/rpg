@@ -4,7 +4,6 @@ import java.awt.Color;
 import org.lwjgl.input.Keyboard;
 import rpg.client.gfx.font.FontRenderer;
 import rpg.client.gfx.font.FontRendererCache;
-import rpg.client.gfx.widget.winow.RootWindow;
 import rpg.util.Timing;
 
 import static org.lwjgl.opengl.GL11.GL_LINE_LOOP;

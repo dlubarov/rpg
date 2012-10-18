@@ -1,28 +1,28 @@
 package rpg.client.people;
 
-import rpg.client.gfx.GLUtil;
+import rpg.client.gfx.obj.HumanRenderer;
 import rpg.game.CombatClass;
 import rpg.game.MotionState;
 import rpg.net.msg.s2c.PeerIntroductionMessage;
 import rpg.util.Timing;
 import rpg.util.math.Vector3;
 
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
-import static org.lwjgl.opengl.GL11.glBegin;
-import static org.lwjgl.opengl.GL11.glColor3f;
-import static org.lwjgl.opengl.GL11.glDisable;
-import static org.lwjgl.opengl.GL11.glEnable;
-import static org.lwjgl.opengl.GL11.glEnd;
-
 public final class PeerPlayer extends Player {
+  private static final double MAX_UPDATE_SPEED = 6.7;
+
   private MotionState motionSnapshot;
   private double motionSnapshotTime;
+
+  private Vector3 lastDisplayedPosition;
+  private double lastDisplayedAt;
 
   public PeerPlayer(int id, String characterName,
       CombatClass combatClass, MotionState motionState) {
     super(id, characterName, combatClass);
     setMotionSnapshot(motionState);
+
+    lastDisplayedPosition = motionState.position;
+    lastDisplayedAt = Timing.currentTime();
   }
 
   public PeerPlayer(PeerIntroductionMessage.Part introduction) {
@@ -36,8 +36,12 @@ public final class PeerPlayer extends Player {
   }
 
   @Override public MotionState getMotionState() {
-    // TODO: smooth
-    return motionSnapshot.withPosition(predictCurrentPosition());
+    double dt = Timing.currentTime() - lastDisplayedAt;
+    double maxUpdateDistance = MAX_UPDATE_SPEED * dt;
+    Vector3 ideal = predictCurrentPosition();
+    Vector3 pull = ideal.minus(lastDisplayedPosition).limitNorm(maxUpdateDistance);
+    Vector3 smoothed = ideal.plus(pull);
+    return motionSnapshot.withPosition(smoothed);
   }
 
   private Vector3 predictCurrentPosition() {
@@ -46,13 +50,8 @@ public final class PeerPlayer extends Player {
   }
 
   public void render() {
-    glDisable(GL_TEXTURE_2D);
-    glColor3f(0, 0, 0);
-    glBegin(GL_TRIANGLES);
-    GLUtil.glVertex(getLeftFoot());
-    GLUtil.glVertex(getRightFoot());
-    GLUtil.glVertex(getTip());
-    glEnd();
-    glEnable(GL_TEXTURE_2D);
+    new HumanRenderer(getHumanShape()).render();
+    lastDisplayedPosition = getPos();
+    lastDisplayedAt = Timing.currentTime();
   }
 }

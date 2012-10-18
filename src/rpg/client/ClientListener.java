@@ -2,7 +2,6 @@ package rpg.client;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
-import java.util.Arrays;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import rpg.util.Logger;

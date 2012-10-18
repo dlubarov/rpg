@@ -42,6 +42,18 @@ public final class Vector3 {
     return new Vector3(x, y, z);
   }
 
+  public Vector3 addX(double dx) {
+    return new Vector3(x + dx, y, z);
+  }
+
+  public Vector3 addY(double dy) {
+    return new Vector3(x, y + dy, z);
+  }
+
+  public Vector3 addZ(double dz) {
+    return new Vector3(x, y, z + dz);
+  }
+
   public Vector3 scaled(double s) {
     return new Vector3(s * x, s * y, s * z);
   }
@@ -90,9 +102,13 @@ public final class Vector3 {
     return Math.min(x, Math.min(y, z));
   }
 
+  /**
+   * Impose a limit on the norm of this vector, shortening it if necessary.
+   */
   public Vector3 limitNorm(double maxNorm) {
-    if (norm() > maxNorm)
-      return scaled(maxNorm / norm());
+    double norm = norm();
+    if (norm > maxNorm)
+      return scaled(maxNorm / norm);
     return this;
   }
 
