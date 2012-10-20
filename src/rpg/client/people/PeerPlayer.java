@@ -40,7 +40,7 @@ public final class PeerPlayer extends Player {
     double maxUpdateDistance = MAX_UPDATE_SPEED * dt;
     Vector3 ideal = predictCurrentPosition();
     Vector3 pull = ideal.minus(lastDisplayedPosition).limitNorm(maxUpdateDistance);
-    Vector3 smoothed = ideal.plus(pull);
+    Vector3 smoothed = lastDisplayedPosition.plus(pull);
     return motionSnapshot.withPosition(smoothed);
   }
 
