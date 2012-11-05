@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
+import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import rpg.client.gfx.widget.Widget;
@@ -110,12 +111,29 @@ public final class WindowManager {
       if (draggedWindow instanceof RootWindow) {
         int dx = mouseX - dragX,
             dy = mouseY - dragY;
-        // http://lwjgl.org/forum/index.php/topic,4695.0.html
         Display.setLocation(Display.getX() + dx, Display.getY() + dy);
+        recreateMouse();
       } else
         ((ChildWindow) draggedWindow).moveTo(mouseX - dragX, mouseY - dragY);
     }
     for (ChildWindow window : childWindows)
       window.render();
+  }
+
+  /**
+   * LWJGL seems to cache mouse coordinates and update them only when the mouse moves. Since these
+   * coordinates are relative to the display, getX()/getY() do not behave correctly when the mouse
+   * is still but the window is moving. This hack forces LWJGL to update the cached mouse position
+   * even if the mouse has not moved.
+   *
+   * See this thread for details: http://lwjgl.org/forum/index.php/topic,4695.0.html
+   */
+  private static void recreateMouse() {
+    Mouse.destroy();
+    try {
+      Mouse.create();
+    } catch (LWJGLException e) {
+      e.printStackTrace();
+    }
   }
 }
