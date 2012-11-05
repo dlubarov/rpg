@@ -75,7 +75,8 @@ public class UpdatePlayerTask implements Runnable {
       player.addNeighbor(peer);
       PlayerCharacter character = peer.character;
       PeerIntroductionMessage.Part introduction = new PeerIntroductionMessage.Part(
-          character.id, character.name, character.combatClass, character.getMotionState());
+          character.id, character.name, character.combatClass,
+          character.getExtrapolatedMotionState());
       parts.add(introduction);
     }
 
@@ -105,7 +106,7 @@ public class UpdatePlayerTask implements Runnable {
     List<PeerUpdateMessage.Part> parts = new ArrayList<PeerUpdateMessage.Part>();
     for (ActivePlayer peer : player.getSavedNeighbors()) {
       PeerUpdateMessage.Part part = new PeerUpdateMessage.Part(
-          peer.character.id, peer.character.getMotionState());
+          peer.character.id, peer.character.getExtrapolatedMotionState());
       parts.add(part);
     }
 

@@ -12,6 +12,7 @@ import rpg.game.item.Inventory;
 import rpg.game.realm.Realm;
 import rpg.game.realm.RealmManager;
 import rpg.util.Logger;
+import rpg.util.Timing;
 import rpg.util.ToStringBuilder;
 import rpg.util.math.Vector3;
 
@@ -31,7 +32,8 @@ public class PlayerCharacter {
   public final Inventory bag, bank;
 
   private Realm realm;
-  private MotionState motionState;
+  private MotionState motionSnapshot;
+  private double motionSnapshotUpdatedAt = Timing.currentTime();
   public final Outfit outfit;
 
   public PlayerCharacter(String name, Account owner, CombatClass combatClass) {
@@ -46,7 +48,7 @@ public class PlayerCharacter {
     bag.setQuantity(Coin.singleton, 5);
     bank = new Inventory();
     realm = STARTING_REALM;
-    motionState = new MotionState(STARTING_POS, Vector3.ZERO, 0, 0);
+    motionSnapshot = new MotionState(STARTING_POS, Vector3.ZERO, 0, 0);
     outfit = new Outfit();
 
     AccountManager.register(this);
@@ -62,12 +64,17 @@ public class PlayerCharacter {
     return realm;
   }
 
-  public MotionState getMotionState() {
-    return motionState;
+  public MotionState getMotionSnapshot() {
+    return motionSnapshot;
   }
 
-  public void setMotionState(MotionState motionState) {
-    this.motionState = motionState;
+  public MotionState getExtrapolatedMotionState() {
+    return motionSnapshot.extrapolate(Timing.currentTime() - motionSnapshotUpdatedAt);
+  }
+
+  public void setMotionSnapshot(MotionState motionSnapshot) {
+    this.motionSnapshot = motionSnapshot;
+    motionSnapshotUpdatedAt = Timing.currentTime();
   }
 
   @Override public String toString() {
@@ -76,7 +83,8 @@ public class PlayerCharacter {
         .append("owner", owner.email)
         .append("combatClass", combatClass)
         .append("realm", realm)
-        .append("motionState", motionState)
+        .append("motionSnapshot", motionSnapshot)
+        .append("motionSnapshotUpdatedAt", motionSnapshotUpdatedAt)
         .toString();
   }
 }

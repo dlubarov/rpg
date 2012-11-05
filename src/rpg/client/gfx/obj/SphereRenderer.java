@@ -7,8 +7,10 @@ import rpg.util.math.Vector3;
 import static java.lang.Math.PI;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
+import static org.lwjgl.opengl.GL11.GL_CULL_FACE;
 import static org.lwjgl.opengl.GL11.GL_TRIANGLE_STRIP;
 import static org.lwjgl.opengl.GL11.glBegin;
+import static org.lwjgl.opengl.GL11.glDisable;
 import static org.lwjgl.opengl.GL11.glEnd;
 
 public class SphereRenderer {
@@ -28,7 +30,7 @@ public class SphereRenderer {
   }
 
   public SphereRenderer(Sphere sphere) {
-    this(sphere, 8, 8);
+    this(sphere, 32, 16);
   }
 
   public Vector3[] generateVertices() {
@@ -68,6 +70,8 @@ public class SphereRenderer {
   }
 
   public void render() {
+    //glFrontFace(GL_CW);
+    glDisable(GL_CULL_FACE);
     glBegin(GL_TRIANGLE_STRIP);
     for (int index : indices)
       GLUtil.glVertex(vertices[index]);

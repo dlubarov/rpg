@@ -110,6 +110,7 @@ public final class WindowManager {
       if (draggedWindow instanceof RootWindow) {
         int dx = mouseX - dragX,
             dy = mouseY - dragY;
+        // http://lwjgl.org/forum/index.php/topic,4695.0.html
         Display.setLocation(Display.getX() + dx, Display.getY() + dy);
       } else
         ((ChildWindow) draggedWindow).moveTo(mouseX - dragX, mouseY - dragY);

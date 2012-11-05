@@ -30,7 +30,7 @@ public final class ActivePlayer implements Positioned {
 
   public void moveTo(MotionState motionState) {
     getRealmAdmin().playerExiting(this);
-    character.setMotionState(motionState);
+    character.setMotionSnapshot(motionState);
     getRealmAdmin().playerEntering(this);
   }
 
@@ -47,7 +47,7 @@ public final class ActivePlayer implements Positioned {
   }
 
   public void addNeighbor(ActivePlayer peer) {
-    peerSnapshots.put(peer, peer.character.getMotionState());
+    peerSnapshots.put(peer, peer.character.getExtrapolatedMotionState());
   }
 
   public void removeNeighbor(ActivePlayer peer) {
@@ -60,7 +60,7 @@ public final class ActivePlayer implements Positioned {
 
   public double errorInViewOf(ActivePlayer player) {
     MotionState view = peerSnapshots.get(player);
-    return view.errorComparedTo(character.getMotionState());
+    return view.errorComparedTo(character.getExtrapolatedMotionState());
   }
 
   // Logs out this player. This is not the same as terminating the session, as the user
@@ -70,8 +70,9 @@ public final class ActivePlayer implements Positioned {
     getRealmAdmin().playerExiting(this);
   }
 
+  // FIXME: This is always changing, will be a problem for octrees.
   @Override public Vector3 getPos() {
-    return character.getMotionState().position;
+    return character.getMotionSnapshot().position;
   }
 
   private RealmAdmin getRealmAdmin() {

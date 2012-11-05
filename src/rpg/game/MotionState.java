@@ -50,6 +50,12 @@ public final class MotionState {
         getDirectionVector().euclideanDistanceTo(that.getDirectionVector()));
   }
 
+  public MotionState extrapolate(double dt) {
+    // TODO: This was too extreme. Revisit later and consider more mild extrapolation.
+    //return withPosition(position.plus(velocity.scaled(dt)));
+    return this;
+  }
+
   private static double errorFor(double posErr, double velErr, double dirErr) {
     // TODO: Optimize error function.
     return posErr + velErr + dirErr;

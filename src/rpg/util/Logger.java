@@ -39,6 +39,10 @@ public final class Logger {
     log(format, args, Severity.DEBUG);
   }
 
+  public static void trace(String format, Object... args) {
+    log(format, args, Severity.TRACE);
+  }
+
   private static void log(String format, Object[] args, Severity severity) {
     if (isVisible(severity))
       ps.printf("%s: %s\n", severity, String.format(format, args));
@@ -49,6 +53,6 @@ public final class Logger {
   }
 
   private static enum Severity {
-    DEBUG, INFO, WARNING, ERROR, FATAL
+    TRACE, DEBUG, INFO, WARNING, ERROR, FATAL
   }
 }

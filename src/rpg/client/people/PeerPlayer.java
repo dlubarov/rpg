@@ -11,7 +11,7 @@ public final class PeerPlayer extends Player {
   private static final double MAX_UPDATE_SPEED = 6.7;
 
   private MotionState motionSnapshot;
-  private double motionSnapshotTime;
+  private double lastSnapshotAt;
 
   private Vector3 lastDisplayedPosition;
   private double lastDisplayedAt;
@@ -32,7 +32,7 @@ public final class PeerPlayer extends Player {
 
   public void setMotionSnapshot(MotionState motionSnapshot) {
     this.motionSnapshot = motionSnapshot;
-    motionSnapshotTime = Timing.currentTime();
+    lastSnapshotAt = Timing.currentTime();
   }
 
   @Override public MotionState getMotionState() {
@@ -45,8 +45,8 @@ public final class PeerPlayer extends Player {
   }
 
   private Vector3 predictCurrentPosition() {
-    double dt = Timing.currentTime() - motionSnapshotTime;
-    return motionSnapshot.position.plus(motionSnapshot.velocity.scaled(dt));
+    double dt = Timing.currentTime() - lastSnapshotAt;
+    return motionSnapshot.extrapolate(dt).position;
   }
 
   public void render() {
