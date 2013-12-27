@@ -18,7 +18,10 @@ public class Inventory {
   }
 
   public synchronized void setQuantity(Item item, int quantity) {
-    items.put(item, quantity);
+    if (quantity == 0)
+      items.remove(item);
+    else
+      items.put(item, quantity);
   }
 
   public synchronized void add(Item item, int quantity) {

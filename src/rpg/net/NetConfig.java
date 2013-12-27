@@ -19,7 +19,7 @@ public final class NetConfig {
 
   static {
     try {
-      serverAddr = Inet4Address.getLocalHost();
+      serverAddr = InetAddress.getByName(null);
     } catch (UnknownHostException e) {
       throw new RuntimeException(e);
     }

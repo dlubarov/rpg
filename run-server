@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# Run the compiled code after "./compile".
+
+set -e
+
+cd out/scripted
+
+java -ea rpg.server.core.Server
