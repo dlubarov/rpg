@@ -1,14 +1,16 @@
 package rpg.util;
 
 public final class HashCodeBuilder {
-  private int sum = 0;
+  private int code = 0;
 
-  public HashCodeBuilder append(Object o) {
-    sum = 31 * sum + o.hashCode();
+  public HashCodeBuilder() {}
+
+  public HashCodeBuilder append(Object object) {
+    code = 31 * code + (object == null ? 0 : object.hashCode());
     return this;
   }
 
   public int toHashCode() {
-    return sum;
+    return code;
   }
 }

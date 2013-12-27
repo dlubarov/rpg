@@ -106,8 +106,18 @@ public class TextBox extends FocusableWidget {
         break;
       default:
         char c = Keyboard.getEventCharacter();
-        if (c != Keyboard.CHAR_NONE && c != '\t' && c != '\n')
+        if (isPrintableChar(c) && c != '\t' && c != '\r' && c != '\n') {
+          System.out.printf("---- typed %d (%c)\n", (int) c, c);
           content += c;
+        }
     }
+  }
+
+  private static boolean isPrintableChar(char c) {
+    Character.UnicodeBlock block = Character.UnicodeBlock.of(c);
+    return !Character.isISOControl(c) &&
+        c != Keyboard.CHAR_NONE &&
+        block != null &&
+        block != Character.UnicodeBlock.SPECIALS;
   }
 }
