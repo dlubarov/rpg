@@ -11,6 +11,12 @@ public final class Info {
   public static final List<Byte> versionParts = Arrays.asList(new Byte[] {0, 1});
 
   public static String getVersionString() {
-    return versionParts.toString(); // TODO: CollectionUtil.implode
+    StringBuilder sb = new StringBuilder();
+    for (byte b : versionParts) {
+      if (sb.length() > 0)
+        sb.append('.');
+      sb.append(b);
+    }
+    return sb.toString();
   }
 }

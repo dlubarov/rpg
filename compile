@@ -9,4 +9,4 @@ mkdir -p out/scripted
 cp -R src/resources out/scripted
 
 shopt -s globstar
-javac -cp "/Users/dlubarov/lib/lwjgl-2.9.0/jar/*" -d out/scripted **/*.java
+javac -cp "/Users/dlubarov/lib/lwjgl-2.9.1/jar/*" -d out/scripted **/*.java

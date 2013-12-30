@@ -37,9 +37,9 @@ public final class PeerPlayer extends Player {
 
   @Override public MotionState getMotionState() {
     double dt = Timing.currentTime() - lastDisplayedAt;
-    double maxUpdateDistance = MAX_UPDATE_SPEED * dt;
+    //double maxUpdateDistance = MAX_UPDATE_SPEED * dt;
     Vector3 ideal = predictCurrentPosition();
-    Vector3 pull = ideal.minus(lastDisplayedPosition).limitNorm(maxUpdateDistance);
+    Vector3 pull = ideal.minus(lastDisplayedPosition).scaled(0.1);
     Vector3 smoothed = lastDisplayedPosition.plus(pull);
     return motionSnapshot.withPosition(smoothed);
   }

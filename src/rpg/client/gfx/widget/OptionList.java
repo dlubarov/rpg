@@ -17,8 +17,6 @@ import static org.lwjgl.opengl.GL11.glVertex2d;
 import static org.lwjgl.opengl.GL11.glVertex2i;
 
 public class OptionList<T> extends Widget {
-  private static final FontRenderer fontRenderer = FontRendererCache.singleton.get("Arial-13");
-
   private final T[] options;
   private Integer selectedOpt = null;
 
@@ -26,15 +24,19 @@ public class OptionList<T> extends Widget {
     this.options = options;
   }
 
+  private static FontRenderer getFontRenderer() {
+    return FontRendererCache.singleton.get("Arial-13");
+  }
+
   @Override public int getMinWidth() {
     int maxWidth = 0;
     for (T opt : options)
-      maxWidth = Math.max(maxWidth, fontRenderer.getWidth(opt.toString()));
+      maxWidth = Math.max(maxWidth, getFontRenderer().getWidth(opt.toString()));
     return maxWidth;
   }
 
   @Override public int getMinHeight() {
-    return fontRenderer.getHeight() * options.length;
+    return getFontRenderer().getHeight() * options.length;
   }
 
   @Override public boolean stretchHorizontally() {
@@ -72,7 +74,7 @@ public class OptionList<T> extends Widget {
       if (selectedOpt != null && selectedOpt == i)
         c = Color.GREEN;
 
-      fontRenderer.draw(options[i].toString(), c,
+      getFontRenderer().draw(options[i].toString(), c,
           bounds.x1(), getOptionBounds(i).y1());
     }
   }
@@ -84,8 +86,8 @@ public class OptionList<T> extends Widget {
   }
 
   private Bounds getOptionBounds(int i) {
-    return new Bounds(bounds.x1(), bounds.y1() + i * fontRenderer.getHeight(),
-                      bounds.x2(), bounds.y1() + (i + 1) * fontRenderer.getHeight());
+    return new Bounds(bounds.x1(), bounds.y1() + i * getFontRenderer().getHeight(),
+                      bounds.x2(), bounds.y1() + (i + 1) * getFontRenderer().getHeight());
   }
 
   public T getSelected() {

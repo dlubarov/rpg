@@ -6,8 +6,6 @@ import rpg.client.gfx.font.FontRenderer;
 import rpg.client.gfx.font.FontRendererCache;
 
 public abstract class Label extends Widget {
-  private static final FontRenderer fontRenderer = FontRendererCache.singleton.get("Arial-13");
-
   private final Alignment alignment;
   private final Color color;
 
@@ -24,14 +22,18 @@ public abstract class Label extends Widget {
     this(Alignment.LEFT_ALIGNED);
   }
 
+  private static FontRenderer getFontRenderer() {
+    return FontRendererCache.singleton.get("Arial-13");
+  }
+
   protected abstract String getContent();
 
   @Override public int getMinWidth() {
-    return fontRenderer.getWidth(getContent());
+    return getFontRenderer().getWidth(getContent());
   }
 
   @Override public int getMinHeight() {
-    return fontRenderer.getHeight();
+    return getFontRenderer().getHeight();
   }
 
   @Override public boolean stretchHorizontally() {
@@ -43,7 +45,7 @@ public abstract class Label extends Widget {
   }
 
   @Override public void render() {
-    fontRenderer.draw(getContent(), color,
+    getFontRenderer().draw(getContent(), color,
         bounds.x1(), bounds.y1(),
         bounds.w(), alignment);
   }

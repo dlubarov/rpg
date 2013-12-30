@@ -20,9 +20,11 @@ import static org.lwjgl.opengl.GL11.glVertex2i;
 public abstract class Button extends Widget {
   private static final int PAD_TOP = 2, PAD_BOTTOM = 5, PAD_SIDES = 6;
 
-  private static final FontRenderer fontRenderer = FontRendererCache.singleton.get("Arial-BOLD-12");
-
   private final String content;
+
+  private static FontRenderer getFontRenderer() {
+    return FontRendererCache.singleton.get("Arial-BOLD-12");
+  }
 
   public Button(String content) {
     this.content = content;
@@ -31,11 +33,11 @@ public abstract class Button extends Widget {
   protected abstract void onClick();
 
   @Override public int getMinWidth() {
-    return fontRenderer.getWidth(content) + 2 * PAD_SIDES;
+    return getFontRenderer().getWidth(content) + 2 * PAD_SIDES;
   }
 
   @Override public int getMinHeight() {
-    return PAD_TOP + fontRenderer.getHeight() + PAD_BOTTOM;
+    return PAD_TOP + getFontRenderer().getHeight() + PAD_BOTTOM;
   }
 
   @Override public boolean stretchHorizontally() {
@@ -73,7 +75,7 @@ public abstract class Button extends Widget {
     glEnd();
     glEnable(GL_TEXTURE_2D);
 
-    fontRenderer.draw(content, Color.BLACK,
+    getFontRenderer().draw(content, Color.BLACK,
         bounds.x1(), bounds.y1() + PAD_TOP, bounds.w(), Alignment.CENTER_ALIGNED);
   }
 }

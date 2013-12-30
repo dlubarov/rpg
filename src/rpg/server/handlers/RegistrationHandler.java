@@ -17,7 +17,7 @@ import rpg.server.active.Session;
 public class RegistrationHandler extends Handler<RegistrationMessage> {
   public static final RegistrationHandler singleton = new RegistrationHandler();
 
-  // This is far from perfect, but I don't really care...
+  // This is far from being completely correct, but close enough in practice.
   private static final Pattern emailPattern = Pattern.compile(
       "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{1,})$");
 

@@ -2,6 +2,7 @@ package rpg.client.mode;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.util.glu.GLU;
 import rpg.client.gfx.GraphicsMode;
 import rpg.client.people.LocalPlayer;
@@ -68,6 +69,10 @@ public class GameMode extends Mode {
   public synchronized void setRealm(Realm realm) {
     this.realm = realm;
     octree = new BodyOctree(Vector3.ZERO, realm.radius);
+  }
+
+  @Override public void onEnter() {
+    Mouse.setGrabbed(true);
   }
 
   @Override public void logic(double dt) {

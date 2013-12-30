@@ -48,7 +48,7 @@ public final class WindowManager {
       draggedWindow = RootWindow.singleton;
       dragX = Mouse.getX();
       dragY = Display.getHeight() - Mouse.getY();
-      Logger.debug("Dragging from (%d, %d)", dragX, dragY);
+      Logger.debug("Dragging root window from (%d, %d)", dragX, dragY);
     }
   }
 
@@ -104,18 +104,24 @@ public final class WindowManager {
     return focusedWidget;
   }
 
-  public static void render() {
+  public static void onCursorMotion() {
     if (draggedWindow != null) {
       int mouseX = Mouse.getX(),
           mouseY = Display.getHeight() - Mouse.getY();
       if (draggedWindow instanceof RootWindow) {
         int dx = mouseX - dragX,
             dy = mouseY - dragY;
-        Display.setLocation(Display.getX() + dx, Display.getY() + dy);
+        int newX = Display.getX() + dx,
+            newY = Display.getY() + dy;
+        System.out.printf("-- delta (%d, %d) to (%d, %d)\n", dx, dy, newX, newY);
+        Display.setLocation(newX, newY);
         recreateMouse();
       } else
         ((ChildWindow) draggedWindow).moveTo(mouseX - dragX, mouseY - dragY);
     }
+  }
+
+  public static void render() {
     for (ChildWindow window : childWindows)
       window.render();
   }

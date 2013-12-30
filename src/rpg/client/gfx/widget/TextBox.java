@@ -19,10 +19,8 @@ import static org.lwjgl.opengl.GL11.glVertex2d;
 import static org.lwjgl.opengl.GL11.glVertex2i;
 
 public class TextBox extends FocusableWidget {
-  private static double BLINK_PHASE = 0.8, VISIBLE_FRACTION = 0.6;
+  private static final double BLINK_PHASE = 0.8, VISIBLE_FRACTION = 0.6;
   private static final int PAD_TOP = 2, PAD_BOTTOM = 5, PAD_SIDE = 3;
-
-  private static final FontRenderer fontRenderer = FontRendererCache.singleton.get("Arial-13");
 
   protected String content;
 
@@ -34,6 +32,10 @@ public class TextBox extends FocusableWidget {
     this("");
   }
 
+  private static FontRenderer getFontRenderer() {
+    return FontRendererCache.singleton.get("Arial-13");
+  }
+
   public String getContent() {
     return content;
   }
@@ -43,11 +45,11 @@ public class TextBox extends FocusableWidget {
   }
 
   @Override public int getMinWidth() {
-    return fontRenderer.getWidth(content);
+    return getFontRenderer().getWidth(content);
   }
 
   @Override public int getMinHeight() {
-    return PAD_TOP + fontRenderer.getHeight() + PAD_BOTTOM;
+    return PAD_TOP + getFontRenderer().getHeight() + PAD_BOTTOM;
   }
 
   @Override public boolean stretchHorizontally() {
@@ -86,7 +88,7 @@ public class TextBox extends FocusableWidget {
     String text = getContentToDraw();
     if (isTotallyFocused() && cursorTime())
       text += '|';
-    fontRenderer.draw(text, Color.BLACK,
+    getFontRenderer().draw(text, Color.BLACK,
         bounds.x1() + PAD_SIDE,
         bounds.y1() + PAD_TOP);
   }
@@ -106,10 +108,8 @@ public class TextBox extends FocusableWidget {
         break;
       default:
         char c = Keyboard.getEventCharacter();
-        if (isPrintableChar(c) && c != '\t' && c != '\r' && c != '\n') {
-          System.out.printf("---- typed %d (%c)\n", (int) c, c);
+        if (isPrintableChar(c) && c != '\t' && c != '\r' && c != '\n')
           content += c;
-        }
     }
   }
 

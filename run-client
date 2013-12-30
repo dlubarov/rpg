@@ -7,6 +7,6 @@ set -e
 cd out/scripted
 
 java -ea \
-  -cp ".:/Users/dlubarov/lib/lwjgl-2.9.0/jar/*" \
-  -Djava.library.path=/Users/dlubarov/lib/lwjgl-2.9.0/native/macosx \
+  -cp ".:/Users/dlubarov/lib/lwjgl-2.9.1/jar/*" \
+  -Djava.library.path=/Users/dlubarov/lib/lwjgl-2.9.1/native/macosx \
   rpg.client.Client

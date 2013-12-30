@@ -8,6 +8,7 @@ import rpg.net.msg.MessageType;
 import rpg.net.msg.c2s.CharacterSelectedMessage;
 import rpg.net.msg.c2s.HereIAmMessage;
 import rpg.net.msg.c2s.LoginMessage;
+import rpg.net.msg.c2s.LogoutMessage;
 import rpg.net.msg.c2s.NewCharacterMessage;
 import rpg.net.msg.c2s.RegistrationMessage;
 import rpg.net.msg.c2s.SessionCreationMessage;
@@ -17,6 +18,7 @@ import rpg.server.handlers.CharacterSelectedHandler;
 import rpg.server.handlers.ConfirmationHandler;
 import rpg.server.handlers.HereIAmHandler;
 import rpg.server.handlers.LoginHandler;
+import rpg.server.handlers.LogoutHandler;
 import rpg.server.handlers.NewCharacterHandler;
 import rpg.server.handlers.RegistrationHandler;
 import rpg.util.Logger;
@@ -96,6 +98,9 @@ public class MessageDispatcher implements Runnable {
         break;
       case LOGIN_REQUEST:
         LoginHandler.singleton.handle(LoginMessage.serializer.deserialize(source), clientSession);
+        break;
+      case LOGOUT_REQUEST:
+        LogoutHandler.singleton.handle(LogoutMessage.serializer.deserialize(source), clientSession);
         break;
       case NEW_CHARACTER:
         NewCharacterHandler.singleton.handle(NewCharacterMessage.serializer.deserialize(source), clientSession);

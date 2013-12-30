@@ -20,14 +20,16 @@ import static org.lwjgl.opengl.GL11.glVertex2d;
 import static org.lwjgl.opengl.GL11.glVertex2i;
 
 public abstract class Window {
-  private static final FontRenderer fontRenderer = FontRendererCache.singleton.get("Arial-BOLD-14");
-
   protected static final int BAR_HEIGHT = 20;
 
   private final WindowButton[] buttons;
 
   protected Window(WindowButton... buttons) {
     this.buttons = buttons;
+  }
+
+  private static FontRenderer getFontRenderer() {
+    return FontRendererCache.singleton.get("Arial-BOLD-14");
   }
 
   public abstract String getCaption();
@@ -123,7 +125,7 @@ public abstract class Window {
 
   protected void renderCaption() {
     glColor3f(0, 0, 0);
-    fontRenderer.draw(getCaption(), Color.WHITE,
+    getFontRenderer().draw(getCaption(), Color.WHITE,
         x1(), y1() + 2,
         contentW(), Alignment.CENTER_ALIGNED);
   }

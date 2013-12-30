@@ -5,17 +5,13 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.Util;
 import org.lwjgl.util.glu.GLU;
 import rpg.client.gfx.GraphicsMode;
 import rpg.client.gfx.TextureReleaser;
-import rpg.client.gfx.widget.Widget;
 import rpg.client.gfx.widget.winow.RootWindow;
-import rpg.client.gfx.widget.winow.WindowManager;
-import rpg.client.mode.Mode;
 import rpg.client.mode.ModeManager;
 import rpg.game.Info;
 import rpg.net.NetConfig;
@@ -42,11 +38,12 @@ public final class Client {
   public static final DatagramSocket socket = getSocket();
 
   public static void main(String[] args) throws LWJGLException {
+    lwjglSetup();
+    glSetup();
+
     ClientListener.singleton.start();
     Logger.info("Client listening on port %d.", socket.getLocalPort());
 
-    lwjglSetup();
-    glSetup();
     mainLoop();
   }
 
@@ -55,6 +52,7 @@ public final class Client {
       try {
         return new DatagramSocket(port, NetConfig.serverAddr);
       } catch (BindException e) {
+        // Try the next port.
       } catch (SocketException e) {
         throw new RuntimeException("Failed to bind socket.", e);
       }
@@ -62,14 +60,15 @@ public final class Client {
   }
 
   private static void lwjglSetup() throws LWJGLException {
-    System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
+    // TODO: Using decorated window until this bug is resolved:
+    // http://lwjgl.org/forum/index.php/topic,5279.0.html
+    //System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
     System.setProperty("org.lwjgl.input.Mouse.allowNegativeMouseCoords", "true");
     Display.setTitle(Info.name);
     Display.setResizable(false);
     Display.setDisplayMode(new DisplayMode(640, 480));
-    Display.create();
     Keyboard.enableRepeatEvents(true);
-    //Mouse.setGrabbed(true);
+    Display.create();
   }
 
   private static void glSetup() {
@@ -92,62 +91,9 @@ public final class Client {
   }
 
   private static void logic(double dt) {
-    keyboardLogic();
-    mouseLogic();
+    KeyboardManager.processEvents();
+    MouseManager.processEvents();
     ModeManager.getCurrentMode().logic(dt);
-  }
-
-  private static void keyboardLogic() {
-    while (Keyboard.next()) {
-      boolean down = Keyboard.getEventKeyState();
-      if (!down) {
-        continue;
-      }
-
-      int key = Keyboard.getEventKey();
-      switch (key) {
-        case Keyboard.KEY_ESCAPE:
-          System.exit(0);
-          break;
-        case Keyboard.KEY_F4:
-          if (Keyboard.isKeyDown(Keyboard.KEY_LMETA) || Keyboard.isKeyDown(Keyboard.KEY_RMETA)) {
-            System.exit(0);
-          }
-          break;
-      }
-      Widget focusedWidget = WindowManager.getFocusedWidget();
-      if (focusedWidget != null) {
-        focusedWidget.onKeyDown(key);
-      }
-      ModeManager.getCurrentMode().onKeyDown(key);
-    }
-  }
-
-  private static void mouseLogic() {
-    while (Mouse.next()) {
-      boolean down = Mouse.getEventButtonState();
-      int button = Mouse.getEventButton();
-      int x = Mouse.getEventX(),
-          y = Display.getHeight() - Mouse.getEventY();
-      if (button == 0) {
-        if (down) {
-          WindowManager.onLeftMouseDown(x, y);
-        } else {
-          WindowManager.onLeftMouseUp(x, y);
-        }
-      }
-      if (down) {
-        Mode mode = ModeManager.getCurrentMode();
-        switch (button) {
-          case 0:
-            mode.onLeftMouse(x, y);
-            break;
-          case 1:
-            mode.onRightMouse(x, y);
-            break;
-        }
-      }
-    }
   }
 
   private static void render() {
